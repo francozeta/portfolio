@@ -18,6 +18,7 @@ const RecentProjects = () => {
             key={item.id}
           >
             <PinContainer
+              containerClassName='text-center'
               title="Click it!"
               href="https://twitter.com/mannupaaji"
             >
