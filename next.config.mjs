@@ -1,10 +1,24 @@
 import { withSentryConfig } from '@sentry/nextjs';
+import { sentryWebpackPlugin } from '@sentry/webpack-plugin';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-/*   output: 'export', */
   eslint: {
-    ignoreBuildErrors: true
-  }
+    ignoreBuildErrors: true,
+  },
+  webpack: (config, options) => {
+    // Integrar el plugin SentryWebpackPlugin
+    if (!options.isServer) {
+      config.plugins.push(
+        new sentryWebpackPlugin({
+          include: '.',
+          ignoreFile: '.sentrycliignore',
+          ignore: ['node_modules', 'webpack.config.js'],
+          configFile: 'sentry.properties',
+        })
+      );
+    }
+    return config;
+  },
 };
 
 export default withSentryConfig(withSentryConfig(nextConfig, {
