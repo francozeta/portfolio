@@ -73,7 +73,7 @@ const GridGlobe = () => {
       startLat: 51.5072,
       startLng: -0.1276,
       endLat: 3.139,
-      endLat: 34.0522,
+      endLat2: 34.0522,
       endLng: -118.2437,
       arcAlt: 0.2,
       color: colors[Math.floor(Math.random() * (colors.length - 1))],
