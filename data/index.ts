@@ -215,6 +215,6 @@ export const socialMedia = [
   {
     id: 3,
     img: "/link.svg",
-    link: ""
+    link: "https://www.linkedin.com/in/franco-zeta-496330267?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
   },
 ];
