@@ -15,6 +15,25 @@ export async function getProjects(): Promise<Project[]> {
   return data || []
 }
 
+export async function getFeaturedProjects(): Promise<Project[]> {
+  if (!supabase) {
+    throw new Error("Supabase not configured")
+  }
+
+  const { data, error } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("featured", true)
+    .order("created_at", { ascending: false })
+    .limit(3)
+
+  if (error) {
+    throw new Error(`Error fetching featured projects: ${error.message}`)
+  }
+
+  return data || []
+}
+
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
   if (!supabase) {
     throw new Error("Supabase not configured")
@@ -24,7 +43,7 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
 
   if (error) {
     if (error.code === "PGRST116") {
-      return null // No project found
+      return null
     }
     throw new Error(`Error fetching project: ${error.message}`)
   }

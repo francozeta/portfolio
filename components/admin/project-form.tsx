@@ -26,6 +26,7 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
     slug: project?.slug || "",
     description: project?.description || "",
     status: project?.status || ("in_progress" as const),
+    featured: project?.featured || false, // Agregar esta línea
     repo_url: project?.repo_url || "",
     deploy_url: project?.deploy_url || "",
   })
@@ -213,6 +214,20 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
                 <SelectItem value="completed">Completado</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+
+          {/* Featured */}
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="featured"
+              checked={formData.featured || false}
+              onChange={(e) => setFormData((prev) => ({ ...prev, featured: e.target.checked }))}
+              className="rounded border-neutral-600 bg-neutral-800/50 text-white focus:ring-2 focus:ring-white"
+            />
+            <Label htmlFor="featured" className="text-white">
+              Proyecto Destacado
+            </Label>
           </div>
 
           {/* Description */}

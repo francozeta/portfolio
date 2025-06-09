@@ -7,7 +7,8 @@ export interface Project {
   description: string | null
   image_url: string | null
   status: "in_progress" | "completed"
-  technologies: TechnologyData[] // Cambiado a TechnologyData
+  featured: boolean // Nuevo campo
+  technologies: TechnologyData[]
   repo_url: string | null
   deploy_url: string | null
   created_at: string
@@ -17,7 +18,7 @@ export interface Project {
 export interface Technology {
   name: string
   icon: IconType
-  iconName: string // Para guardar en la DB
+  iconName: string
   color?: string
 }
 
@@ -31,9 +32,10 @@ export interface CreateProjectData {
   slug: string
   title: string
   description?: string
-  image_url?: string | null // Permitir null
+  image_url?: string | null
   status: "in_progress" | "completed"
-  technologies: TechnologyData[] // Para guardar en la DB
+  featured?: boolean
+  technologies: TechnologyData[]
   repo_url?: string
   deploy_url?: string
 }
