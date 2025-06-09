@@ -3,16 +3,22 @@
 import { useState, useEffect, useRef } from "react"
 import { ArrowRight, Github, ExternalLink, ChevronRight, ChevronLeft } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 import { getFeaturedProjects } from "@/lib/projects"
 import { AVAILABLE_TECHNOLOGIES } from "@/lib/technologies"
 import type { Project } from "@/types/project"
+import { useMediaQuery } from "@/hooks/use-media-query"
+import { cn } from "@/lib/utils"
 
 export function FeaturedProjects() {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
+  const [scrollPosition, setScrollPosition] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const isLargeScreen = useMediaQuery("(min-width: 1024px)")
 
   useEffect(() => {
     const loadFeaturedProjects = async () => {
@@ -29,19 +35,20 @@ export function FeaturedProjects() {
     loadFeaturedProjects()
   }, [])
 
-  // Función para actualizar el estado de los botones de navegación
-  const updateScrollButtons = () => {
+  // Function to update navigation button states and scroll position
+  const updateScrollState = () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
       setCanScrollLeft(scrollLeft > 0)
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1)
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10)
+      setScrollPosition(scrollLeft / (scrollWidth - clientWidth))
     }
   }
 
-  // Función para scroll hacia la izquierda
+  // Function for scroll left
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      const cardWidth = 320 + 24 // 320px (w-80) + 24px (gap-6)
+      const cardWidth = 320 + 24
       scrollContainerRef.current.scrollBy({
         left: -cardWidth,
         behavior: "smooth",
@@ -49,10 +56,10 @@ export function FeaturedProjects() {
     }
   }
 
-  // Función para scroll hacia la derecha
+  // Function for scroll right
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      const cardWidth = 320 + 24 // 320px (w-80) + 24px (gap-6)
+      const cardWidth = 320 + 24
       scrollContainerRef.current.scrollBy({
         left: cardWidth,
         behavior: "smooth",
@@ -60,16 +67,19 @@ export function FeaturedProjects() {
     }
   }
 
-  // Escuchar eventos de scroll para actualizar botones
+  // Set up scroll event listeners
   useEffect(() => {
     const container = scrollContainerRef.current
     if (container) {
-      container.addEventListener("scroll", updateScrollButtons)
-      // Actualizar estado inicial
-      updateScrollButtons()
+      container.addEventListener("scroll", updateScrollState)
+      updateScrollState()
+
+      // Also check on window resize
+      window.addEventListener("resize", updateScrollState)
 
       return () => {
-        container.removeEventListener("scroll", updateScrollButtons)
+        container.removeEventListener("scroll", updateScrollState)
+        window.removeEventListener("resize", updateScrollState)
       }
     }
   }, [projects])
@@ -105,7 +115,7 @@ export function FeaturedProjects() {
 
   return (
     <section className="bg-white py-20">
-      <div className="max-w-full mx-auto pl-4 pr-0 sm:pl-6 sm:pr-0 lg:pl-8 lg:pr-0">
+      <div className="max-w-full mx-auto px-4 sm:pl-6 sm:pr-0 lg:pl-8 lg:pr-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left Column - Text Content */}
           <div className="lg:sticky lg:top-20">
@@ -115,28 +125,79 @@ export function FeaturedProjects() {
             <p className="text-lg text-gray-600 mb-8 max-w-md">
               A curated selection of projects I've built — blending design, functionality, and real-world use cases.
             </p>
-            <button className="group flex items-center gap-2 text-black hover:gap-3 transition-all duration-300">
-              <span className="text-lg font-medium">View all projects</span>
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </button>
+            <div className="flex flex-wrap items-center gap-4 mb-6">
+              <Link
+                href="/work"
+                className="group flex items-center gap-2 text-black hover:gap-3 transition-all duration-300"
+              >
+                <span className="text-lg font-medium">View all projects</span>
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </Link>
+
+              {/* Navigation buttons - Only visible on larger screens */}
+              {isLargeScreen && (
+                <div className="flex items-center gap-3 ml-auto">
+                  <Button
+                    onClick={scrollLeft}
+                    disabled={!canScrollLeft}
+                    className="w-10 h-10 rounded-full bg-white border border-gray-300 text-black hover:bg-gray-100 transition-colors p-0 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+                    aria-label="Previous projects"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </Button>
+                  <Button
+                    onClick={scrollRight}
+                    disabled={!canScrollRight}
+                    className="w-10 h-10 rounded-full bg-white border border-gray-300 text-black hover:bg-gray-100 transition-colors p-0 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+                    aria-label="Next projects"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            {/* Scroll progress indicator - Only visible on larger screens */}
+            {isLargeScreen && (
+              <div className="h-1 bg-gray-200 rounded-full w-32 overflow-hidden mt-2 hidden lg:block">
+                <div
+                  className="h-full bg-black rounded-full transition-all duration-300 ease-out"
+                  style={{ width: `${scrollPosition * 100}%` }}
+                />
+              </div>
+            )}
           </div>
 
-          {/* Right Column - Projects with Horizontal Scroll */}
-          <div className="relative">
-            {/* Scrollable container */}
+          {/* Right Column - Projects with Horizontal/Vertical layout */}
+          <div className="relative overflow-hidden">
+            {/* Scrollable container with responsive behavior */}
             <div
               ref={scrollContainerRef}
-              className="overflow-x-auto scrollbar-hide pb-4"
+              className={cn(
+                "pb-6 -mx-4 px-4 sm:mx-0 sm:px-0",
+                // On mobile (< lg), use vertical stack with padding on both sides
+                "lg:overflow-x-auto scrollbar-hide",
+                // On desktop (lg+), use horizontal scroll with padding only on left
+              )}
               style={{
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
               }}
             >
-              <div className="flex gap-6 w-max">
-                {projects.map((project, index) => (
+              <div
+                className={cn(
+                  // For mobile: Stack vertically
+                  "grid grid-cols-1 gap-6 lg:grid-cols-none",
+                  // For desktop: Arrange horizontally
+                  "lg:flex lg:flex-row lg:gap-6 lg:w-max",
+                )}
+              >
+                {projects.map((project) => (
                   <div
                     key={project.id}
-                    className="flex-shrink-0 w-80 bg-[#D9D9D9] border-2 border-[#404040] rounded-2xl overflow-hidden group hover:shadow-lg transition-all duration-300"
+                    className={cn(
+                      "w-full lg:w-80 flex-shrink-0 bg-[#D9D9D9] border-2 border-[#404040] rounded-2xl overflow-hidden group hover:shadow-lg transition-all duration-300",
+                    )}
                   >
                     {/* Project Image */}
                     <div className="h-48 bg-gray-300 overflow-hidden">
@@ -222,7 +283,7 @@ export function FeaturedProjects() {
                   Array.from({ length: 3 - projects.length }).map((_, index) => (
                     <div
                       key={`placeholder-${index}`}
-                      className="flex-shrink-0 w-80 bg-[#D9D9D9] border-2 border-[#404040] rounded-2xl overflow-hidden opacity-50"
+                      className="w-full lg:w-80 flex-shrink-0 bg-[#D9D9D9] border-2 border-[#404040] rounded-2xl overflow-hidden opacity-50"
                     >
                       <div className="h-48 bg-gray-300 flex items-center justify-center">
                         <span className="text-gray-600">Coming Soon</span>
@@ -239,30 +300,21 @@ export function FeaturedProjects() {
                     </div>
                   ))}
 
-                {/* Extra spacing to show scroll hint */}
-                <div className="w-20 flex-shrink-0"></div>
+                {/* Extra spacing to show scroll hint on desktop */}
+                <div className="hidden lg:block w-20 flex-shrink-0"></div>
               </div>
             </div>
 
-            {/* Botones de navegación para desktop */}
-            {/* <div className="absolute -left-12 top-1/2 -translate-y-1/2 hidden lg:block">
-              <button
-                onClick={scrollLeft}
-                disabled={!canScrollLeft}
-                className="w-8 h-8 rounded-full bg-black/80 text-white flex items-center justify-center hover:bg-black transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                <ChevronLeft className="w-4 h-4"/>
-              </button>
+            {/* Scroll indicator for mobile - subtle horizontal dots */}
+            <div className="flex justify-center gap-2 mt-6 lg:hidden">
+              {projects.length > 0 &&
+                Array.from({ length: Math.min(projects.length, 3) }).map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-2 h-2 rounded-full transition-colors ${index === 0 ? "bg-black" : "bg-gray-300"}`}
+                  />
+                ))}
             </div>
-            <div className="absolute -right-12 top-1/2 -translate-y-1/2 hidden lg:block">
-              <button
-                onClick={scrollRight}
-                disabled={!canScrollRight}
-                className="w-8 h-8 rounded-full bg-black/80 text-white flex items-center justify-center hover:bg-black transition-colors disabled:opacity-30 disabled:cursor-not-allowed "
-              >
-                <ChevronRight className="w-4 h-4"/>
-              </button>
-            </div> */}
           </div>
         </div>
       </div>
