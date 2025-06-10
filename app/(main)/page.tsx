@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/header";
+import { AboutSection } from "@/components/sections/about";
 import { FeaturedProjects } from "@/components/sections/featured-projects";
 import { HeroSection } from "@/components/sections/hero";
 import { TechnologiesSection } from "@/components/sections/technologies";
@@ -12,6 +13,7 @@ export default function Home() {
       <HeroSection />
       <FeaturedProjects />
       <TechnologiesSection />
+      <AboutSection />
     </main>
   );
 }

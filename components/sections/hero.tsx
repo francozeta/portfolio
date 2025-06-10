@@ -28,7 +28,7 @@ export function HeroSection() {
             className="group bg-neutral-900/50 border-neutral-700  hover:bg-neutral-800/70 hover:border-neutral-600 hover:text-neutral-100 transition-all duration-200 backdrop-blur-sm w-full sm:w-auto rounded-full h-auto mb-1 sm:mb-0"
           >
             <Image
-              src="https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//x.jpg"
+              src="https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//profile-photo.jpg"
               alt="Franco Zeta"
               width={24}
               height={24}

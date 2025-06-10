@@ -4,11 +4,12 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Plus, Edit, Trash2, ExternalLink, Github } from "lucide-react"
+import { Plus, Edit, Trash2, ExternalLink } from "lucide-react"
 import { ProjectForm } from "@/components/admin/project-form"
 import { getProjects, deleteProject } from "@/lib/projects"
 import type { Project } from "@/types/project"
 import { AVAILABLE_TECHNOLOGIES } from "@/lib/technologies"
+import { FaGithub } from "react-icons/fa"
 
 export default function ProjectsAdminPage() {
   const [projects, setProjects] = useState<Project[]>([])
@@ -177,7 +178,7 @@ export default function ProjectsAdminPage() {
                           rel="noopener noreferrer"
                           className="text-neutral-400 hover:text-white transition-colors"
                         >
-                          <Github className="h-5 w-5" />
+                          <FaGithub className="h-5 w-5" />
                         </a>
                       )}
                       {project.deploy_url && (

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { ArrowRight, Github, ExternalLink, ChevronRight, ChevronLeft } from "lucide-react"
+import { ArrowRight, ExternalLink, ChevronRight, ChevronLeft } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -10,6 +10,7 @@ import { AVAILABLE_TECHNOLOGIES } from "@/lib/technologies"
 import type { Project } from "@/types/project"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { cn } from "@/lib/utils"
+import { FaGithub } from "react-icons/fa"
 
 export function FeaturedProjects() {
   const [projects, setProjects] = useState<Project[]>([])
@@ -259,7 +260,7 @@ export function FeaturedProjects() {
                               rel="noopener noreferrer"
                               className="p-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
                             >
-                              <Github className="h-4 w-4" />
+                              <FaGithub className="h-4 w-4" />
                             </a>
                           )}
                           {project.deploy_url && (
