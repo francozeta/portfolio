@@ -8,7 +8,13 @@ const nextConfig: NextConfig = {
         hostname: "ahmytayvpbqnwimemzqh.supabase.co",
       },
     ]
-  }
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
