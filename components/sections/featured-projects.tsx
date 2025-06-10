@@ -1,25 +1,27 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect, useRef } from "react"
-import { ArrowRight, ExternalLink, ChevronRight, ChevronLeft } from "lucide-react"
+import { ArrowRight, ExternalLink } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { getFeaturedProjects } from "@/lib/projects"
 import { AVAILABLE_TECHNOLOGIES } from "@/lib/technologies"
 import type { Project } from "@/types/project"
-import { useMediaQuery } from "@/hooks/use-media-query"
 import { cn } from "@/lib/utils"
 import { FaGithub } from "react-icons/fa"
 
 export function FeaturedProjects() {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
-  const [canScrollLeft, setCanScrollLeft] = useState(false)
-  const [canScrollRight, setCanScrollRight] = useState(true)
-  const [scrollPosition, setScrollPosition] = useState(0)
+  const [activeIndex, setActiveIndex] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
-  const isLargeScreen = useMediaQuery("(min-width: 1024px)")
+
+  // Mouse/touch drag scroll functionality
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
 
   useEffect(() => {
     const loadFeaturedProjects = async () => {
@@ -36,54 +38,86 @@ export function FeaturedProjects() {
     loadFeaturedProjects()
   }, [])
 
-  // Function to update navigation button states and scroll position
-  const updateScrollState = () => {
-    if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
-      setCanScrollLeft(scrollLeft > 0)
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10)
-      setScrollPosition(scrollLeft / (scrollWidth - clientWidth))
+  // Drag to scroll functionality
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollContainerRef.current) return
+
+    setIsDragging(true)
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft)
+    setScrollLeft(scrollContainerRef.current.scrollLeft)
+  }
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!scrollContainerRef.current) return
+
+    setIsDragging(true)
+    setStartX(e.touches[0].pageX - scrollContainerRef.current.offsetLeft)
+    setScrollLeft(scrollContainerRef.current.scrollLeft)
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return
+
+    e.preventDefault()
+    const x = e.pageX - scrollContainerRef.current.offsetLeft
+    const walk = (x - startX) * 2 // Scroll speed multiplier
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk
+
+    updateActiveIndex()
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return
+
+    const x = e.touches[0].pageX - scrollContainerRef.current.offsetLeft
+    const walk = (x - startX) * 2 // Scroll speed multiplier
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk
+
+    updateActiveIndex()
+  }
+
+  const stopDragging = () => {
+    setIsDragging(false)
+  }
+
+  // Update active index based on scroll position
+  const updateActiveIndex = () => {
+    if (!scrollContainerRef.current) return
+
+    const container = scrollContainerRef.current
+    const cardWidth = 320 + 24 // Card width + gap
+    const index = Math.round(container.scrollLeft / cardWidth)
+
+    if (index !== activeIndex) {
+      setActiveIndex(index)
     }
   }
 
-  // Function for scroll left
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      const cardWidth = 320 + 24
-      scrollContainerRef.current.scrollBy({
-        left: -cardWidth,
-        behavior: "smooth",
-      })
-    }
+  // Scroll to specific card when dot indicator is clicked
+  const scrollToCard = (index: number) => {
+    if (!scrollContainerRef.current) return
+
+    const cardWidth = 320 + 24 // Card width + gap
+    scrollContainerRef.current.scrollTo({
+      left: index * cardWidth,
+      behavior: "smooth",
+    })
+
+    setActiveIndex(index)
   }
 
-  // Function for scroll right
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      const cardWidth = 320 + 24
-      scrollContainerRef.current.scrollBy({
-        left: cardWidth,
-        behavior: "smooth",
-      })
-    }
-  }
-
-  // Set up scroll event listeners
+  // Listen for scroll events to update active index
   useEffect(() => {
     const container = scrollContainerRef.current
-    if (container) {
-      container.addEventListener("scroll", updateScrollState)
-      updateScrollState()
+    if (!container) return
 
-      // Also check on window resize
-      window.addEventListener("resize", updateScrollState)
-
-      return () => {
-        container.removeEventListener("scroll", updateScrollState)
-        window.removeEventListener("resize", updateScrollState)
-      }
+    const handleScroll = () => {
+      updateActiveIndex()
     }
-  }, [projects])
+
+    container.addEventListener("scroll", handleScroll)
+    return () => container.removeEventListener("scroll", handleScroll)
+  }, [activeIndex])
 
   const renderTechIcon = (iconName: string) => {
     const tech = AVAILABLE_TECHNOLOGIES.find((t) => t.iconName === iconName)
@@ -96,16 +130,16 @@ export function FeaturedProjects() {
   if (loading) {
     return (
       <section className="bg-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-full mx-auto px-4 sm:pl-6 sm:pr-0 lg:pl-8 lg:pr-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div>
-              <div className="h-12 bg-gray-200 rounded w-80 mb-6 animate-pulse"></div>
-              <div className="h-4 bg-gray-200 rounded w-96 mb-4 animate-pulse"></div>
-              <div className="h-4 bg-gray-200 rounded w-80 mb-8 animate-pulse"></div>
+              <div className="h-12 bg-neutral-200 rounded w-80 mb-6 animate-pulse"></div>
+              <div className="h-4 bg-neutral-200 rounded w-96 mb-4 animate-pulse"></div>
+              <div className="h-4 bg-neutral-200 rounded w-80 mb-8 animate-pulse"></div>
             </div>
             <div className="flex gap-6 overflow-hidden">
               {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="flex-shrink-0 w-80 h-96 bg-gray-200 rounded-2xl animate-pulse" />
+                <div key={i} className="flex-shrink-0 w-80 h-96 bg-neutral-200 rounded-2xl animate-pulse" />
               ))}
             </div>
           </div>
@@ -123,7 +157,7 @@ export function FeaturedProjects() {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-6 leading-tight">
               My Featured Projects
             </h2>
-            <p className="text-lg text-gray-600 mb-8 max-w-md">
+            <p className="text-lg text-neutral-600 mb-8 max-w-md">
               A curated selection of projects I've built — blending design, functionality, and real-world use cases.
             </p>
             <div className="flex flex-wrap items-center gap-4 mb-6">
@@ -134,56 +168,29 @@ export function FeaturedProjects() {
                 <span className="text-lg font-medium">View all projects</span>
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
-
-              {/* Navigation buttons - Only visible on larger screens */}
-              {isLargeScreen && (
-                <div className="flex items-center gap-3 ml-auto">
-                  <Button
-                    onClick={scrollLeft}
-                    disabled={!canScrollLeft}
-                    className="w-10 h-10 rounded-full bg-white border border-gray-300 text-black hover:bg-gray-100 transition-colors p-0 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
-                    aria-label="Previous projects"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </Button>
-                  <Button
-                    onClick={scrollRight}
-                    disabled={!canScrollRight}
-                    className="w-10 h-10 rounded-full bg-white border border-gray-300 text-black hover:bg-gray-100 transition-colors p-0 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
-                    aria-label="Next projects"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </Button>
-                </div>
-              )}
             </div>
-
-            {/* Scroll progress indicator - Only visible on larger screens */}
-            {isLargeScreen && (
-              <div className="h-1 bg-gray-200 rounded-full w-32 overflow-hidden mt-2 hidden lg:block">
-                <div
-                  className="h-full bg-black rounded-full transition-all duration-300 ease-out"
-                  style={{ width: `${scrollPosition * 100}%` }}
-                />
-              </div>
-            )}
           </div>
 
-          {/* Right Column - Projects with Horizontal/Vertical layout */}
+          {/* Right Column - Projects with drag-to-scroll */}
           <div className="relative overflow-hidden">
-            {/* Scrollable container with responsive behavior */}
+            {/* Scrollable container with drag functionality */}
             <div
               ref={scrollContainerRef}
               className={cn(
                 "pb-6 -mx-4 px-4 sm:mx-0 sm:px-0",
-                // On mobile (< lg), use vertical stack with padding on both sides
-                "lg:overflow-x-auto scrollbar-hide",
-                // On desktop (lg+), use horizontal scroll with padding only on left
+                "lg:overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing",
               )}
               style={{
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
               }}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={stopDragging}
+              onMouseLeave={stopDragging}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={stopDragging}
             >
               <div
                 className={cn(
@@ -197,20 +204,20 @@ export function FeaturedProjects() {
                   <div
                     key={project.id}
                     className={cn(
-                      "w-full lg:w-80 flex-shrink-0 bg-[#D9D9D9] border-2 border-[#404040] rounded-2xl overflow-hidden group hover:shadow-lg transition-all duration-300",
+                      "w-full lg:w-80 flex-shrink-0 bg-[#D9D9D9] border-2 border-neutral-950/50 rounded-2xl overflow-hidden group hover:shadow-lg transition-all duration-300 select-none",
                     )}
                   >
-                    {/* Project Image */}
-                    <div className="h-48 bg-gray-300 overflow-hidden">
+                    {/* Project Image - No hover animation */}
+                    <div className="h-48 bg-neutral-300 overflow-hidden">
                       {project.image_url ? (
                         <img
                           src={project.image_url || "/placeholder.svg"}
                           alt={project.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center">
-                          <span className="text-gray-600 text-sm">No image</span>
+                        <div className="w-full h-full bg-gradient-to-br from-neutral-400 to-neutral-500 flex items-center justify-center">
+                          <span className="text-neutral-600 text-sm">No image</span>
                         </div>
                       )}
                     </div>
@@ -220,16 +227,16 @@ export function FeaturedProjects() {
                       {/* Title and Status */}
                       <div className="flex items-start justify-between mb-3">
                         <h3 className="text-xl font-bold text-black">{project.title}</h3>
-                        {project.status === "completed" && (
-                          <Badge className="bg-black text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                            <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-                            Completed
-                          </Badge>
-                        )}
+                        <Badge className="bg-black text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
+                          <span
+                            className={`w-2 h-2 ${project.status === "completed" ? "bg-green-400" : "bg-orange-400"} rounded-full`}
+                          ></span>
+                          {project.status === "completed" ? "Completed" : "In Progress"}
+                        </Badge>
                       </div>
 
                       {/* Description */}
-                      <p className="text-gray-700 text-sm mb-4 line-clamp-2">{project.description}</p>
+                      <p className="text-neutral-700 text-sm mb-4 line-clamp-2">{project.description}</p>
 
                       {/* Technologies */}
                       <div className="flex flex-wrap gap-2 mb-6">
@@ -247,10 +254,11 @@ export function FeaturedProjects() {
 
                       {/* Actions */}
                       <div className="flex items-center justify-between">
-                        <button className="group flex items-center gap-2 text-black hover:gap-3 transition-all duration-300">
+                        <button className="group/button flex items-center gap-2 text-black transition-all duration-300 cursor-pointer">
                           <span className="text-sm font-medium">View Details</span>
-                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover/button:translate-x-1" />
                         </button>
+
 
                         <div className="flex gap-3">
                           {project.repo_url && (
@@ -258,7 +266,7 @@ export function FeaturedProjects() {
                               href={project.repo_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="p-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
+                              className="p-2 bg-black text-white rounded-full hover:bg-neutral-800 transition-colors"
                             >
                               <FaGithub className="h-4 w-4" />
                             </a>
@@ -268,7 +276,7 @@ export function FeaturedProjects() {
                               href={project.deploy_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="p-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
+                              className="p-2 bg-black text-white rounded-full hover:bg-neutral-800 transition-colors"
                             >
                               <ExternalLink className="h-4 w-4" />
                             </a>
@@ -284,18 +292,18 @@ export function FeaturedProjects() {
                   Array.from({ length: 3 - projects.length }).map((_, index) => (
                     <div
                       key={`placeholder-${index}`}
-                      className="w-full lg:w-80 flex-shrink-0 bg-[#D9D9D9] border-2 border-[#404040] rounded-2xl overflow-hidden opacity-50"
+                      className="w-full lg:w-80 flex-shrink-0 bg-[#D9D9D9] border-2 border-neutral-950/50 rounded-2xl overflow-hidden opacity-50 select-none"
                     >
-                      <div className="h-48 bg-gray-300 flex items-center justify-center">
-                        <span className="text-gray-600">Coming Soon</span>
+                      <div className="h-48 bg-neutral-300 flex items-center justify-center">
+                        <span className="text-neutral-600">Coming Soon</span>
                       </div>
                       <div className="p-6">
                         <h3 className="text-xl font-bold text-black mb-3">Project Coming Soon</h3>
-                        <p className="text-gray-700 text-sm mb-4">
+                        <p className="text-neutral-700 text-sm mb-4">
                           New exciting project in development. Stay tuned for updates!
                         </p>
                         <div className="flex gap-2 mb-6">
-                          <Badge className="bg-gray-400 text-white text-xs px-2 py-1 rounded-full">TBD</Badge>
+                          <Badge className="bg-neutral-400 text-white text-xs px-2 py-1 rounded-full">TBD</Badge>
                         </div>
                       </div>
                     </div>
@@ -304,17 +312,6 @@ export function FeaturedProjects() {
                 {/* Extra spacing to show scroll hint on desktop */}
                 <div className="hidden lg:block w-20 flex-shrink-0"></div>
               </div>
-            </div>
-
-            {/* Scroll indicator for mobile - subtle horizontal dots */}
-            <div className="flex justify-center gap-2 mt-6 lg:hidden">
-              {projects.length > 0 &&
-                Array.from({ length: Math.min(projects.length, 3) }).map((_, index) => (
-                  <div
-                    key={index}
-                    className={`w-2 h-2 rounded-full transition-colors ${index === 0 ? "bg-black" : "bg-gray-300"}`}
-                  />
-                ))}
             </div>
           </div>
         </div>
