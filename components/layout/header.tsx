@@ -16,46 +16,46 @@ export function Header() {
   }
 
   return (
-    <header className="fixed sm:top-0 bottom-0 sm:bottom-auto left-0 right-0 z-50 flex justify-center p-3 sm:p-4">
-      <nav className="flex items-center rounded-full bg-neutral-950/60 border border-neutral-700/50 gap-0.5 p-1 backdrop-blur-md shadow-2xl">
+    <header className="fixed sm:top-0 bottom-0 sm:bottom-auto left-0 right-0 z-50 flex justify-center p-4 sm:p-4">
+      <nav className="flex items-center rounded-full bg-neutral-950/60 border border-neutral-700/50 gap-1 p-1.5 sm:p-1 backdrop-blur-md shadow-2xl">
         <Link
           href="/"
           className={cn(
-            "flex items-center justify-center rounded-full px-3 py-2 sm:px-4 text-neutral-300 transition-all duration-200 border",
+            "flex items-center justify-center rounded-full px-4 py-3 sm:px-3 sm:py-2 text-neutral-300 transition-all duration-200 border",
             isActive("/")
               ? "bg-neutral-900/70 text-white border-neutral-50/20 shadow-lg"
               : "hover:bg-neutral-800/50 hover:text-white border-transparent hover:border-neutral-50/20",
           )}
         >
-          <Home size={14} className="sm:w-4 sm:h-4" />
+          <Home size={16} className="sm:size-3.5" />
         </Link>
 
-        <div className="mx-1 sm:mx-2 h-6 w-px bg-neutral-700/50" />
+        <div className="mx-1.5 sm:mx-1 h-6 w-px bg-neutral-700/50" />
 
         <Link
           href="/about"
           className={cn(
-            "flex items-center gap-1.5 rounded-full px-3 py-2 sm:px-4 text-neutral-300 transition-all duration-200 border",
+            "flex items-center gap-2 sm:gap-1.5 rounded-full px-4 py-3 sm:px-3 sm:py-2 text-neutral-300 transition-all duration-200 border",
             isActive("/about")
               ? "bg-neutral-900/70 text-white border-neutral-50/20 shadow-lg"
               : "hover:bg-neutral-800/50 hover:text-white border-transparent hover:border-neutral-50/20",
           )}
         >
-          <User size={14} className="sm:w-4 sm:h-4" />
-          <span className="text-xs font-medium hidden sm:inline">About</span>
+          <User size={16} className="sm:size-3.5" />
+          <span className="text-sm sm:text-xs font-medium hidden sm:inline">About</span>
         </Link>
 
         <Link
           href="/work"
           className={cn(
-            "flex items-center gap-1.5 rounded-full px-3 py-2 sm:px-4 text-neutral-300 transition-all duration-200 border",
+            "flex items-center gap-2 sm:gap-1.5 rounded-full px-4 py-3 sm:px-3 sm:py-2 text-neutral-300 transition-all duration-200 border",
             isActive("/work")
               ? "bg-neutral-900/70 text-white border-neutral-50/20 shadow-lg"
               : "hover:bg-neutral-800/50 hover:text-white border-transparent hover:border-neutral-50/20",
           )}
         >
-          <Layout size={14} className="sm:w-4 sm:h-4" />
-          <span className="text-xs font-medium hidden sm:inline">Work</span>
+          <Layout size={16} className="sm:size-3.5" />
+          <span className="text-sm sm:text-xs font-medium hidden sm:inline">Work</span>
         </Link>
       </nav>
     </header>
