@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/header";
 import { FeaturedProjects } from "@/components/sections/featured-projects";
 import { HeroSection } from "@/components/sections/hero";
+import { TechnologiesSection } from "@/components/sections/technologies";
 import { VantaBackground } from "@/components/ui/vanta-background";
 import Image from "next/image";
 
@@ -10,6 +11,7 @@ export default function Home() {
       <VantaBackground />
       <HeroSection />
       <FeaturedProjects />
+      <TechnologiesSection />
     </main>
   );
 }
