@@ -153,7 +153,7 @@ export function MusicSection() {
   }
 
   return (
-    <section className="bg-black py-32 px-4 sm:px-6 lg:px-8">
+    <section className="bg-black py-20 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
