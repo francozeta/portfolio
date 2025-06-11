@@ -14,7 +14,7 @@ export function HeroSection() {
         <div className="space-y-3 sm:space-y-4">
           <p className="text-base text-neutral-400 font-light tracking-wide">Hello, I am</p>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-neutral-100 tracking-tight">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-neutral-100 tracking-tight ">
             Franco Zeta
           </h1>
 

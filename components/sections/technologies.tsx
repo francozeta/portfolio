@@ -129,14 +129,14 @@ export function TechnologiesSection() {
 
   return (
     <section
-      className="bg-black py-16 md:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+      className="bg-black py-20 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
       aria-labelledby="technologies-heading"
     >
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 md:mb-16">
           <h2
             id="technologies-heading"
-            className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 md:mb-6 leading-tight"
+            className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 md:mb-6 leading-tight "
           >
             Technologies & Tools
           </h2>

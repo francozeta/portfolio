@@ -195,7 +195,7 @@ export function FeaturedProjects() {
 
   if (loading) {
     return (
-      <section className="bg-white py-20" aria-label="Featured projects loading">
+      <section className="bg-white py-20 sm:py-24 lg:py-32" aria-label="Featured projects loading">
         <div className="max-w-full mx-auto px-4 sm:pl-6 sm:pr-0 lg:pl-8 lg:pr-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div>
@@ -219,7 +219,7 @@ export function FeaturedProjects() {
   }
 
   return (
-    <section className="bg-white py-20" aria-labelledby="featured-projects-heading">
+    <section className="bg-white py-20 sm:py-24 lg:py-32" aria-labelledby="featured-projects-heading">
       <div className="max-w-full mx-auto px-4 sm:pl-6 sm:pr-0 lg:pl-8 lg:pr-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left Column - Text Content */}
