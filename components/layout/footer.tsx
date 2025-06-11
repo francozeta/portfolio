@@ -4,11 +4,14 @@ import { MdEmail } from "react-icons/md"
 
 export default function Footer() {
   return (
-    <footer className="bg-black py-16 px-4 sm:px-6 lg:px-8 border-t border-neutral-800">
+    <footer className="bg-black pb-24 pt-6 lg:py-6 px-4 sm:px-6 lg:px-8 border-t border-neutral-800">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-6 md:mb-0">
-            <p className="text-sm text-neutral-400">© {new Date().getFullYear()} Franco Zeta. All rights reserved.</p>
+            <p className="text-sm text-neutral-400">
+              © {new Date().getFullYear()} <span className="font-medium text-white">Franco Zeta</span>. All rights
+              reserved.
+            </p>
           </div>
           <div className="flex space-x-6">
             <a
@@ -21,7 +24,7 @@ export default function Footer() {
               <FaGithub className="w-5 h-5" />
             </a>
             <a
-              href="#"
+              href="https://www.linkedin.com/in/franco-zeta-496330267"
               className="text-neutral-400 hover:text-white transition-colors duration-200"
               target="_blank"
               rel="noopener noreferrer"
@@ -39,7 +42,7 @@ export default function Footer() {
               <FaThreads className="w-5 h-5" />
             </a>
             <a
-              href="#"
+              href="mailto:francozeta2011@gmail.com"
               className="text-neutral-400 hover:text-white transition-colors duration-200"
               target="_blank"
               rel="noopener noreferrer"

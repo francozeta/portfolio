@@ -4,8 +4,29 @@ import { ArrowRight, MapPin, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { FaGithub, FaLinkedinIn } from "react-icons/fa"
 import { BsInstagram } from "react-icons/bs"
+import { useState, useEffect } from "react"
+import { getProjects } from "@/lib/projects"
 
 export function AboutSection() {
+  const [projectCount, setProjectCount] = useState(0)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadProjectCount = async () => {
+      try {
+        const projects = await getProjects()
+        setProjectCount(projects.length)
+      } catch (error) {
+        console.error("Error loading project count:", error)
+        setProjectCount(0) // Fallback value
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProjectCount()
+  }, [])
+
   return (
     <section className="bg-white py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -51,7 +72,9 @@ export function AboutSection() {
                 <div className="text-sm text-neutral-500 uppercase tracking-wide">Years Coding</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-black mb-1">15+</div>
+                <div className="text-3xl font-bold text-black mb-1">
+                  {loading ? <div className="w-8 h-8 bg-gray-200 rounded animate-pulse"></div> : `${projectCount}+`}
+                </div>
                 <div className="text-sm text-neutral-500 uppercase tracking-wide">Projects Built</div>
               </div>
               <div>
@@ -92,6 +115,7 @@ export function AboutSection() {
                     href="https://www.google.com.pe/maps/@-12.0881152,-77.0244608,12z?hl=es-419&entry=ttu&g_ep=EgoyMDI1MDYwNC4wIKXMDSoASAFQAw%3D%3D"
                     className="flex items-center gap-3 text-neutral-600 hover:text-black transition-colors group"
                     target="_blank"
+                    rel="noreferrer"
                   >
                     <MapPin className="w-5 h-5" />
                     <span>Lima, Peru</span>
@@ -100,9 +124,10 @@ export function AboutSection() {
                     href="mailto:francozeta2011@gmail.com"
                     className="flex items-center gap-3 text-neutral-600 hover:text-black transition-colors group"
                     target="_blank"
+                    rel="noreferrer"
                   >
                     <Mail className="w-5 h-5" />
-                    <span>franco2011@gmail.com</span>
+                    <span>francozeta2011@gmail.com</span>
                   </a>
                 </div>
               </div>
@@ -115,6 +140,7 @@ export function AboutSection() {
                     href="https://github.com/francozeta/"
                     className="flex items-center justify-center w-10 h-10 border border-neutral-300 rounded-lg text-neutral-600 hover:text-black hover:border-black transition-all duration-200"
                     target="_blank"
+                    rel="noreferrer"
                   >
                     <FaGithub className="w-5 h-5" />
                   </a>
@@ -122,6 +148,7 @@ export function AboutSection() {
                     href="https://www.linkedin.com/in/franco-zeta-496330267"
                     className="flex items-center justify-center w-10 h-10 border border-neutral-300 rounded-lg text-neutral-600 hover:text-black hover:border-black transition-all duration-200"
                     target="_blank"
+                    rel="noreferrer"
                   >
                     <FaLinkedinIn className="w-5 h-5" />
                   </a>
@@ -129,6 +156,7 @@ export function AboutSection() {
                     href="https://www.instagram.com/frxnco.zeta/"
                     className="flex items-center justify-center w-10 h-10 border border-neutral-300 rounded-lg text-neutral-600 hover:text-black hover:border-black transition-all duration-200"
                     target="_blank"
+                    rel="noreferrer"
                   >
                     <BsInstagram className="w-5 h-5" />
                   </a>

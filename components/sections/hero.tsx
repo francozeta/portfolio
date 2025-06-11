@@ -33,11 +33,11 @@ export function HeroSection() {
               width={24}
               height={24}
               className="w-6 h-6 rounded-full mr-2 flex-shrink-0 object-cover"
+              priority 
+              sizes="24px"
             />
             About me
-            <ArrowRight
-              className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-neutral-100"
-            />
+            <ArrowRight className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-neutral-100" />
           </Button>
 
           <Button className="bg-white text-black hover:bg-neutral-200 transition-all duration-200 w-full sm:w-auto rounded-full  h-auto mb-1 sm:mb-0">

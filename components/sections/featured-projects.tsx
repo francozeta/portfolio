@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect, useRef } from "react"
 import { ArrowRight, ExternalLink } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
@@ -11,6 +10,7 @@ import { AVAILABLE_TECHNOLOGIES } from "@/lib/technologies"
 import type { Project } from "@/types/project"
 import { cn } from "@/lib/utils"
 import { FaGithub } from "react-icons/fa"
+import Image from "next/image"
 
 export function FeaturedProjects() {
   const [projects, setProjects] = useState<Project[]>([])
@@ -210,10 +210,14 @@ export function FeaturedProjects() {
                     {/* Project Image - No hover animation */}
                     <div className="h-48 bg-neutral-300 overflow-hidden">
                       {project.image_url ? (
-                        <img
+                        <Image
                           src={project.image_url || "/placeholder.svg"}
                           alt={project.title}
+                          width={320}
+                          height={192}
                           className="w-full h-full object-cover"
+                          loading="lazy" // Lazy loading para imágenes no críticas
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 320px"
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-neutral-400 to-neutral-500 flex items-center justify-center">
@@ -258,8 +262,6 @@ export function FeaturedProjects() {
                           <span className="text-sm font-medium">View Details</span>
                           <ArrowRight className="h-4 w-4 transition-transform group-hover/button:translate-x-1" />
                         </button>
-
-
                         <div className="flex gap-3">
                           {project.repo_url && (
                             <a
