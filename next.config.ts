@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
   images: {
@@ -8,22 +8,30 @@ const nextConfig: NextConfig = {
         hostname: "ahmytayvpbqnwimemzqh.supabase.co",
       },
     ],
-    formats: ["image/webp", "image/avif"], // Formatos de imagen modernos
+    formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 31536000, // Cache de 1 año
   },
+
+
   typescript: {
     ignoreBuildErrors: true,
   },
   eslint: {
     ignoreDuringBuilds: true,
   },
+
+
   experimental: {
-    optimizePackageImports: ["lucide-react", "react-icons"],
+    optimizePackageImports: ["lucide-react", "react-icons"], // Reduce bundle de iconos
   },
-  // Compresión
+
+
   compress: true,
-  // Headers de cache
+  swcMinify: true,
+
+
   async headers() {
     return [
       {
@@ -41,8 +49,13 @@ const nextConfig: NextConfig = {
             key: "X-XSS-Protection",
             value: "1; mode=block",
           },
+          {
+            key: "Referrer-Policy",
+            value: "origin-when-cross-origin",
+          },
         ],
       },
+
       {
         source: "/static/(.*)",
         headers: [
@@ -52,8 +65,18 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+
+      {
+        source: "/_next/image(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
     ]
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig

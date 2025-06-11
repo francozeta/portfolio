@@ -1,5 +1,5 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Geist } from "next/font/google"
 import "@/app/globals.css"
 import { Header } from "@/components/layout/header"
@@ -70,10 +70,13 @@ export const metadata: Metadata = {
   },
 }
 
-export const viewport = {
+// Fixed viewport configuration for better accessibility
+export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
+  maximumScale: 5, // Allow zooming for accessibility
+  userScalable: true, // Enable user scaling
+  themeColor: "#000000",
 }
 
 export default function RootLayout({
@@ -96,14 +99,11 @@ export default function RootLayout({
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-        {/* Theme color */}
-        <meta name="theme-color" content="#000000" />
       </head>
       <body className={`${geistSans.className} antialiased text-neutral-200 bg-neutral-950`}>
         <AuthProvider>
           <Header />
-          {children}
+          <main role="main">{children}</main>
           <Footer />
         </AuthProvider>
       </body>
