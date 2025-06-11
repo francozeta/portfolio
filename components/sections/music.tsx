@@ -1,8 +1,10 @@
 "use client"
 
 import { useState, memo } from "react"
-import { Play, Pause, ExternalLink, Disc } from "lucide-react"
+import { Play, Pause } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
+import { FaSpotify } from "react-icons/fa"
 
 interface Album {
   id: string
@@ -13,9 +15,10 @@ interface Album {
   trackCount: number
   spotifyUrl: string
   embedId: string
+  year: string
 }
 
-// Memoize the album component
+// Horizontal album card for better mobile experience
 const AlbumCard = memo(
   ({
     album,
@@ -26,61 +29,61 @@ const AlbumCard = memo(
     isPlaying: boolean
     onTogglePlay: (id: string) => void
   }) => (
-    <div className="group bg-neutral-900/50 border border-neutral-700 rounded-2xl p-6 hover:bg-neutral-900/70 transition-all duration-300">
-      <div className="flex items-start gap-4">
+    <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-neutral-700 transition-colors">
+      <div className="flex items-start gap-6">
         {/* Album Cover */}
         <div className="relative flex-shrink-0">
-          <div className="w-20 h-20 bg-neutral-800 rounded-lg overflow-hidden">
-            <img
+          <div className="w-24 h-24 md:w-32 md:h-32 bg-neutral-800 rounded-xl overflow-hidden">
+            <Image
               src={album.image || "/placeholder.svg"}
               alt={`${album.artist} - ${album.name}`}
+              width={128}
+              height={128}
               className="w-full h-full object-cover"
+              loading="lazy"
+              sizes="(max-width: 768px) 96px, 128px"
             />
           </div>
 
           {/* Play Button Overlay */}
           <button
             onClick={() => onTogglePlay(album.id)}
-            className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-300"
+            aria-label={isPlaying ? "Pause album" : "Play album"}
           >
-            {isPlaying ? <Pause className="w-6 h-6 text-white" /> : <Play className="w-6 h-6 text-white ml-1" />}
+            {isPlaying ? <Pause className="w-6 h-6 text-white" /> : <Play className="w-6 h-6 text-white ml-0.5" />}
           </button>
         </div>
 
         {/* Album Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between mb-2">
-            <div>
-              <h3 className="text-lg font-semibold text-white group-hover:text-neutral-200 transition-colors">
-                {album.name}
-              </h3>
-              <p className="text-sm text-neutral-400">{album.artist}</p>
+            <div className="min-w-0 flex-1">
+              <h3 className="text-lg md:text-xl font-semibold text-white truncate">{album.name}</h3>
+              <p className="text-sm text-neutral-400">
+                {album.artist} • {album.year}
+              </p>
             </div>
             <a
               href={album.spotifyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 text-neutral-400 hover:text-white transition-colors"
+              className="p-2 text-neutral-400 hover:text-green-400 transition-colors flex-shrink-0"
+              aria-label="Open in Spotify"
             >
-              <ExternalLink className="w-4 h-4" />
+              <FaSpotify className="w-5 h-5" />
             </a>
           </div>
 
-          <p className="text-neutral-300 text-sm mb-3 line-clamp-2">{album.description}</p>
+          <p className="text-sm text-neutral-300 leading-relaxed mb-3 line-clamp-2">{album.description}</p>
 
-          <div className="flex items-center gap-4 text-xs text-neutral-400">
-            <span className="flex items-center gap-1">
-              <Disc className="w-3 h-3" />
-              {album.trackCount} tracks
-            </span>
-            <span>Spotify</span>
-          </div>
+          <div className="text-xs text-neutral-500">{album.trackCount} tracks</div>
         </div>
       </div>
 
-      {/* Lazy load Spotify embed */}
+      {/* Spotify Embed */}
       {isPlaying && (
-        <div className="mt-4 pt-4 border-t border-neutral-700">
+        <div className="mt-6 pt-6 border-t border-neutral-800">
           <iframe
             src={`https://open.spotify.com/embed/album/${album.embedId}?utm_source=generator&theme=0`}
             width="100%"
@@ -88,7 +91,8 @@ const AlbumCard = memo(
             frameBorder="0"
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy"
-            className="rounded-lg"
+            className="rounded-xl"
+            title={`${album.artist} - ${album.name}`}
           />
         </div>
       )}
@@ -112,6 +116,7 @@ export function MusicSection() {
       trackCount: 8,
       spotifyUrl: "https://open.spotify.com/intl-es/album/2MASm01cgG0a0CgioQpe6Q?si=6906KMSMTK6RtmQnZW5pPg",
       embedId: "2MASm01cgG0a0CgioQpe6Q",
+      year: "2000",
     },
     {
       id: "2",
@@ -123,6 +128,7 @@ export function MusicSection() {
       trackCount: 13,
       spotifyUrl: "https://open.spotify.com/intl-es/album/7aNclGRxTysfh6z0d8671k?si=uAFFsRf5Shyc46VMwE3cjw",
       embedId: "7aNclGRxTysfh6z0d8671k",
+      year: "1992",
     },
     {
       id: "3",
@@ -134,6 +140,7 @@ export function MusicSection() {
       trackCount: 11,
       spotifyUrl: "https://open.spotify.com/intl-es/album/6awMz5xtEk8XSlID98YfMv?si=G0gKt2ICSVyULfQ3NbsnOw",
       embedId: "6awMz5xtEk8XSlID98YfMv",
+      year: "2023",
     },
   ]
 
@@ -146,81 +153,45 @@ export function MusicSection() {
   }
 
   return (
-    <section className="bg-black py-24 px-4 sm:px-6 lg:px-8">
+    <section className="bg-black py-32 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-          {/* Left Column - Content */}
-          <div className="space-y-8">
-            <div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">Music & Code</h2>
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">Music & Code</h2>
+          <p className="text-lg md:text-xl text-neutral-300 max-w-3xl mx-auto">
+            Music is the <span className="text-white font-medium">soundtrack to my creativity</span>. These albums have
+            been my companions through countless coding sessions.
+          </p>
+        </div>
 
-              <div className="space-y-6 text-lg text-neutral-300 leading-relaxed">
-                <p>
-                  Music is the <span className="text-white font-medium">soundtrack to my creativity</span>. Whether I'm
-                  deep in code, designing interfaces, or brainstorming new ideas, the right album sets the perfect mood.
-                </p>
+        {/* Albums - Horizontal Layout */}
+        <div className="space-y-6 mb-16">
+          {albums.map((album) => (
+            <AlbumCard
+              key={album.id}
+              album={album}
+              isPlaying={currentlyPlaying === album.id}
+              onTogglePlay={togglePlay}
+            />
+          ))}
+        </div>
 
-                <p>
-                  These albums have been my companions through countless coding sessions. From{" "}
-                  <span className="text-white font-medium">ambient soundscapes</span> to{" "}
-                  <span className="text-white font-medium">experimental textures</span>, each one brings something
-                  unique to the creative process.
-                </p>
-
-                <p>
-                  Feel free to explore and discover some new sounds. Who knows? You might find your next favorite coding
-                  companion.
-                </p>
-              </div>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-neutral-700">
-              <div>
-                <div className="text-3xl font-bold text-white mb-1">{albums.length}</div>
-                <div className="text-sm text-neutral-400 uppercase tracking-wide">Albums</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-white mb-1">
-                  {albums.reduce((total, album) => total + album.trackCount, 0)}
-                </div>
-                <div className="text-sm text-neutral-400 uppercase tracking-wide">Total Tracks</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-white mb-1">∞</div>
-                <div className="text-sm text-neutral-400 uppercase tracking-wide">Hours Listened</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column - Albums */}
-          <div className="space-y-6">
-            {albums.map((album) => (
-              <AlbumCard
-                key={album.id}
-                album={album}
-                isPlaying={currentlyPlaying === album.id}
-                onTogglePlay={togglePlay}
-              />
-            ))}
-
-            {/* Follow on Spotify */}
-            <div className="text-center pt-4">
-              <Button
-                variant="outline"
-                className="border-white text-neutral-950 hover:bg-white hover:text-black transition-all duration-200"
-                asChild
-              >
-                <a
-                  href="https://open.spotify.com/user/31hft7h6lrrnh23tavv674ykmqfe"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Follow on Spotify
-                </a>
-              </Button>
-            </div>
-          </div>
+        {/* CTA */}
+        <div className="text-center">
+          <Button
+            variant="outline"
+            className="bg-neutral-800 border-neutral-700 text-white hover:bg-white hover:text-black transition-all duration-200 rounded-full"
+            asChild
+          >
+            <a
+              href="https://open.spotify.com/user/31hft7h6lrrnh23tavv674ykmqfe"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaSpotify className="w-4 h-4 mr-2" />
+              Follow on Spotify
+            </a>
+          </Button>
         </div>
       </div>
 
