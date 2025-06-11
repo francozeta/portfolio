@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Play, Pause, ExternalLink, Disc } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -14,6 +14,89 @@ interface Album {
   spotifyUrl: string
   embedId: string
 }
+
+// Memoize the album component
+const AlbumCard = memo(
+  ({
+    album,
+    isPlaying,
+    onTogglePlay,
+  }: {
+    album: Album
+    isPlaying: boolean
+    onTogglePlay: (id: string) => void
+  }) => (
+    <div className="group bg-neutral-900/50 border border-neutral-700 rounded-2xl p-6 hover:bg-neutral-900/70 transition-all duration-300">
+      <div className="flex items-start gap-4">
+        {/* Album Cover */}
+        <div className="relative flex-shrink-0">
+          <div className="w-20 h-20 bg-neutral-800 rounded-lg overflow-hidden">
+            <img
+              src={album.image || "/placeholder.svg"}
+              alt={`${album.artist} - ${album.name}`}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Play Button Overlay */}
+          <button
+            onClick={() => onTogglePlay(album.id)}
+            className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          >
+            {isPlaying ? <Pause className="w-6 h-6 text-white" /> : <Play className="w-6 h-6 text-white ml-1" />}
+          </button>
+        </div>
+
+        {/* Album Info */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between mb-2">
+            <div>
+              <h3 className="text-lg font-semibold text-white group-hover:text-neutral-200 transition-colors">
+                {album.name}
+              </h3>
+              <p className="text-sm text-neutral-400">{album.artist}</p>
+            </div>
+            <a
+              href={album.spotifyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-neutral-400 hover:text-white transition-colors"
+            >
+              <ExternalLink className="w-4 h-4" />
+            </a>
+          </div>
+
+          <p className="text-neutral-300 text-sm mb-3 line-clamp-2">{album.description}</p>
+
+          <div className="flex items-center gap-4 text-xs text-neutral-400">
+            <span className="flex items-center gap-1">
+              <Disc className="w-3 h-3" />
+              {album.trackCount} tracks
+            </span>
+            <span>Spotify</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Lazy load Spotify embed */}
+      {isPlaying && (
+        <div className="mt-4 pt-4 border-t border-neutral-700">
+          <iframe
+            src={`https://open.spotify.com/embed/album/${album.embedId}?utm_source=generator&theme=0`}
+            width="100%"
+            height="352"
+            frameBorder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            className="rounded-lg"
+          />
+        </div>
+      )}
+    </div>
+  ),
+)
+
+AlbumCard.displayName = "AlbumCard"
 
 export function MusicSection() {
   const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null)
@@ -113,80 +196,12 @@ export function MusicSection() {
           {/* Right Column - Albums */}
           <div className="space-y-6">
             {albums.map((album) => (
-              <div
+              <AlbumCard
                 key={album.id}
-                className="group bg-neutral-900/50 border border-neutral-700 rounded-2xl p-6 hover:bg-neutral-900/70 transition-all duration-300"
-              >
-                <div className="flex items-start gap-4">
-                  {/* Album Cover */}
-                  <div className="relative flex-shrink-0">
-                    <div className="w-20 h-20 bg-neutral-800 rounded-lg overflow-hidden">
-                      <img
-                        src={album.image || "/placeholder.svg"}
-                        alt={`${album.artist} - ${album.name}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-
-                    {/* Play Button Overlay */}
-                    <button
-                      onClick={() => togglePlay(album.id)}
-                      className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                    >
-                      {currentlyPlaying === album.id ? (
-                        <Pause className="w-6 h-6 text-white" />
-                      ) : (
-                        <Play className="w-6 h-6 text-white ml-1" />
-                      )}
-                    </button>
-                  </div>
-
-                  {/* Album Info */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <h3 className="text-lg font-semibold text-white group-hover:text-neutral-200 transition-colors">
-                          {album.name}
-                        </h3>
-                        <p className="text-sm text-neutral-400">{album.artist}</p>
-                      </div>
-                      <a
-                        href={album.spotifyUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 text-neutral-400 hover:text-white transition-colors"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    </div>
-
-                    <p className="text-neutral-300 text-sm mb-3 line-clamp-2">{album.description}</p>
-
-                    <div className="flex items-center gap-4 text-xs text-neutral-400">
-                      <span className="flex items-center gap-1">
-                        <Disc className="w-3 h-3" />
-                        {album.trackCount} tracks
-                      </span>
-                      <span>Spotify</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Spotify Embed (shown when playing) */}
-                {currentlyPlaying === album.id && (
-                  <div className="mt-4 pt-4 border-t border-neutral-700">
-                    <iframe
-                      src={`https://open.spotify.com/embed/album/${album.embedId}?utm_source=generator&theme=0`}
-                      width="100%"
-                      height="352"
-                      frameBorder="0"
-                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                      loading="lazy"
-                      className="rounded-lg"
-                    />
-                  </div>
-                )}
-              </div>
+                album={album}
+                isPlaying={currentlyPlaying === album.id}
+                onTogglePlay={togglePlay}
+              />
             ))}
 
             {/* Follow on Spotify */}

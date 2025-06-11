@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, memo, useCallback } from "react"
 import { ArrowRight, ExternalLink } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
@@ -11,6 +11,103 @@ import type { Project } from "@/types/project"
 import { cn } from "@/lib/utils"
 import { FaGithub } from "react-icons/fa"
 import Image from "next/image"
+
+// Memoize the project card component
+const ProjectCard = memo(
+  ({
+    project,
+    renderTechIcon,
+  }: {
+    project: Project
+    renderTechIcon: (iconName: string) => React.ReactNode
+  }) => (
+    <div className="w-full lg:w-80 flex-shrink-0 bg-[#D9D9D9] border-2 border-neutral-950/50 rounded-2xl overflow-hidden group hover:shadow-lg transition-all duration-300 select-none">
+      {/* Optimized image with proper loading */}
+      <div className="h-48 bg-neutral-300 overflow-hidden">
+        {project.image_url ? (
+          <Image
+            src={project.image_url || "/placeholder.svg"}
+            alt={project.title}
+            width={320}
+            height={192}
+            className="w-full h-full object-cover"
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 320px"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAAcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-neutral-400 to-neutral-500 flex items-center justify-center">
+            <span className="text-neutral-600 text-sm">No image</span>
+          </div>
+        )}
+      </div>
+
+      {/* Rest of the card content remains the same */}
+      <div className="p-6">
+        {/* Title and Status */}
+        <div className="flex items-start justify-between mb-3">
+          <h3 className="text-xl font-bold text-black">{project.title}</h3>
+          <Badge className="bg-black text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
+            <span
+              className={`w-2 h-2 ${project.status === "completed" ? "bg-green-400" : "bg-orange-400"} rounded-full`}
+            ></span>
+            {project.status === "completed" ? "Completed" : "In Progress"}
+          </Badge>
+        </div>
+
+        {/* Description */}
+        <p className="text-neutral-700 text-sm mb-4 line-clamp-2">{project.description}</p>
+
+        {/* Technologies */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {project.technologies?.slice(0, 4).map((tech) => (
+            <Badge
+              key={tech.name}
+              variant="secondary"
+              className="bg-black text-white text-xs px-2 py-1 rounded-full flex items-center gap-1"
+            >
+              {renderTechIcon(tech.iconName)}
+              <span>{tech.name}</span>
+            </Badge>
+          ))}
+        </div>
+
+        {/* Actions */}
+        <div className="flex items-center justify-between">
+          <button className="group/button flex items-center gap-2 text-black transition-all duration-300 cursor-pointer">
+            <span className="text-sm font-medium">View Details</span>
+            <ArrowRight className="h-4 w-4 transition-transform group-hover/button:translate-x-1" />
+          </button>
+          <div className="flex gap-3">
+            {project.repo_url && (
+              <a
+                href={project.repo_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-black text-white rounded-full hover:bg-neutral-800 transition-colors"
+              >
+                <FaGithub className="h-4 w-4" />
+              </a>
+            )}
+            {project.deploy_url && (
+              <a
+                href={project.deploy_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-black text-white rounded-full hover:bg-neutral-800 transition-colors"
+              >
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  ),
+)
+
+ProjectCard.displayName = "ProjectCard"
 
 export function FeaturedProjects() {
   const [projects, setProjects] = useState<Project[]>([])
@@ -119,13 +216,13 @@ export function FeaturedProjects() {
     return () => container.removeEventListener("scroll", handleScroll)
   }, [activeIndex])
 
-  const renderTechIcon = (iconName: string) => {
+  const renderTechIcon = useCallback((iconName: string) => {
     const tech = AVAILABLE_TECHNOLOGIES.find((t) => t.iconName === iconName)
     if (!tech) return null
 
     const Icon = tech.icon
     return <Icon className="h-4 w-4" />
-  }
+  }, [])
 
   if (loading) {
     return (
@@ -201,92 +298,7 @@ export function FeaturedProjects() {
                 )}
               >
                 {projects.map((project) => (
-                  <div
-                    key={project.id}
-                    className={cn(
-                      "w-full lg:w-80 flex-shrink-0 bg-[#D9D9D9] border-2 border-neutral-950/50 rounded-2xl overflow-hidden group hover:shadow-lg transition-all duration-300 select-none",
-                    )}
-                  >
-                    {/* Project Image - No hover animation */}
-                    <div className="h-48 bg-neutral-300 overflow-hidden">
-                      {project.image_url ? (
-                        <Image
-                          src={project.image_url || "/placeholder.svg"}
-                          alt={project.title}
-                          width={320}
-                          height={192}
-                          className="w-full h-full object-cover"
-                          loading="lazy" // Lazy loading para imágenes no críticas
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 320px"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-neutral-400 to-neutral-500 flex items-center justify-center">
-                          <span className="text-neutral-600 text-sm">No image</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Project Content */}
-                    <div className="p-6">
-                      {/* Title and Status */}
-                      <div className="flex items-start justify-between mb-3">
-                        <h3 className="text-xl font-bold text-black">{project.title}</h3>
-                        <Badge className="bg-black text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                          <span
-                            className={`w-2 h-2 ${project.status === "completed" ? "bg-green-400" : "bg-orange-400"} rounded-full`}
-                          ></span>
-                          {project.status === "completed" ? "Completed" : "In Progress"}
-                        </Badge>
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-neutral-700 text-sm mb-4 line-clamp-2">{project.description}</p>
-
-                      {/* Technologies */}
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {project.technologies?.slice(0, 4).map((tech) => (
-                          <Badge
-                            key={tech.name}
-                            variant="secondary"
-                            className="bg-black text-white text-xs px-2 py-1 rounded-full flex items-center gap-1"
-                          >
-                            {renderTechIcon(tech.iconName)}
-                            <span>{tech.name}</span>
-                          </Badge>
-                        ))}
-                      </div>
-
-                      {/* Actions */}
-                      <div className="flex items-center justify-between">
-                        <button className="group/button flex items-center gap-2 text-black transition-all duration-300 cursor-pointer">
-                          <span className="text-sm font-medium">View Details</span>
-                          <ArrowRight className="h-4 w-4 transition-transform group-hover/button:translate-x-1" />
-                        </button>
-                        <div className="flex gap-3">
-                          {project.repo_url && (
-                            <a
-                              href={project.repo_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="p-2 bg-black text-white rounded-full hover:bg-neutral-800 transition-colors"
-                            >
-                              <FaGithub className="h-4 w-4" />
-                            </a>
-                          )}
-                          {project.deploy_url && (
-                            <a
-                              href={project.deploy_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="p-2 bg-black text-white rounded-full hover:bg-neutral-800 transition-colors"
-                            >
-                              <ExternalLink className="h-4 w-4" />
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <ProjectCard key={project.id} project={project} renderTechIcon={renderTechIcon} />
                 ))}
 
                 {/* Placeholder cards if less than 3 projects */}

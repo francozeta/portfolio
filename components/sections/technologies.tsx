@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { motion } from "framer-motion"
+import { memo } from "react"
 import {
   SiHtml5,
   SiCss3,
@@ -39,6 +40,38 @@ interface Technology {
   icon: React.ElementType
   category: "frontend" | "backend" | "database" | "tools"
 }
+
+// Memoize the TechBadge component
+const TechBadge = memo(({ tech }: { tech: Technology }) => (
+  <div className="flex items-center gap-2 bg-neutral-900/80 border border-neutral-700/50 rounded-full px-4 py-2 whitespace-nowrap backdrop-blur-sm">
+    <tech.icon className="w-4 h-4 text-white flex-shrink-0" />
+    <span className="text-sm font-medium text-white">{tech.name}</span>
+  </div>
+))
+
+TechBadge.displayName = "TechBadge"
+
+// Optimize BrickRow with reduced animation complexity
+const BrickRow = memo(({ techs, offset = 0 }: { techs: Technology[]; offset?: number }) => {
+  // Reduce duplications for better performance
+  const extendedTechs = [...techs, ...techs]
+
+  return (
+    <div
+      className="flex gap-4 whitespace-nowrap"
+      style={{
+        marginLeft: `${offset}px`,
+        minWidth: "max-content",
+      }}
+    >
+      {extendedTechs.map((tech, index) => (
+        <TechBadge key={`${tech.name}-${index}`} tech={tech} />
+      ))}
+    </div>
+  )
+})
+
+BrickRow.displayName = "BrickRow"
 
 export function TechnologiesSection() {
   const technologies: Technology[] = [
@@ -86,34 +119,6 @@ export function TechnologiesSection() {
   const databaseTechs = technologies.filter((tech) => tech.category === "database")
   const toolsTechs = technologies.filter((tech) => tech.category === "tools")
 
-  // Component for individual technology badge
-  const TechBadge = ({ tech }: { tech: Technology }) => (
-    <div className="flex items-center gap-2 bg-neutral-900/80 border border-neutral-700/50 rounded-full px-4 py-2 whitespace-nowrap backdrop-blur-sm">
-      <tech.icon className="w-4 h-4 text-white flex-shrink-0" />
-      <span className="text-sm font-medium text-white">{tech.name}</span>
-    </div>
-  )
-
-  // Create brick pattern rows with offset
-  const BrickRow = ({ techs, offset = 0 }: { techs: Technology[]; offset?: number }) => {
-    // Duplicate technologies to ensure seamless flow
-    const extendedTechs = [...techs, ...techs, ...techs, ...techs]
-
-    return (
-      <div
-        className="flex gap-4 whitespace-nowrap"
-        style={{
-          marginLeft: `${offset}px`,
-          minWidth: "max-content",
-        }}
-      >
-        {extendedTechs.map((tech, index) => (
-          <TechBadge key={`${tech.name}-${index}`} tech={tech} />
-        ))}
-      </div>
-    )
-  }
-
   return (
     <section className="bg-black py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -127,30 +132,29 @@ export function TechnologiesSection() {
           </p>
         </div>
 
-        {/* Infinite Scrolling Carousel - All rows move together */}
+        {/* Simplified animation with better performance */}
         <div className="relative overflow-hidden min-w-full">
-          {/* Left gradient overlay - Responsive width based on screen size */}
           <div className="absolute left-0 top-0 bottom-0 w-11 sm:w-16 md:w-24 lg:w-32 bg-gradient-to-r from-black via-black/80 to-transparent z-10 pointer-events-none" />
-
-          {/* Right gradient overlay - Responsive width based on screen size */}
           <div className="absolute right-0 top-0 bottom-0 w-11 sm:w-16 md:w-24 lg:w-32 bg-gradient-to-l from-black via-black/80 to-transparent z-10 pointer-events-none" />
 
-          {/* Parent container that moves all rows together */}
+          {/* Optimized animation with reduced complexity */}
           <motion.div
             className="space-y-6"
             animate={{
-              x: [0, -1200], // Move much further before reset for seamless loop
+              x: [0, -800], // Reduced distance
             }}
             transition={{
               x: {
                 repeat: Number.POSITIVE_INFINITY,
                 repeatType: "loop",
-                duration: 90, // Slightly faster - 1.5 minutes per cycle (was 120s)
-                ease: "linear", // Constant speed for smooth movement
+                duration: 60, // Faster duration
+                ease: "linear",
               },
             }}
+            style={{
+              willChange: "transform", // Optimize for animations
+            }}
           >
-            {/* Brick pattern with different offsets for each row to create staggered effect */}
             <BrickRow techs={frontendTechs} offset={0} />
             <BrickRow techs={backendTechs} offset={-80} />
             <BrickRow techs={databaseTechs} offset={-40} />
@@ -159,8 +163,8 @@ export function TechnologiesSection() {
         </div>
       </div>
 
-      {/* Background gradient effect */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-1/2 bg-gradient-to-r from-neutral-800/20 to-neutral-700/20 rounded-full blur-3xl pointer-events-none" />
+      {/* Simplified background effect */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-1/3 bg-gradient-to-r from-neutral-800/10 to-neutral-700/10 rounded-full blur-3xl pointer-events-none" />
     </section>
   )
 }

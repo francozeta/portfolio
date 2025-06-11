@@ -1,16 +1,17 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "@/app/globals.css";
-import { Header } from "@/components/layout/header";
-import { AuthProvider } from "@/components/auth/auth-provider";
-import Footer from "@/components/layout/footer";
+import type React from "react"
+import type { Metadata } from "next"
+import { Geist } from "next/font/google"
+import "@/app/globals.css"
+import { Header } from "@/components/layout/header"
+import { AuthProvider } from "@/components/auth/auth-provider"
+import Footer from "@/components/layout/footer"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
   display: "swap",
   preload: true,
-});
+})
 
 export const metadata: Metadata = {
   title: {
@@ -67,17 +68,18 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
+}
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 }
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
@@ -98,9 +100,7 @@ export default function RootLayout({
         {/* Theme color */}
         <meta name="theme-color" content="#000000" />
       </head>
-      <body
-        className={`${geistSans.className} antialiased text-neutral-200 bg-neutral-950`}
-      >
+      <body className={`${geistSans.className} antialiased text-neutral-200 bg-neutral-950`}>
         <AuthProvider>
           <Header />
           {children}
@@ -108,5 +108,5 @@ export default function RootLayout({
         </AuthProvider>
       </body>
     </html>
-  );
+  )
 }
