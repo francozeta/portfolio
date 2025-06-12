@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Geist } from 'next/font/google'
 import { AuthProvider } from "@/components/auth/auth-provider"
-import { AdminProvider } from "@/components/admin/admin-provider"
+import { AdminProvider } from "@/components/providers/admin-provider"
 import "../globals.css"
 
 const geistSans = Geist({
