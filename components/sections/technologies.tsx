@@ -33,6 +33,7 @@ import {
 } from "react-icons/si"
 import { FaJava } from "react-icons/fa"
 import { VscVscode } from "react-icons/vsc"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 
 interface Technology {
   name: string
@@ -103,6 +104,13 @@ const BrickLayout = memo(({ technologies }: { technologies: Technology[] }) => {
 BrickLayout.displayName = "BrickLayout"
 
 export function TechnologiesSection() {
+  // Add scroll reveal hooks
+  const { ref: sectionRef, isVisible: sectionVisible } = useScrollReveal<HTMLElement>()
+  const { ref: badgeRef, isVisible: badgeVisible } = useScrollReveal<HTMLSpanElement>({ delay: 100 })
+  const { ref: titleRef, isVisible: titleVisible } = useScrollReveal<HTMLHeadingElement>({ delay: 200 })
+  const { ref: descRef, isVisible: descVisible } = useScrollReveal<HTMLParagraphElement>({ delay: 300 })
+  const { ref: techRef, isVisible: techVisible } = useScrollReveal<HTMLDivElement>({ delay: 400 })
+
   const technologies: Technology[] = [
     { name: "React", icon: SiReact, category: "frontend", priority: "high" },
     { name: "Next.js", icon: SiNextdotjs, category: "frontend", priority: "high" },
@@ -144,29 +152,48 @@ export function TechnologiesSection() {
 
   return (
     <section
+      ref={sectionRef}
       className="bg-neutral-950 py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56 relative overflow-hidden"
       aria-labelledby="technologies-heading"
     >
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 md:mb-16">
-          <span className="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4">
+          <span
+            ref={badgeRef}
+            className={`inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4 transition-all duration-700 ${
+              badgeVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
+          >
             <span className="mr-1">✦</span>
             Tech Stack
           </span>
 
           <h2
+            ref={titleRef}
             id="technologies-heading"
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight"
+            className={`text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight transition-all duration-700 ${
+              titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
           >
             Technologies & Tools
           </h2>
-          <p className="text-base md:text-lg text-neutral-300 max-w-4xl">
+          <p
+            ref={descRef}
+            className={`text-base md:text-lg text-neutral-300 max-w-4xl transition-all duration-700 ${
+              descVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
+          >
             Throughout my journey as a web developer, I've worked with{" "}
             <span className="text-white font-medium">these tools and technologies</span>
           </p>
         </div>
 
-        <div className="relative">
+        <div
+          ref={techRef}
+          className={`relative transition-all duration-1000 ${
+            techVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           <BrickLayout technologies={technologies} />
         </div>
       </div>

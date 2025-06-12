@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { FaSpotify } from "react-icons/fa"
 import { ExternalLink } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 
 interface Album {
   id: string
@@ -56,6 +57,14 @@ const AlbumCard = memo(({ album }: { album: Album }) => (
 AlbumCard.displayName = "AlbumCard"
 
 export function MusicSection() {
+  // Add scroll reveal hooks
+  const { ref: sectionRef, isVisible: sectionVisible } = useScrollReveal<HTMLElement>()
+  const { ref: badgeRef, isVisible: badgeVisible } = useScrollReveal<HTMLSpanElement>({ delay: 100 })
+  const { ref: titleRef, isVisible: titleVisible } = useScrollReveal<HTMLHeadingElement>({ delay: 200 })
+  const { ref: descRef, isVisible: descVisible } = useScrollReveal<HTMLParagraphElement>({ delay: 300 })
+  const { ref: albumsRef, isVisible: albumsVisible } = useScrollReveal<HTMLDivElement>({ delay: 400 })
+  const { ref: buttonRef, isVisible: buttonVisible } = useScrollReveal<HTMLDivElement>({ delay: 500 })
+
   const albums: Album[] = [
     {
       id: "1",
@@ -87,28 +96,55 @@ export function MusicSection() {
   ]
 
   return (
-    <section className="bg-neutral-950 py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56">
+    <section ref={sectionRef} className="bg-neutral-950 py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <span className="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit mx-auto whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4">
+          <span
+            ref={badgeRef}
+            className={`inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit mx-auto whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4 transition-all duration-700 ${
+              badgeVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
+          >
             <span className="mr-1">✦</span>
             Music & Code
           </span>
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">Music & Code</h2>
-          <p className="text-lg md:text-xl text-neutral-300 max-w-3xl mx-auto">
+          <h2
+            ref={titleRef}
+            className={`text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight transition-all duration-700 ${
+              titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
+          >
+            Music & Code
+          </h2>
+          <p
+            ref={descRef}
+            className={`text-lg md:text-xl text-neutral-300 max-w-3xl mx-auto transition-all duration-700 ${
+              descVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
+          >
             Music is the <span className="text-white font-medium">soundtrack to my creativity</span>. These albums have
             been my companions through countless coding sessions.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-16">
+        <div
+          ref={albumsRef}
+          className={`grid grid-cols-1 lg:grid-cols-3 gap-4 mb-16 transition-all duration-1000 ${
+            albumsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           {albums.map((album) => (
             <AlbumCard key={album.id} album={album} />
           ))}
         </div>
 
-        <div className="text-center">
+        <div
+          ref={buttonRef}
+          className={`text-center transition-all duration-700 ${
+            buttonVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
           <Button
             className="bg-white text-black hover:bg-neutral-200 transition-all duration-200 w-full sm:w-auto rounded-full h-auto mb-1 sm:mb-0"
             aria-label="Follow Franco Zeta on Spotify"
@@ -123,13 +159,6 @@ export function MusicSection() {
               Follow on Spotify
             </a>
           </Button>
-{/*           <Button
-            className=""
-            aria-label="Download Franco Zeta's CV"
-          >
-            <Download className="mr-2 h-4 w-4" aria-hidden="true" />
-            Download CV
-          </Button> */}
         </div>
       </div>
     </section>

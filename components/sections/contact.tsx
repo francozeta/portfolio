@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Send, CheckCircle, AlertCircle } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,13 @@ export function ContactSection() {
     message: "",
   })
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+
+  // Add scroll reveal hooks
+  const { ref: sectionRef, isVisible: sectionVisible } = useScrollReveal<HTMLElement>()
+  const { ref: badgeRef, isVisible: badgeVisible } = useScrollReveal<HTMLSpanElement>({ delay: 100 })
+  const { ref: titleRef, isVisible: titleVisible } = useScrollReveal<HTMLHeadingElement>({ delay: 200 })
+  const { ref: descRef, isVisible: descVisible } = useScrollReveal<HTMLParagraphElement>({ delay: 300 })
+  const { ref: formRef, isVisible: formVisible } = useScrollReveal<HTMLDivElement>({ delay: 400 })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -50,20 +58,35 @@ export function ContactSection() {
   }
 
   return (
-    <section className="bg-neutral-950 py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56">
+    <section ref={sectionRef} className="bg-neutral-950 py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           <div className="space-y-8">
             <div>
-              <span className="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4">
+              <span
+                ref={badgeRef}
+                className={`inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4 transition-all duration-700 ${
+                  badgeVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+              >
                 <span className="mr-1">✦</span>
                 Get In Touch
               </span>
 
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+              <h2
+                ref={titleRef}
+                className={`text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight transition-all duration-700 ${
+                  titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+              >
                 Let's work together
               </h2>
-              <p className="text-base md:text-lg text-neutral-300 leading-relaxed max-w-md">
+              <p
+                ref={descRef}
+                className={`text-base md:text-lg text-neutral-300 leading-relaxed max-w-md transition-all duration-700 ${
+                  descVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+              >
                 Have a project in mind? I'd love to hear about it. Send me a message and let's create something amazing
                 together.
               </p>
@@ -71,7 +94,12 @@ export function ContactSection() {
           </div>
 
           <div className="lg:sticky lg:top-20">
-            <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-8">
+            <div
+              ref={formRef}
+              className={`bg-neutral-900/50 border border-neutral-800 rounded-2xl p-8 transition-all duration-1000 ${
+                formVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+            >
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
