@@ -4,7 +4,6 @@ import { FeaturedProjects } from "@/components/sections/featured-projects";
 import { HeroSection } from "@/components/sections/hero";
 import { MusicSection } from "@/components/sections/music";
 import { TechnologiesSection } from "@/components/sections/technologies";
-import { VantaBackground } from "@/components/ui/vanta-background";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
