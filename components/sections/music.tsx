@@ -1,157 +1,96 @@
 "use client"
 
-import { useState, memo } from "react"
-import { Play, Pause } from "lucide-react"
+import { memo } from "react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { FaSpotify } from "react-icons/fa"
+import { ExternalLink } from "lucide-react"
 
 interface Album {
   id: string
   artist: string
   name: string
-  description: string
   image: string
   trackCount: number
   spotifyUrl: string
-  embedId: string
   year: string
 }
 
-const AlbumCard = memo(
-  ({
-    album,
-    isPlaying,
-    onTogglePlay,
-  }: {
-    album: Album
-    isPlaying: boolean
-    onTogglePlay: (id: string) => void
-  }) => (
-    <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-neutral-700 transition-colors">
-      <div className="flex items-start gap-6">
-        <div className="relative flex-shrink-0">
-          <div className="w-24 h-24 md:w-32 md:h-32 bg-neutral-800 rounded-xl overflow-hidden">
-            <Image
-              src={album.image || "/placeholder.svg"}
-              alt={`${album.artist} - ${album.name}`}
-              width={128}
-              height={128}
-              className="w-full h-full object-cover"
-              loading="lazy"
-              sizes="(max-width: 768px) 96px, 128px"
-            />
-          </div>
-
-          <button
-            onClick={() => onTogglePlay(album.id)}
-            className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-300"
-            aria-label={isPlaying ? "Pause album" : "Play album"}
-          >
-            {isPlaying ? <Pause className="w-6 h-6 text-white" /> : <Play className="w-6 h-6 text-white ml-0.5" />}
-          </button>
+const AlbumCard = memo(({ album }: { album: Album }) => (
+  <a
+    href={album.spotifyUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-neutral-700 transition-colors block w-full"
+  >
+    <div className="flex flex-col items-center gap-4">
+      <div className="relative group">
+        <div className="w-16 h-16 bg-neutral-800 rounded-full overflow-hidden border-2 border-neutral-800 transition-colors">
+          <Image
+            src={album.image || "/placeholder.svg"}
+            alt={`${album.artist} - ${album.name}`}
+            width={64}
+            height={64}
+            className="w-full h-full object-cover"
+            loading="lazy"
+            sizes="64px"
+          />
         </div>
 
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between mb-2">
-            <div className="min-w-0 flex-1">
-              <h3 className="text-lg md:text-xl font-semibold text-white truncate">{album.name}</h3>
-              <p className="text-sm text-neutral-400">
-                {album.artist} • {album.year}
-              </p>
-            </div>
-            <a
-              href={album.spotifyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 text-neutral-400 hover:text-green-400 transition-colors flex-shrink-0"
-              aria-label="Open in Spotify"
-            >
-              <FaSpotify className="w-5 h-5" />
-            </a>
-          </div>
-
-          <p className="text-sm text-neutral-300 leading-relaxed mb-3 line-clamp-2">{album.description}</p>
-
-          <div className="text-xs text-neutral-500">{album.trackCount} tracks</div>
+        {/* External link indicator */}
+        <div className="absolute -bottom-1 -right-1 bg-neutral-900 rounded-full p-1 border border-neutral-700 transition-colors">
+          <ExternalLink className="w-3 h-3 text-neutral-400 transition-colors" />
         </div>
       </div>
 
-      {isPlaying && (
-        <div className="mt-6 pt-6 border-t border-neutral-800">
-          <iframe
-            src={`https://open.spotify.com/embed/album/${album.embedId}?utm_source=generator&theme=0`}
-            width="100%"
-            height="352"
-            frameBorder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-            className="rounded-xl"
-            title={`${album.artist} - ${album.name}`}
-          />
+      <div className="text-center">
+        <h3 className="text-lg font-semibold text-white mb-1">{album.name}</h3>
+        <div className="text-xs text-neutral-500">
+          {album.artist} • {album.year} • {album.trackCount} tracks
         </div>
-      )}
+      </div>
     </div>
-  ),
-)
+  </a>
+))
 
 AlbumCard.displayName = "AlbumCard"
 
 export function MusicSection() {
-  const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null)
-
   const albums: Album[] = [
     {
       id: "1",
-      artist: "Panchiko",
-      name: "D>E>A>T>H>M>E>T>A>L",
-      description:
-        "Lo-fi textures and nostalgic vibes from an internet cult classic—perfect for introspective work sessions.",
-      image: "https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//panchiko-album.jpg",
-      trackCount: 8,
-      spotifyUrl: "https://open.spotify.com/intl-es/album/2MASm01cgG0a0CgioQpe6Q?si=6906KMSMTK6RtmQnZW5pPg",
-      embedId: "2MASm01cgG0a0CgioQpe6Q",
-      year: "2000",
+      artist: "Slowdive",
+      name: "Slowdive",
+      image: "https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//slowdive-album.jpg",
+      trackCount: 10,
+      spotifyUrl: "https://open.spotify.com/album/1qDA0jVhj4ZTjGHmpbmmwa?si=R2iTyP9oTUWlgZwklhoDOQ",
+      year: "1993",
     },
     {
       id: "2",
-      artist: "Aphex Twin",
-      name: "Selected Ambient Works 85-92",
-      description: "Minimalist ambient and dreamy electronics to enhance focus, flow, and deep late-night coding.",
-      image:
-        "https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//Selected_Ambient_Works_85-92.png",
-      trackCount: 13,
-      spotifyUrl: "https://open.spotify.com/intl-es/album/7aNclGRxTysfh6z0d8671k?si=uAFFsRf5Shyc46VMwE3cjw",
-      embedId: "7aNclGRxTysfh6z0d8671k",
-      year: "1992",
+      artist: "Beach House",
+      name: "Devotion",
+      image: "https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//devotion-album.jpg",
+      trackCount: 11,
+      spotifyUrl: "https://open.spotify.com/album/6Unw8A3kdy8ZPj6MmlbA7E",
+      year: "2008",
     },
     {
       id: "3",
-      artist: "Dean Blunt",
-      name: "ZUSHI",
-      description:
-        "Experimental, mellow, and strangely captivating — great for winding down or diving deep into creative work.",
-      image: "https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//zushi-album.jpg",
-      trackCount: 11,
-      spotifyUrl: "https://open.spotify.com/intl-es/album/6awMz5xtEk8XSlID98YfMv?si=G0gKt2ICSVyULfQ3NbsnOw",
-      embedId: "6awMz5xtEk8XSlID98YfMv",
-      year: "2023",
+      artist: "Soda Stereo",
+      name: "Dynamo",
+      image: "https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//dynamo-album.jpg",
+      trackCount: 12,
+      spotifyUrl: "https://open.spotify.com/album/4bfwXuecOmNVlPM5RStAiQ?si=z3alEjV6QWy1tWX7kI4G8Q",
+      year: "1992",
     },
   ]
-
-  const togglePlay = (albumId: string) => {
-    if (currentlyPlaying === albumId) {
-      setCurrentlyPlaying(null)
-    } else {
-      setCurrentlyPlaying(albumId)
-    }
-  }
 
   return (
     <section className="bg-neutral-950 py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <span className="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4">
+          <span className="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit mx-auto whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4">
             <span className="mr-1">✦</span>
             Music & Code
           </span>
@@ -163,14 +102,9 @@ export function MusicSection() {
           </p>
         </div>
 
-        <div className="space-y-6 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-16">
           {albums.map((album) => (
-            <AlbumCard
-              key={album.id}
-              album={album}
-              isPlaying={currentlyPlaying === album.id}
-              onTogglePlay={togglePlay}
-            />
+            <AlbumCard key={album.id} album={album} />
           ))}
         </div>
 
@@ -189,17 +123,15 @@ export function MusicSection() {
               Follow on Spotify
             </a>
           </Button>
+{/*           <Button
+            className=""
+            aria-label="Download Franco Zeta's CV"
+          >
+            <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+            Download CV
+          </Button> */}
         </div>
       </div>
-
-      <style jsx>{`
-        .line-clamp-2 {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-      `}</style>
     </section>
   )
 }
