@@ -1,175 +1,69 @@
 "use client"
 
-import { ArrowRight, MapPin, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { FaGithub, FaLinkedinIn } from "react-icons/fa"
-import { BsInstagram } from "react-icons/bs"
-import { useState, useEffect } from "react"
-import { getProjects } from "@/lib/projects"
+import { ArrowRight, User } from "lucide-react"
+import Link from "next/link"
+import Image from "next/image"
 
 export function AboutSection() {
-  const [projectCount, setProjectCount] = useState(0)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const loadProjectCount = async () => {
-      try {
-        const projects = await getProjects()
-        setProjectCount(projects.length)
-      } catch (error) {
-        console.error("Error loading project count:", error)
-        setProjectCount(0) // Fallback value
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadProjectCount()
-  }, [])
-
   return (
-    <section className="bg-white py-24 px-4 sm:px-6 lg:px-8">
+    <section id="about" className="bg-black py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-          {/* Left Column - Content */}
-          <div className="space-y-8">
-            <div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-6 leading-tight">About Me</h2>
-
-              <div className="space-y-6 text-lg text-neutral-600 leading-relaxed">
-                <p>
-                  I'm a passionate{" "}
-                  <span className="text-black font-medium">software developer and design enthusiast</span> from Peru. My
-                  journey began in 2022 with a simple HTML course — and quickly turned into a deep love for building
-                  things with code.
-                </p>
-
-                <p>
-                  Currently studying at <span className="text-black font-medium">CERTUS</span>, I work on personal and
-                  academic projects that blend functionality and good design. I also create flyers for events and enjoy
-                  translating ideas into visuals that connect.
-                </p>
-
-                <p>
-                  Beyond coding, <span className="text-black font-medium">music is a big part of who I am</span>. Soon,
-                  I'll be adding a playlist section to this site — maybe you'll discover something new there.
-                </p>
-              </div>
-            </div>
-
-            {/* Call to Action */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button className="group flex items-center gap-2 text-black hover:gap-3 transition-all duration-300">
-                <span className="text-lg font-medium">View full profile</span>
-                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </button>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-neutral-200">
-              <div>
-                <div className="text-3xl font-bold text-black mb-1">2+</div>
-                <div className="text-sm text-neutral-500 uppercase tracking-wide">Years Coding</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-black mb-1">
-                  {loading ? <div className="w-8 h-8 bg-gray-200 rounded animate-pulse"></div> : `${projectCount}+`}
-                </div>
-                <div className="text-sm text-neutral-500 uppercase tracking-wide">Projects Built</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-black mb-1">∞</div>
-                <div className="text-sm text-neutral-500 uppercase tracking-wide">Learning</div>
-              </div>
+        <div className="flex flex-col md:flex-row-reverse gap-12">
+          {/* Image - Desktop only, positioned on the right */}
+          <div className="mt-10 w-48 h-48 md:w-72 md:h-72 hidden md:block">
+            <div className="relative w-full h-full rounded-2xl overflow-hidden bg-accent">
+              <Image
+                src="https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//profile-photo.jpg"
+                alt="Franco Zeta - Software Developer"
+                fill
+                className="object-cover grayscale"
+                loading="lazy"
+              />
             </div>
           </div>
 
-          {/* Right Column - Profile and Contact */}
-          <div className="lg:sticky lg:top-20 space-y-8">
-            {/* Profile Image */}
-            <div className="relative">
-              <div className="w-full max-w-sm mx-auto lg:max-w-none aspect-square bg-neutral-100 rounded-2xl overflow-hidden border border-neutral-200">
-                <img
+          {/* Content */}
+          <div className="flex-1 md:text-left">
+            {/* Badge */}
+            <span className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4">
+              ✦ Who I Am
+            </span>
+
+            {/* Image - Mobile only */}
+            <div className="w-48 h-48 md:w-72 md:h-72 mt-3 mb-8 block md:hidden">
+              <div className="relative w-full h-full rounded-2xl overflow-hidden bg-accent">
+                <Image
                   src="https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//profile-photo.jpg"
-                  alt="Franco Zeta"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    // Fallback if image fails to load
-                    e.currentTarget.style.display = "none"
-                    e.currentTarget.parentElement!.innerHTML = `
-                      <div class="w-full h-full bg-gradient-to-br from-neutral-200 to-neutral-300 flex items-center justify-center">
-                        <div class="text-6xl font-bold text-neutral-400">FZ</div>
-                      </div>
-                    `
-                  }}
+                  alt="Franco Zeta - Software Developer"
+                  fill
+                  className="object-cover grayscale"
+                  loading="lazy"
                 />
               </div>
             </div>
 
-            {/* Contact Info */}
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-lg font-semibold text-black mb-4">Get in touch</h3>
-                <div className="space-y-3">
-                  <a
-                    href="https://www.google.com.pe/maps/@-12.0881152,-77.0244608,12z?hl=es-419&entry=ttu&g_ep=EgoyMDI1MDYwNC4wIKXMDSoASAFQAw%3D%3D"
-                    className="flex items-center gap-3 text-neutral-600 hover:text-black transition-colors group"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <MapPin className="w-5 h-5" />
-                    <span>Lima, Peru</span>
-                  </a>
-                  <a
-                    href="mailto:francozeta2011@gmail.com"
-                    className="flex items-center gap-3 text-neutral-600 hover:text-black transition-colors group"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Mail className="w-5 h-5" />
-                    <span>francozeta2011@gmail.com</span>
-                  </a>
-                </div>
-              </div>
+            {/* Heading */}
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+              About Me
+            </h2>
 
-              {/* Social Links */}
-              <div>
-                <h3 className="text-lg font-semibold text-black mb-4">Follow me</h3>
-                <div className="flex gap-4">
-                  <a
-                    href="https://github.com/francozeta/"
-                    className="flex items-center justify-center w-10 h-10 border border-neutral-300 rounded-lg text-neutral-600 hover:text-black hover:border-black transition-all duration-200"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <FaGithub className="w-5 h-5" />
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/franco-zeta-496330267"
-                    className="flex items-center justify-center w-10 h-10 border border-neutral-300 rounded-lg text-neutral-600 hover:text-black hover:border-black transition-all duration-200"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <FaLinkedinIn className="w-5 h-5" />
-                  </a>
-                  <a
-                    href="https://www.instagram.com/frxnco.zeta/"
-                    className="flex items-center justify-center w-10 h-10 border border-neutral-300 rounded-lg text-neutral-600 hover:text-black hover:border-black transition-all duration-200"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <BsInstagram className="w-5 h-5" />
-                  </a>
-                </div>
-              </div>
+            {/* Description */}
+            <p className="text-base md:text-lg text-neutral-300 mb-8 max-w-4xl">
+              I'm a passionate software developer and design enthusiast from Peru. My journey began in 2022 with a simple HTML course — and quickly turned into a deep love for buildingthings with code.
 
-              {/* Download CV - TODO: Functionality */}
-              <Button
-                variant="outline"
-                className="w-full border-black text-black hover:bg-black hover:text-white transition-all duration-200"
+            </p>
+
+            {/* Action buttons */}
+            <div className="flex flex-wrap items-center gap-4 mb-6">
+              <Link
+                href="/about"
+                className="group flex items-center gap-2 text-white hover:gap-3 transition-all duration-300"
+                aria-label="View about me page"
               >
-                Download CV
-              </Button>
+                <span className="text-base md:text-lg  font-medium">View about me</span>
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </Link>
             </div>
           </div>
         </div>

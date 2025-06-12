@@ -8,13 +8,13 @@ import Image from "next/image"
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pb-16 sm:pb-0">
-      <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8">
+    <section className="relative min-h-screen flex items-center justify-center px-6 sm:px-12 lg:px-24 pb-16 sm:pb-0">
+      <div className="max-w-7xl mx-auto text-center space-y-6 sm:space-y-8">
         {/* Main text */}
         <div className="space-y-3 sm:space-y-4">
           <p className="text-base text-neutral-400 font-light tracking-wide">Hello, I am</p>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-neutral-100 tracking-tight ">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-neutral-100 tracking-tight ">
             Franco Zeta
           </h1>
 

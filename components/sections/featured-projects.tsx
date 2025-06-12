@@ -196,7 +196,7 @@ export function FeaturedProjects() {
   if (loading) {
     return (
       <section className="bg-white py-20 sm:py-24 lg:py-32" aria-label="Featured projects loading">
-        <div className="max-w-full mx-auto px-4 sm:pl-6 sm:pr-0 lg:pl-8 lg:pr-0">
+        <div className="max-w-full mx-auto px-6 sm:px-12 lg:pl-24 xl:pl-56 lg:pr-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div>
               <div className="h-12 bg-neutral-200 rounded w-80 mb-6 animate-pulse" aria-hidden="true" />
@@ -220,17 +220,17 @@ export function FeaturedProjects() {
 
   return (
     <section className="bg-white py-20 sm:py-24 lg:py-32" aria-labelledby="featured-projects-heading">
-      <div className="max-w-full mx-auto px-4 sm:pl-6 sm:pr-0 lg:pl-8 lg:pr-0">
+      <div className="max-w-[2000px]  mx-auto px-6 sm:px-12 lg:pl-24 xl:pl-56 lg:pr-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left Column - Text Content */}
           <div className="lg:sticky lg:top-20">
             <h2
               id="featured-projects-heading"
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-6 leading-tight"
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-6 leading-tight"
             >
               My Featured Projects
             </h2>
-            <p className="text-lg text-neutral-600 mb-8 max-w-md">
+            <p className="text-base md:text-lg text-neutral-600 mb-8 max-w-md">
               A curated selection of projects I've built — blending design, functionality, and real-world use cases.
             </p>
             <div className="flex flex-wrap items-center gap-4 mb-6">
@@ -239,7 +239,7 @@ export function FeaturedProjects() {
                 className="group flex items-center gap-2 text-black hover:gap-3 transition-all duration-300"
                 aria-label="View all projects page"
               >
-                <span className="text-lg font-medium">View all projects</span>
+                <span className="text-base md:text-lg font-medium">View all projects</span>
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </Link>
             </div>
@@ -250,7 +250,7 @@ export function FeaturedProjects() {
             <div
               ref={scrollContainerRef}
               className={cn(
-                "pb-6 -mx-4 px-4 sm:mx-0 sm:px-0",
+                "pb-6 -mx-6 px-6 sm:-mx-12 sm:px-12 lg:mx-0 lg:px-0",
                 "lg:overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing",
               )}
               style={{

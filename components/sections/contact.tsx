@@ -51,7 +51,7 @@ export function ContactSection() {
   }
 
   return (
-    <section className="bg-white py-24 px-4 sm:px-6 lg:px-8">
+    <section className="bg-white py-24 px-6 sm:px-12 lg:px-24 xl:px-56">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           {/* Left Column - Content */}
@@ -60,34 +60,34 @@ export function ContactSection() {
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-6 leading-tight">
                 Let's work together
               </h2>
-              <p className="text-lg text-gray-600 leading-relaxed max-w-md">
+              <p className="text-lg text-neutral-600 leading-relaxed max-w-md">
                 Have a project in mind? I'd love to hear about it. Send me a message and let's create something amazing
                 together.
               </p>
             </div>
 
             {/* Contact Info */}
-            <div className="space-y-6">
+{/*             <div className="space-y-6">
               <div>
                 <h3 className="text-lg font-semibold text-black mb-4">Quick contact</h3>
                 <div className="space-y-3">
-                  <div className="text-gray-600">
-                    <span className="text-gray-500">Email:</span> franco@example.com
+                  <div className="text-neutral-600">
+                    <span className="text-neutral-500">Email:</span> franco@example.com
                   </div>
-                  <div className="text-gray-600">
-                    <span className="text-gray-500">Location:</span> Lima, Peru
+                  <div className="text-neutral-600">
+                    <span className="text-neutral-500">Location:</span> Lima, Peru
                   </div>
-                  <div className="text-gray-600">
-                    <span className="text-gray-500">Response time:</span> Usually within 24 hours
+                  <div className="text-neutral-600">
+                    <span className="text-neutral-500">Response time:</span> Usually within 24 hours
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Right Column - Contact Form */}
           <div className="lg:sticky lg:top-20">
-            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8">
+            <div className="bg-neutral-50 border border-neutral-200 rounded-2xl p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -102,7 +102,7 @@ export function ContactSection() {
                       onChange={handleChange}
                       required
                       disabled={status === "loading"}
-                      className="bg-white border-gray-300 text-black placeholder:text-gray-400 focus:border-black focus:ring-black/20"
+                      className="bg-white border-neutral-300 text-black placeholder:text-neutral-400 focus:border-black focus:ring-black/20"
                       placeholder="Your name"
                     />
                   </div>
@@ -118,7 +118,7 @@ export function ContactSection() {
                       onChange={handleChange}
                       required
                       disabled={status === "loading"}
-                      className="bg-white border-gray-300 text-black placeholder:text-gray-400 focus:border-black focus:ring-black/20"
+                      className="bg-white border-neutral-300 text-black placeholder:text-neutral-400 focus:border-black focus:ring-black/20"
                       placeholder="your@email.com"
                     />
                   </div>
@@ -136,7 +136,7 @@ export function ContactSection() {
                     required
                     disabled={status === "loading"}
                     rows={5}
-                    className="bg-white border-gray-300 text-black placeholder:text-gray-400 focus:border-black focus:ring-black/20 resize-none"
+                    className="bg-white border-neutral-300 text-black placeholder:text-neutral-400 focus:border-black focus:ring-black/20 resize-none"
                     placeholder="Tell me about your project..."
                   />
                 </div>
@@ -159,7 +159,7 @@ export function ContactSection() {
                 <Button
                   type="submit"
                   disabled={status === "loading" || !formData.name || !formData.email || !formData.message}
-                  className="w-full bg-black text-white hover:bg-gray-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-black text-white hover:bg-neutral-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {status === "loading" ? (
                     <>

@@ -153,11 +153,11 @@ export function MusicSection() {
   }
 
   return (
-    <section className="bg-black py-20 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8">
+    <section className="bg-black py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">Music & Code</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl  font-bold text-white mb-6 leading-tight">Music & Code</h2>
           <p className="text-lg md:text-xl text-neutral-300 max-w-3xl mx-auto">
             Music is the <span className="text-white font-medium">soundtrack to my creativity</span>. These albums have
             been my companions through countless coding sessions.
@@ -179,8 +179,8 @@ export function MusicSection() {
         {/* CTA */}
         <div className="text-center">
           <Button
-            variant="outline"
-            className="bg-neutral-800 border-neutral-700 text-white hover:bg-white hover:text-black transition-all duration-200 rounded-full"
+            className="bg-white text-black hover:bg-neutral-200 transition-all duration-200 w-full sm:w-auto rounded-full h-auto mb-1 sm:mb-0"
+            aria-label="Follow Franco Zeta on Spotify"
             asChild
           >
             <a
@@ -188,7 +188,7 @@ export function MusicSection() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaSpotify className="w-4 h-4 mr-2" />
+              <FaSpotify className="w-4 h-4 mr-2" aria-hidden="true" />
               Follow on Spotify
             </a>
           </Button>

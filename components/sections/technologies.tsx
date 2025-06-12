@@ -38,6 +38,7 @@ interface Technology {
   name: string
   icon: React.ElementType
   category: "frontend" | "backend" | "database" | "tools"
+  priority: "high" | "medium" | "low" // Para filtrar en móvil
 }
 
 // Memoized TechBadge component for better performance
@@ -55,32 +56,53 @@ TechBadge.displayName = "TechBadge"
 
 // Static brick layout component
 const BrickLayout = memo(({ technologies }: { technologies: Technology[] }) => {
+  // Filter technologies for mobile (only high priority)
+  const mobileTechnologies = technologies.filter((tech) => tech.priority === "high")
+
   // Group technologies into rows for brick layout
-  const rows = [
-    technologies.slice(0, 8), // Frontend row
-    technologies.slice(8, 13), // Backend row
-    technologies.slice(13, 19), // Database row
-    technologies.slice(19), // Tools row
-  ]
+  const createRows = (techs: Technology[]) =>
+    [
+      techs.filter((t) => t.category === "frontend"),
+      techs.filter((t) => t.category === "backend"),
+      techs.filter((t) => t.category === "database"),
+      techs.filter((t) => t.category === "tools"),
+    ].filter((row) => row.length > 0) // Remove empty rows
+
+  const desktopRows = createRows(technologies)
+  const mobileRows = createRows(mobileTechnologies)
 
   return (
-    <div className="space-y-4 md:space-y-6" role="list" aria-label="Technologies and tools">
-      {rows.map((row, rowIndex) => (
-        <div
-          key={rowIndex}
-          className={`flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start ${
-            rowIndex % 2 === 1 ? "md:ml-8 lg:ml-12" : ""
-          }`}
-          style={{
-            // Stagger rows on larger screens for brick effect
-            marginLeft: rowIndex % 2 === 1 ? "clamp(0px, 4vw, 3rem)" : "0",
-          }}
-        >
-          {row.map((tech) => (
-            <TechBadge key={tech.name} tech={tech} />
-          ))}
-        </div>
-      ))}
+    <div className="space-y-6 md:space-y-8" role="list" aria-label="Technologies and tools">
+      {/* Mobile layout - simplified */}
+      <div className="block md:hidden">
+        {mobileRows.map((row, rowIndex) => (
+          <div key={`mobile-${rowIndex}`} className="flex flex-wrap gap-3 justify-center mb-6">
+            {row.map((tech) => (
+              <TechBadge key={tech.name} tech={tech} />
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop layout - full brick pattern */}
+      <div className="hidden md:block">
+        {desktopRows.map((row, rowIndex) => (
+          <div
+            key={`desktop-${rowIndex}`}
+            className={`flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start mb-6 ${
+              rowIndex % 2 === 1 ? "md:ml-8 lg:ml-12" : ""
+            }`}
+            style={{
+              // Stagger rows on larger screens for brick effect
+              marginLeft: rowIndex % 2 === 1 ? "clamp(0px, 4vw, 3rem)" : "0",
+            }}
+          >
+            {row.map((tech) => (
+              <TechBadge key={tech.name} tech={tech} />
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   )
 })
@@ -89,54 +111,62 @@ BrickLayout.displayName = "BrickLayout"
 
 export function TechnologiesSection() {
   const technologies: Technology[] = [
-    // Frontend
-    { name: "HTML5", icon: SiHtml5, category: "frontend" },
-    { name: "CSS3", icon: SiCss3, category: "frontend" },
-    { name: "JavaScript", icon: SiJavascript, category: "frontend" },
-    { name: "TypeScript", icon: SiTypescript, category: "frontend" },
-    { name: "React", icon: SiReact, category: "frontend" },
-    { name: "Next.js", icon: SiNextdotjs, category: "frontend" },
-    { name: "Tailwind CSS", icon: SiTailwindcss, category: "frontend" },
-    { name: "Framer Motion", icon: SiFramer, category: "frontend" },
+    // Frontend - High Priority
+    { name: "React", icon: SiReact, category: "frontend", priority: "high" },
+    { name: "Next.js", icon: SiNextdotjs, category: "frontend", priority: "high" },
+    { name: "TypeScript", icon: SiTypescript, category: "frontend", priority: "high" },
+    { name: "Tailwind CSS", icon: SiTailwindcss, category: "frontend", priority: "high" },
 
-    // Backend
-    { name: "Node.js", icon: SiNodedotjs, category: "backend" },
-    { name: "Express", icon: SiExpress, category: "backend" },
-    { name: "NestJS", icon: SiNestjs, category: "backend" },
-    { name: "Python", icon: SiPython, category: "backend" },
-    { name: "Java", icon: FaJava, category: "backend" },
+    // Frontend - Medium/Low Priority
+    { name: "HTML5", icon: SiHtml5, category: "frontend", priority: "medium" },
+    { name: "CSS3", icon: SiCss3, category: "frontend", priority: "medium" },
+    { name: "JavaScript", icon: SiJavascript, category: "frontend", priority: "medium" },
+    { name: "Framer Motion", icon: SiFramer, category: "frontend", priority: "low" },
 
-    // Database
-    { name: "MongoDB", icon: SiMongodb, category: "database" },
-    { name: "PostgreSQL", icon: SiPostgresql, category: "database" },
-    { name: "MySQL", icon: SiMysql, category: "database" },
-    { name: "Redis", icon: SiRedis, category: "database" },
-    { name: "Supabase", icon: SiSupabase, category: "database" },
-    { name: "Firebase", icon: SiFirebase, category: "database" },
+    // Backend - High Priority
+    { name: "Node.js", icon: SiNodedotjs, category: "backend", priority: "high" },
+    { name: "Python", icon: SiPython, category: "backend", priority: "high" },
 
-    // Tools
-    { name: "Git", icon: SiGit, category: "tools" },
-    { name: "GitHub", icon: SiGithub, category: "tools" },
-    { name: "VS Code", icon: VscVscode, category: "tools" },
-    { name: "Figma", icon: SiFigma, category: "tools" },
-    { name: "Illustrator", icon: SiAdobeillustrator, category: "tools" },
-    { name: "Photoshop", icon: SiAdobephotoshop, category: "tools" },
-    { name: "Docker", icon: SiDocker, category: "tools" },
-    { name: "Webpack", icon: SiWebpack, category: "tools" },
-    { name: "Vite", icon: SiVite, category: "tools" },
-    { name: "Vercel", icon: SiVercel, category: "tools" },
+    // Backend - Medium/Low Priority
+    { name: "Express", icon: SiExpress, category: "backend", priority: "medium" },
+    { name: "NestJS", icon: SiNestjs, category: "backend", priority: "low" },
+    { name: "Java", icon: FaJava, category: "backend", priority: "low" },
+
+    // Database - High Priority
+    { name: "PostgreSQL", icon: SiPostgresql, category: "database", priority: "high" },
+    { name: "Supabase", icon: SiSupabase, category: "database", priority: "high" },
+
+    // Database - Medium/Low Priority
+    { name: "MongoDB", icon: SiMongodb, category: "database", priority: "medium" },
+    { name: "MySQL", icon: SiMysql, category: "database", priority: "medium" },
+    { name: "Redis", icon: SiRedis, category: "database", priority: "low" },
+    { name: "Firebase", icon: SiFirebase, category: "database", priority: "low" },
+
+    // Tools - High Priority
+    { name: "Git", icon: SiGit, category: "tools", priority: "high" },
+    { name: "GitHub", icon: SiGithub, category: "tools", priority: "high" },
+    { name: "Vercel", icon: SiVercel, category: "tools", priority: "high" },
+    { name: "Figma", icon: SiFigma, category: "tools", priority: "high" },
+
+    // Tools - Medium/Low Priority
+    { name: "VS Code", icon: VscVscode, category: "tools", priority: "medium" },
+    { name: "Docker", icon: SiDocker, category: "tools", priority: "medium" },
+    { name: "Illustrator", icon: SiAdobeillustrator, category: "tools", priority: "low" },
+    { name: "Photoshop", icon: SiAdobephotoshop, category: "tools", priority: "low" },
+    { name: "Webpack", icon: SiWebpack, category: "tools", priority: "low" },
+    { name: "Vite", icon: SiVite, category: "tools", priority: "low" },
   ]
 
   return (
     <section
-      className="bg-black py-20 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+      className="bg-black py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56 relative overflow-hidden"
       aria-labelledby="technologies-heading"
     >
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 md:mb-16">
           <h2
             id="technologies-heading"
-            className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 md:mb-6 leading-tight "
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight"
           >
             Technologies & Tools
           </h2>
@@ -146,19 +176,19 @@ export function TechnologiesSection() {
           </p>
         </div>
 
-        {/* Static brick layout */}
+        {/* Static brick layout with improved spacing */}
         <div className="relative">
-          {/* Subtle gradient overlays for visual depth */}
-          <div className="absolute left-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-r from-black via-black/60 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-l from-black via-black/60 to-transparent z-10 pointer-events-none" />
+          {/* Subtle gradient overlays for visual depth - Hidden on mobile */}
+          <div className="hidden md:block absolute left-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-r from-black via-black/60 to-transparent z-10 pointer-events-none" />
+          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-l from-black via-black/60 to-transparent z-10 pointer-events-none" />
 
           <BrickLayout technologies={technologies} />
         </div>
       </div>
 
-      {/* Subtle background decoration */}
+      {/* Subtle background decoration - Hidden on mobile */}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-1/3 bg-gradient-to-r from-neutral-800/5 to-neutral-700/5 rounded-full blur-3xl pointer-events-none"
+        className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-1/3 bg-gradient-to-r from-neutral-800/5 to-neutral-700/5 rounded-full blur-3xl pointer-events-none"
         aria-hidden="true"
       />
     </section>
