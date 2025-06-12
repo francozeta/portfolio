@@ -18,7 +18,6 @@ interface Album {
   year: string
 }
 
-// Horizontal album card for better mobile experience
 const AlbumCard = memo(
   ({
     album,
@@ -31,7 +30,6 @@ const AlbumCard = memo(
   }) => (
     <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-neutral-700 transition-colors">
       <div className="flex items-start gap-6">
-        {/* Album Cover */}
         <div className="relative flex-shrink-0">
           <div className="w-24 h-24 md:w-32 md:h-32 bg-neutral-800 rounded-xl overflow-hidden">
             <Image
@@ -45,7 +43,6 @@ const AlbumCard = memo(
             />
           </div>
 
-          {/* Play Button Overlay */}
           <button
             onClick={() => onTogglePlay(album.id)}
             className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-300"
@@ -55,7 +52,6 @@ const AlbumCard = memo(
           </button>
         </div>
 
-        {/* Album Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between mb-2">
             <div className="min-w-0 flex-1">
@@ -81,7 +77,6 @@ const AlbumCard = memo(
         </div>
       </div>
 
-      {/* Spotify Embed */}
       {isPlaying && (
         <div className="mt-6 pt-6 border-t border-neutral-800">
           <iframe
@@ -153,18 +148,21 @@ export function MusicSection() {
   }
 
   return (
-    <section className="bg-black py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56">
+    <section className="bg-neutral-950 py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl  font-bold text-white mb-6 leading-tight">Music & Code</h2>
+          <span className="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4">
+            <span className="mr-1">✦</span>
+            Music & Code
+          </span>
+
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">Music & Code</h2>
           <p className="text-lg md:text-xl text-neutral-300 max-w-3xl mx-auto">
             Music is the <span className="text-white font-medium">soundtrack to my creativity</span>. These albums have
             been my companions through countless coding sessions.
           </p>
         </div>
 
-        {/* Albums - Horizontal Layout */}
         <div className="space-y-6 mb-16">
           {albums.map((album) => (
             <AlbumCard
@@ -176,7 +174,6 @@ export function MusicSection() {
           ))}
         </div>
 
-        {/* CTA */}
         <div className="text-center">
           <Button
             className="bg-white text-black hover:bg-neutral-200 transition-all duration-200 w-full sm:w-auto rounded-full h-auto mb-1 sm:mb-0"

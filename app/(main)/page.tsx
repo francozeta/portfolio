@@ -21,7 +21,6 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="relative">
-      <VantaBackground />
       <HeroSection />
       <FeaturedProjects />
       <TechnologiesSection />
