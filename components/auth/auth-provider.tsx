@@ -2,14 +2,16 @@
 
 import type React from "react"
 import { createContext, useContext, useEffect, useState } from "react"
-import type { User } from "@supabase/supabase-js"
+import type { User, SupabaseClient } from "@supabase/supabase-js"
 
 // Importación condicional para evitar errores en build
-let supabase: any = null
-
+let supabase: SupabaseClient | null = null
 try {
-  const { supabase: supabaseClient } = require("@/lib/supabase")
-  supabase = supabaseClient
+  // Dynamic import to avoid SSR issues
+  if (typeof window !== "undefined") {
+    const { supabase: supabaseClient } = require("@/lib/supabase")
+    supabase = supabaseClient
+  }
 } catch (error) {
   console.warn("Supabase not configured properly:", error)
 }
@@ -43,18 +45,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Obtener sesión inicial
     supabase.auth
       .getSession()
-      .then(({ data: { session }, error }: any) => {
+      .then(({ data, error }) => {
         if (error) {
           console.error("Auth error:", error)
           setError(error.message)
         } else {
-          setUser(session?.user ?? null)
+          setUser(data.session?.user ?? null)
         }
         setLoading(false)
       })
-      .catch((err: any) => {
+      .catch((err: Error) => {
         console.error("Session error:", err)
-        setError("Error al obtener la sesión")
+        setError("Error retrieving session. Please refresh the page.")
         setLoading(false)
       })
 

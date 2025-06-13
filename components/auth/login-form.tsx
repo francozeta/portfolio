@@ -7,9 +7,10 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eye, EyeOff, LogIn, AlertCircle, Loader2 } from "lucide-react"
 import { useAuth } from "./auth-provider"
+import type { SupabaseClient } from "@supabase/supabase-js"
 
 // Importación condicional
-let supabase: any = null
+let supabase: SupabaseClient | null = null
 try {
   const { supabase: supabaseClient } = require("@/lib/supabase")
   supabase = supabaseClient
@@ -29,7 +30,7 @@ export function LoginForm() {
     e.preventDefault()
 
     if (!supabase) {
-      setError("Supabase no está configurado. Verifica las variables de entorno.")
+      setError("Supabase not configured. Please check your environment variables.")
       return
     }
 
@@ -43,11 +44,17 @@ export function LoginForm() {
       })
 
       if (error) {
-        setError(error.message)
+        if (error.message.includes("credentials")) {
+          setError("Invalid email or password. Please try again.")
+        } else if (error.message.includes("rate")) {
+          setError("Too many login attempts. Please try again later.")
+        } else {
+          setError(error.message)
+        }
       }
     } catch (err) {
       console.error("Login error:", err)
-      setError("Error inesperado al iniciar sesión")
+      setError("An unexpected error occurred. Please try again later.")
     } finally {
       setLoading(false)
     }
