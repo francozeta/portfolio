@@ -93,7 +93,16 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
 
       // Upload image if a new one was selected
       if (imageFile) {
-        imageUrl = await uploadProjectImage(imageFile, formData.slug)
+        try {
+          // Check file size
+          if (imageFile.size > 5 * 1024 * 1024) {
+            throw new Error("Image size exceeds 5MB limit. Please choose a smaller image.")
+          }
+
+          imageUrl = await uploadProjectImage(imageFile, formData.slug)
+        } catch (imageError) {
+          throw new Error(`Image upload failed: ${imageError instanceof Error ? imageError.message : "Unknown error"}`)
+        }
       }
 
       // Convertir technologies a format para guardar en DB
@@ -117,7 +126,7 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
 
       onSuccess()
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al guardar el proyecto")
+      setError(err instanceof Error ? err.message : "Error saving project. Please try again.")
     } finally {
       setLoading(false)
     }
