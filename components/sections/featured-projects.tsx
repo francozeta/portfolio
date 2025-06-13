@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect, useRef, memo, useCallback } from "react"
-import { ArrowRight, ExternalLink } from 'lucide-react'
+import { ArrowRight, ExternalLink } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { getFeaturedProjects } from "@/lib/projects"
@@ -11,6 +11,7 @@ import type { Project } from "@/types/project"
 import { cn } from "@/lib/utils"
 import { FaGithub } from "react-icons/fa"
 import Image from "next/image"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const ProjectCard = memo(
   ({
@@ -33,8 +34,6 @@ const ProjectCard = memo(
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 320px"
             placeholder="blur"
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAAcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-            draggable={false}
-            onContextMenu={(e) => e.preventDefault()}
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-neutral-700 to-neutral-800 flex items-center justify-center">
@@ -84,7 +83,7 @@ const ProjectCard = memo(
           </button>
           <div className="flex gap-3">
             {project.repo_url && (
-              <a
+              <Link
                 href={project.repo_url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -92,10 +91,10 @@ const ProjectCard = memo(
                 aria-label={`View ${project.title} source code on GitHub`}
               >
                 <FaGithub className="h-4 w-4" aria-hidden="true" />
-              </a>
+              </Link>
             )}
             {project.deploy_url && (
-              <a
+              <Link
                 href={project.deploy_url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -103,7 +102,7 @@ const ProjectCard = memo(
                 aria-label={`View ${project.title} live demo`}
               >
                 <ExternalLink className="h-4 w-4" aria-hidden="true" />
-              </a>
+              </Link>
             )}
           </div>
         </div>
@@ -190,17 +189,31 @@ export function FeaturedProjects() {
         <div className="max-w-full mx-auto px-6 sm:px-12 lg:pl-24 xl:pl-56 lg:pr-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div>
-              <div className="h-12 bg-neutral-800 rounded w-80 mb-6 animate-pulse" aria-hidden="true" />
-              <div className="h-4 bg-neutral-800 rounded w-96 mb-4 animate-pulse" aria-hidden="true" />
-              <div className="h-4 bg-neutral-800 rounded w-80 mb-8 animate-pulse" aria-hidden="true" />
+              <Skeleton className="h-4 w-32 mb-4" />
+              <Skeleton className="h-12 w-80 mb-6" />
+              <Skeleton className="h-4 w-96 mb-4" />
+              <Skeleton className="h-4 w-80 mb-8" />
+              <Skeleton className="h-10 w-48" />
             </div>
             <div className="flex gap-6 overflow-hidden">
               {Array.from({ length: 3 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="flex-shrink-0 w-80 h-96 bg-neutral-800 rounded-2xl animate-pulse"
-                  aria-hidden="true"
-                />
+                <div key={i} className="flex-shrink-0 w-80 h-96">
+                  <Skeleton className="w-full h-48 mb-4" />
+                  <Skeleton className="h-6 w-3/4 mb-2" />
+                  <Skeleton className="h-4 w-full mb-4" />
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {Array.from({ length: 3 }).map((_, j) => (
+                      <Skeleton key={j} className="h-6 w-16 rounded-full" />
+                    ))}
+                  </div>
+                  <div className="flex justify-between">
+                    <Skeleton className="h-8 w-24" />
+                    <div className="flex gap-2">
+                      <Skeleton className="h-8 w-8 rounded-full" />
+                      <Skeleton className="h-8 w-8 rounded-full" />
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
