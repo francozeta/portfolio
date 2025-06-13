@@ -15,6 +15,11 @@ export function ContactSection() {
     message: "",
   })
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+  const [errors, setErrors] = useState<{
+    name?: string
+    email?: string
+    message?: string
+  }>({})
 
   // Add scroll reveal hooks
   const { ref: sectionRef, isVisible: sectionVisible } = useScrollReveal<HTMLElement>()
@@ -23,8 +28,40 @@ export function ContactSection() {
   const { ref: descRef, isVisible: descVisible } = useScrollReveal<HTMLParagraphElement>({ delay: 300 })
   const { ref: formRef, isVisible: formVisible } = useScrollReveal<HTMLDivElement>({ delay: 400 })
 
+  const validateForm = (): boolean => {
+    const newErrors: {
+      name?: string
+      email?: string
+      message?: string
+    } = {}
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required"
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required"
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address"
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required"
+    } else if (formData.message.length < 10) {
+      newErrors.message = "Message must be at least 10 characters"
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!validateForm()) {
+      return
+    }
+
     setStatus("loading")
 
     try {
@@ -41,7 +78,12 @@ export function ContactSection() {
         setFormData({ name: "", email: "", message: "" })
         setTimeout(() => setStatus("idle"), 5000)
       } else {
+        const data = await response.json()
         setStatus("error")
+        setErrors({
+          ...errors,
+          message: data.error || "Something went wrong. Please try again.",
+        })
         setTimeout(() => setStatus("idle"), 5000)
       }
     } catch (error) {
@@ -114,9 +156,18 @@ export function ContactSection() {
                       onChange={handleChange}
                       required
                       disabled={status === "loading"}
-                      className="bg-neutral-800/50 border-neutral-700 text-white placeholder:text-neutral-400 focus:border-white focus:ring-white/20"
+                      className={`bg-neutral-800/50 border-neutral-700 text-white placeholder:text-neutral-400 focus:border-white focus:ring-white/20 ${
+                        errors.name ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : ""
+                      }`}
                       placeholder="Your name"
+                      aria-invalid={errors.name ? "true" : "false"}
+                      aria-describedby={errors.name ? "name-error" : undefined}
                     />
+                    {errors.name && (
+                      <p id="name-error" className="mt-1 text-xs text-red-400">
+                        {errors.name}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
@@ -130,9 +181,18 @@ export function ContactSection() {
                       onChange={handleChange}
                       required
                       disabled={status === "loading"}
-                      className="bg-neutral-800/50 border-neutral-700 text-white placeholder:text-neutral-400 focus:border-white focus:ring-white/20"
+                      className={`bg-neutral-800/50 border-neutral-700 text-white placeholder:text-neutral-400 focus:border-white focus:ring-white/20 ${
+                        errors.email ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : ""
+                      }`}
                       placeholder="your@email.com"
+                      aria-invalid={errors.email ? "true" : "false"}
+                      aria-describedby={errors.email ? "email-error" : undefined}
                     />
+                    {errors.email && (
+                      <p id="email-error" className="mt-1 text-xs text-red-400">
+                        {errors.email}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -148,9 +208,18 @@ export function ContactSection() {
                     required
                     disabled={status === "loading"}
                     rows={5}
-                    className="bg-neutral-800/50 border-neutral-700 text-white placeholder:text-neutral-400 focus:border-white focus:ring-white/20 resize-none"
+                    className={`bg-neutral-800/50 border-neutral-700 text-white placeholder:text-neutral-400 focus:border-white focus:ring-white/20 resize-none ${
+                      errors.message ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : ""
+                    }`}
                     placeholder="Tell me about your project..."
+                    aria-invalid={errors.message ? "true" : "false"}
+                    aria-describedby={errors.message ? "message-error" : undefined}
                   />
+                  {errors.message && (
+                    <p id="message-error" className="mt-1 text-xs text-red-400">
+                      {errors.message}
+                    </p>
+                  )}
                 </div>
 
                 {status === "success" && (
