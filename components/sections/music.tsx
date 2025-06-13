@@ -1,11 +1,13 @@
 "use client"
 
-import { memo } from "react"
+import { memo, useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { FaSpotify } from "react-icons/fa"
 import { ExternalLink } from "lucide-react"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import Link from "next/link"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface Album {
   id: string
@@ -17,8 +19,20 @@ interface Album {
   year: string
 }
 
+const AlbumSkeleton = () => (
+  <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6 w-full">
+    <div className="flex flex-col items-center gap-4">
+      <Skeleton className="w-16 h-16 rounded-full" />
+      <div className="text-center w-full">
+        <Skeleton className="h-6 w-32 mx-auto mb-2" />
+        <Skeleton className="h-4 w-24 mx-auto" />
+      </div>
+    </div>
+  </div>
+)
+
 const AlbumCard = memo(({ album }: { album: Album }) => (
-  <a
+  <Link
     href={album.spotifyUrl}
     target="_blank"
     rel="noopener noreferrer"
@@ -35,6 +49,8 @@ const AlbumCard = memo(({ album }: { album: Album }) => (
             className="w-full h-full object-cover"
             loading="lazy"
             sizes="64px"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAAcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AKAAH//Z"
           />
         </div>
 
@@ -51,7 +67,7 @@ const AlbumCard = memo(({ album }: { album: Album }) => (
         </div>
       </div>
     </div>
-  </a>
+  </Link>
 ))
 
 AlbumCard.displayName = "AlbumCard"
@@ -95,6 +111,14 @@ export function MusicSection() {
     },
   ]
 
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // Simulate loading
+    const timer = setTimeout(() => setLoading(false), 1000)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <section ref={sectionRef} className="bg-neutral-950 py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56">
       <div className="max-w-7xl mx-auto">
@@ -134,9 +158,15 @@ export function MusicSection() {
             albumsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          {albums.map((album) => (
-            <AlbumCard key={album.id} album={album} />
-          ))}
+          {loading ? (
+            <>
+              <AlbumSkeleton />
+              <AlbumSkeleton />
+              <AlbumSkeleton />
+            </>
+          ) : (
+            albums.map((album) => <AlbumCard key={album.id} album={album} />)
+          )}
         </div>
 
         <div
