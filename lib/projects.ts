@@ -1,18 +1,34 @@
 import { supabase } from "./supabase"
 import type { Project, CreateProjectData, UpdateProjectData } from "@/types/project"
 
+const MAX_RETRIES = 3
+const RETRY_DELAY = 1000
+
+async function fetchWithRetry<T>(fn: () => Promise<T>, retries = MAX_RETRIES, delay = RETRY_DELAY): Promise<T> {
+  try {
+    return await fn()
+  } catch (error) {
+    if (retries <= 0) throw error
+
+    await new Promise((resolve) => setTimeout(resolve, delay))
+    return fetchWithRetry(fn, retries - 1, delay * 2)
+  }
+}
+
 export async function getProjects(): Promise<Project[]> {
   if (!supabase) {
-    throw new Error("Supabase not configured")
+    throw new Error("Supabase not configured. Please check your environment variables.")
   }
 
-  const { data, error } = await supabase.from("projects").select("*").order("created_at", { ascending: false })
+  return fetchWithRetry(async () => {
+    const { data, error } = await supabase.from("projects").select("*").order("created_at", { ascending: false })
 
-  if (error) {
-    throw new Error(`Error fetching projects: ${error.message}`)
-  }
+    if (error) {
+      throw new Error(`Error fetching projects: ${error.message}`)
+    }
 
-  return data || []
+    return data || []
+  })
 }
 
 export async function getFeaturedProjects(): Promise<Project[]> {
@@ -20,18 +36,20 @@ export async function getFeaturedProjects(): Promise<Project[]> {
     throw new Error("Supabase not configured")
   }
 
-  const { data, error } = await supabase
-    .from("projects")
-    .select("*")
-    .eq("featured", true)
-    .order("created_at", { ascending: false })
-    .limit(3)
+  return fetchWithRetry(async () => {
+    const { data, error } = await supabase
+      .from("projects")
+      .select("*")
+      .eq("featured", true)
+      .order("created_at", { ascending: false })
+      .limit(3)
 
-  if (error) {
-    throw new Error(`Error fetching featured projects: ${error.message}`)
-  }
+    if (error) {
+      throw new Error(`Error fetching featured projects: ${error.message}`)
+    }
 
-  return data || []
+    return data || []
+  })
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
@@ -39,16 +57,18 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
     throw new Error("Supabase not configured")
   }
 
-  const { data, error } = await supabase.from("projects").select("*").eq("slug", slug).single()
+  return fetchWithRetry(async () => {
+    const { data, error } = await supabase.from("projects").select("*").eq("slug", slug).single()
 
-  if (error) {
-    if (error.code === "PGRST116") {
-      return null
+    if (error) {
+      if (error.code === "PGRST116") {
+        return null
+      }
+      throw new Error(`Error fetching project: ${error.message}`)
     }
-    throw new Error(`Error fetching project: ${error.message}`)
-  }
 
-  return data
+    return data
+  })
 }
 
 export async function createProject(projectData: CreateProjectData): Promise<Project> {
@@ -56,13 +76,15 @@ export async function createProject(projectData: CreateProjectData): Promise<Pro
     throw new Error("Supabase not configured")
   }
 
-  const { data, error } = await supabase.from("projects").insert([projectData]).select().single()
+  return fetchWithRetry(async () => {
+    const { data, error } = await supabase.from("projects").insert([projectData]).select().single()
 
-  if (error) {
-    throw new Error(`Error creating project: ${error.message}`)
-  }
+    if (error) {
+      throw new Error(`Error creating project: ${error.message}`)
+    }
 
-  return data
+    return data
+  })
 }
 
 export async function updateProject(projectData: UpdateProjectData): Promise<Project> {
@@ -70,14 +92,16 @@ export async function updateProject(projectData: UpdateProjectData): Promise<Pro
     throw new Error("Supabase not configured")
   }
 
-  const { id, ...updateData } = projectData
-  const { data, error } = await supabase.from("projects").update(updateData).eq("id", id).select().single()
+  return fetchWithRetry(async () => {
+    const { id, ...updateData } = projectData
+    const { data, error } = await supabase.from("projects").update(updateData).eq("id", id).select().single()
 
-  if (error) {
-    throw new Error(`Error updating project: ${error.message}`)
-  }
+    if (error) {
+      throw new Error(`Error updating project: ${error.message}`)
+    }
 
-  return data
+    return data
+  })
 }
 
 export async function deleteProject(id: string): Promise<void> {
@@ -85,11 +109,13 @@ export async function deleteProject(id: string): Promise<void> {
     throw new Error("Supabase not configured")
   }
 
-  const { error } = await supabase.from("projects").delete().eq("id", id)
+  return fetchWithRetry(async () => {
+    const { error } = await supabase.from("projects").delete().eq("id", id)
 
-  if (error) {
-    throw new Error(`Error deleting project: ${error.message}`)
-  }
+    if (error) {
+      throw new Error(`Error deleting project: ${error.message}`)
+    }
+  })
 }
 
 export async function uploadProjectImage(file: File, projectSlug: string): Promise<string> {
@@ -97,17 +123,19 @@ export async function uploadProjectImage(file: File, projectSlug: string): Promi
     throw new Error("Supabase not configured")
   }
 
-  const fileExt = file.name.split(".").pop()
-  const fileName = `${projectSlug}-${Date.now()}.${fileExt}`
-  const filePath = `${fileName}`
+  return fetchWithRetry(async () => {
+    const fileExt = file.name.split(".").pop()
+    const fileName = `${projectSlug}-${Date.now()}.${fileExt}`
+    const filePath = `${fileName}`
 
-  const { error: uploadError } = await supabase.storage.from("project-images").upload(filePath, file)
+    const { error: uploadError } = await supabase.storage.from("project-images").upload(filePath, file)
 
-  if (uploadError) {
-    throw new Error(`Error uploading image: ${uploadError.message}`)
-  }
+    if (uploadError) {
+      throw new Error(`Error uploading image: ${uploadError.message}`)
+    }
 
-  const { data } = supabase.storage.from("project-images").getPublicUrl(filePath)
+    const { data } = supabase.storage.from("project-images").getPublicUrl(filePath)
 
-  return data.publicUrl
+    return data.publicUrl
+  })
 }
