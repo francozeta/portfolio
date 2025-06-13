@@ -79,6 +79,7 @@ export function DashboardNav() {
                 ? "bg-neutral-800/70 text-white"
                 : "text-neutral-400 hover:bg-neutral-800/50 hover:text-white",
             )}
+            aria-current={isActive(item.href) ? "page" : undefined}
           >
             <div className={cn("p-1.5 rounded-md", item.bgColor)}>
               <item.icon className={cn("h-4 w-4", item.color)} />
