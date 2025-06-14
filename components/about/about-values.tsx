@@ -54,7 +54,7 @@ export function AboutValues() {
         >
           Values & Principles
         </h2>
-        <p className="text-lg text-neutral-400 max-w-2xl">
+        <p className="text-base md:text-lg text-neutral-400 max-w-2xl">
           The core principles that guide my approach to development and design
         </p>
       </header>
@@ -70,7 +70,7 @@ export function AboutValues() {
               <value.icon className="h-8 w-8 text-white" />
             </div>
             <h3 className="text-xl font-semibold text-white">{value.title}</h3>
-            <p className="text-neutral-400 leading-relaxed">{value.description}</p>
+            <p className="text-base md:text-lg text-neutral-400 leading-relaxed">{value.description}</p>
           </article>
         ))}
       </div>

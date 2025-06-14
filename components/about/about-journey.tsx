@@ -34,8 +34,8 @@ export function AboutJourney() {
         className={`prose prose-lg prose-invert max-w-none transition-all duration-700 ${contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
       >
-        <div className="space-y-6 text-neutral-300 leading-relaxed">
-          <p className="text-lg">
+        <div className="space-y-6 text-neutral-300 leading-relaxed text-base md:text-lg">
+          <p>
             My journey into software development began in 2022 with a simple HTML course. What seemed like a basic intro
             quickly unlocked a deeper curiosity — not just about how websites are built, but about the logic, design, and emotion behind digital experiences.
           </p>

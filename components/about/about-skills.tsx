@@ -49,7 +49,7 @@ export function AboutSkills() {
         >
           Skills & Expertise
         </h2>
-        <p className="text-lg text-neutral-400 max-w-2xl">
+        <p className="text-base md:text-lg text-neutral-400 max-w-2xl">
           A comprehensive toolkit built through continuous learning and hands-on experience
         </p>
       </header>
@@ -68,7 +68,7 @@ export function AboutSkills() {
                 <Badge
                   key={skill}
                   variant="outline"
-                  className="bg-transparent text-white border border-white/20 text-sm px-3 py-1 rounded-full"
+                  className="bg-transparent text-white border border-white/20 text-xs md:text-sm  px-3 py-1 rounded-full"
                 >
                   {skill}
                 </Badge>

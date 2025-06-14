@@ -44,26 +44,26 @@ export function AboutLayout() {
             <div className="space-y-3 text-center lg:text-left">
               <div className="flex items-center justify-center lg:justify-start gap-2 text-neutral-400">
                 <MapPin className="h-4 w-4" />
-                <span className="text-sm">Peru, South America</span>
+                <span className="text-base">Peru, South America</span>
               </div>
 
               <div className="flex items-center justify-center lg:justify-start gap-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-sm text-neutral-300">Available for work</span>
+                <span className="text-base text-neutral-300">Available for work</span>
               </div>
 
               <div className="flex items-center justify-center lg:justify-start gap-2 text-neutral-400">
                 <Calendar className="h-4 w-4" />
-                <span className="text-sm">Started coding in 2022</span>
+                <span className="text-base">Started coding in 2022</span>
               </div>
             </div>
 
             {/* Social Links */}
-            <div className="flex justify-center lg:justify-start gap-3">
+            <div className="flex justify-center lg:justify-start gap-3 ">
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-neutral-900/50 border-neutral-700 hover:bg-neutral-800/70 hover:border-neutral-600"
+                className="bg-neutral-900/50 border-neutral-700 hover:bg-neutral-800/70 hover:border-neutral-600 hover:text-white"
                 asChild
               >
                 <Link
@@ -79,7 +79,7 @@ export function AboutLayout() {
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-neutral-900/50 border-neutral-700 hover:bg-neutral-800/70 hover:border-neutral-600"
+                className="bg-neutral-900/50 border-neutral-700 hover:bg-neutral-800/70 hover:border-neutral-600 hover:text-white"
                 asChild
               >
                 <Link
@@ -95,7 +95,7 @@ export function AboutLayout() {
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-neutral-900/50 border-neutral-700 hover:bg-neutral-800/70 hover:border-neutral-600"
+                className="bg-neutral-900/50 border-neutral-700 hover:bg-neutral-800/70 hover:border-neutral-600 hover:text-white"
                 asChild
               >
                 <Link
@@ -111,7 +111,7 @@ export function AboutLayout() {
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-neutral-900/50 border-neutral-700 hover:bg-neutral-800/70 hover:border-neutral-600"
+                className="bg-neutral-900/50 border-neutral-700 hover:bg-neutral-800/70 hover:border-neutral-600 hover:text-white"
                 asChild
               >
                 <Link href="mailto:francozeta2011@gmail.com" aria-label="Send Email">
@@ -123,12 +123,12 @@ export function AboutLayout() {
             {/* CTA Button */}
             <div className="flex justify-center lg:justify-start">
               <Button
-                className="bg-white text-black hover:bg-neutral-200 transition-all duration-200 rounded-full"
+                className="text-base bg-white text-black hover:bg-neutral-200 transition-all duration-200 rounded-full"
                 asChild
               >
-                <Link href="#contact" aria-label="Schedule a call">
-                  <MessageCircle className="h-4 w-4 mr-2" />
-                  
+                <Link href="https://cal.com/francozeta" aria-label="Schedule a call">
+                  <MessageCircle className="h-4 w-4 mr-1" />
+
                   Schedule a call
                 </Link>
               </Button>
