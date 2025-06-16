@@ -1,13 +1,8 @@
 "use client"
 
-import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { Calendar, MapPin } from "lucide-react"
 
 export function AboutExperience() {
-  const { ref: sectionRef, isVisible: sectionVisible } = useScrollReveal<HTMLElement>()
-  const { ref: badgeRef, isVisible: badgeVisible } = useScrollReveal<HTMLSpanElement>({ delay: 100 })
-  const { ref: titleRef, isVisible: titleVisible } = useScrollReveal<HTMLHeadingElement>({ delay: 200 })
-  const { ref: timelineRef, isVisible: timelineVisible } = useScrollReveal<HTMLDivElement>({ delay: 400 })
 
   const experiences = [
     {
@@ -53,21 +48,17 @@ export function AboutExperience() {
 
 
   return (
-    <section ref={sectionRef} id="experience" className="mb-16">
+    <section id="experience" className="mb-16">
       <header className="mb-8">
         <span
-          ref={badgeRef}
-          className={`inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4 transition-all duration-700 ${badgeVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
+          className={`inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4 transition-all duration-700 `}
         >
           <span className="mr-1">✦</span>
           Knowledge
         </span>
 
         <h2
-          ref={titleRef}
-          className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 transition-all duration-700 ${titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
+          className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 transition-all duration-700 `}
         >
           Experience
         </h2>
@@ -75,9 +66,7 @@ export function AboutExperience() {
       </header>
 
       <div
-        ref={timelineRef}
-        className={`space-y-8 transition-all duration-1000 ${timelineVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+        className={`space-y-8 transition-all duration-1000`}
       >
         {experiences.map((exp, index) => (
           <article key={index} className="relative pl-8 border-l-2 border-neutral-800 last:border-l-0">

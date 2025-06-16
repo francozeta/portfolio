@@ -5,28 +5,20 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { MapPin, Calendar, MessageCircle } from "lucide-react"
 import { FaThreads } from "react-icons/fa6"
-import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { AboutJourney } from "./about-journey"
 import { AboutSkills } from "./about-skills"
 import { AboutExperience } from "./about-experience"
-import { AboutValues } from "./about-values"
 import { TableOfContents } from "./table-of-contents"
 import { FaGithub, FaLinkedin } from "react-icons/fa"
 import { MdEmail } from "react-icons/md"
 
 export function AboutLayout() {
-  const { ref: imageRef, isVisible: imageVisible } = useScrollReveal<HTMLDivElement>({ delay: 200 })
-
   return (
     <section className="bg-neutral-950 pt-24 pb-16 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-24 px-6 sm:px-12 lg:px-24 xl:px-56 relative">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column - Sticky Profile */}
-          <div
-            ref={imageRef}
-            className={`lg:col-span-4 lg:sticky lg:top-24 space-y-6 transition-all duration-1000 ${imageVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-          >
+          <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
             {/* Profile Image */}
             <div className="relative w-45 h-45 mx-auto">
               <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 rounded-full blur-xl" />
@@ -43,7 +35,7 @@ export function AboutLayout() {
 
             {/* Location and Status */}
             <div className="space-y-3 text-center">
-              <div className="flex items-center justify-center  gap-2 text-neutral-400">
+              <div className="flex items-center justify-center gap-2 text-neutral-400">
                 <MapPin className="h-4 w-4" />
                 <span className="text-base">Peru, South America</span>
               </div>
@@ -127,9 +119,8 @@ export function AboutLayout() {
                 className="text-base bg-white text-black hover:bg-neutral-200 transition-all duration-200 rounded-full"
                 asChild
               >
-                <Link href="https://cal.com/francozeta" aria-label="Schedule a call">
+                <Link href="https://cal.com/francozeta" aria-label="Schedule a call" target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="h-4 w-4 mr-1" />
-
                   Schedule a call
                 </Link>
               </Button>

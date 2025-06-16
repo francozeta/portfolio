@@ -22,7 +22,6 @@ export function TableOfContents({ className }: TableOfContentsProps) {
     { id: "journey", title: "My Journey" },
     { id: "skills", title: "Skills & Expertise" },
     { id: "experience", title: "Experience" },
-    { id: "values", title: "Values & Principles" },
   ]
 
   useEffect(() => {
