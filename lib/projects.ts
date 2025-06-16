@@ -1,5 +1,5 @@
 import { supabase } from "./supabase"
-import type { Project, CreateProjectData, UpdateProjectData } from "@/types/project"
+import type { Project, CreateProjectData, UpdateProjectData, ContentBlock } from "@/types/project"
 
 const MAX_RETRIES = 3
 const RETRY_DELAY = 1000
@@ -71,13 +71,46 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
   })
 }
 
+// Add reading time calculation
+function calculateReadingTime(content: ContentBlock[]): number {
+  const wordsPerMinute = 200
+  let totalWords = 0
+
+  content.forEach((block) => {
+    switch (block.type) {
+      case "paragraph":
+      case "heading":
+        totalWords += block.content.split(" ").length
+        break
+      case "quote":
+        totalWords += block.content.split(" ").length
+        break
+      case "list":
+        totalWords += block.content.join(" ").split(" ").length
+        break
+      case "code":
+        totalWords += Math.ceil(block.content.split("\n").length * 2) // Code takes longer to read
+        break
+    }
+  })
+
+  return Math.ceil(totalWords / wordsPerMinute)
+}
+
+// Update createProject function
 export async function createProject(projectData: CreateProjectData): Promise<Project> {
   if (!supabase) {
     throw new Error("Supabase not configured")
   }
 
   return fetchWithRetry(async () => {
-    const { data, error } = await supabase.from("projects").insert([projectData]).select().single()
+    const readingTime = projectData.content ? calculateReadingTime(projectData.content) : 0
+
+    const { data, error } = await supabase
+      .from("projects")
+      .insert([{ ...projectData, reading_time: readingTime }])
+      .select()
+      .single()
 
     if (error) {
       throw new Error(`Error creating project: ${error.message}`)
@@ -87,6 +120,7 @@ export async function createProject(projectData: CreateProjectData): Promise<Pro
   })
 }
 
+// Update updateProject function
 export async function updateProject(projectData: UpdateProjectData): Promise<Project> {
   if (!supabase) {
     throw new Error("Supabase not configured")
@@ -94,7 +128,11 @@ export async function updateProject(projectData: UpdateProjectData): Promise<Pro
 
   return fetchWithRetry(async () => {
     const { id, ...updateData } = projectData
-    const { data, error } = await supabase.from("projects").update(updateData).eq("id", id).select().single()
+    const readingTime = updateData.content ? calculateReadingTime(updateData.content) : undefined
+
+    const dataToUpdate = readingTime !== undefined ? { ...updateData, reading_time: readingTime } : updateData
+
+    const { data, error } = await supabase.from("projects").update(dataToUpdate).eq("id", id).select().single()
 
     if (error) {
       throw new Error(`Error updating project: ${error.message}`)
