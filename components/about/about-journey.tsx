@@ -36,24 +36,21 @@ export function AboutJourney() {
       >
         <div className="space-y-6 text-neutral-300 leading-relaxed text-base md:text-lg">
           <p>
-            My journey into software development began in 2022 with a simple HTML course. What seemed like a basic intro
-            quickly unlocked a deeper curiosity — not just about how websites are built, but about the logic, design, and emotion behind digital experiences.
+            I began coding in 2022 with a simple HTML course that sparked a deep interest in how digital experiences are built — from logic to design.
           </p>
 
           <p>
-            With a background in Systems Engineering, I approach development as both an analytical thinker and a creative problem solver.
-            That blend helps me see beyond just lines of code — I think in terms of systems, user flows, and long-term scalability.
+            With a background in Systems Engineering, I approach development as both a problem solver and systems thinker, balancing code with creativity.
           </p>
 
           <p>
-            Since then, I’ve been hands-on with everything from HTML and CSS to modern tools like React, Next.js, and Supabase.
-            I love building interfaces that feel smooth and intuitive, but I also enjoy the challenge of structuring clean, scalable backends.
+            I've worked with HTML, CSS, React, Next.js, and Supabase — building smooth interfaces and scalable backends with care and intention.
           </p>
 
           <p>
-            Today, I focus on building projects that feel thoughtful — not just functional.
-            Whether it's a personal idea or a client collaboration, I care about the details, the consistency, and creating something that actually connects with people.
+            Today, I focus on thoughtful projects that go beyond function — aiming for clarity, consistency, and real connection.
           </p>
+
 
         </div>
       </div>

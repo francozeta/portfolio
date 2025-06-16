@@ -10,6 +10,7 @@ import { AboutJourney } from "./about-journey"
 import { AboutSkills } from "./about-skills"
 import { AboutExperience } from "./about-experience"
 import { AboutValues } from "./about-values"
+import { TableOfContents } from "./table-of-contents"
 import { FaGithub, FaLinkedin } from "react-icons/fa"
 import { MdEmail } from "react-icons/md"
 
@@ -17,7 +18,7 @@ export function AboutLayout() {
   const { ref: imageRef, isVisible: imageVisible } = useScrollReveal<HTMLDivElement>({ delay: 200 })
 
   return (
-    <section className="bg-neutral-950 pt-24 pb-16 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-24 px-6 sm:px-12 lg:px-24 xl:px-56">
+    <section className="bg-neutral-950 pt-24 pb-16 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-24 px-6 sm:px-12 lg:px-24 xl:px-56 relative">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column - Sticky Profile */}
@@ -27,7 +28,7 @@ export function AboutLayout() {
               }`}
           >
             {/* Profile Image */}
-            <div className="relative w-48 h-48 mx-auto lg:mx-0">
+            <div className="relative w-45 h-45 mx-auto">
               <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 rounded-full blur-xl" />
               <Image
                 src="https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//profile-photo.jpg"
@@ -41,25 +42,25 @@ export function AboutLayout() {
             </div>
 
             {/* Location and Status */}
-            <div className="space-y-3 text-center lg:text-left">
-              <div className="flex items-center justify-center lg:justify-start gap-2 text-neutral-400">
+            <div className="space-y-3 text-center">
+              <div className="flex items-center justify-center  gap-2 text-neutral-400">
                 <MapPin className="h-4 w-4" />
                 <span className="text-base">Peru, South America</span>
               </div>
 
-              <div className="flex items-center justify-center lg:justify-start gap-2">
+              <div className="flex items-center justify-center gap-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                 <span className="text-base text-neutral-300">Available for work</span>
               </div>
 
-              <div className="flex items-center justify-center lg:justify-start gap-2 text-neutral-400">
+              <div className="flex items-center justify-center gap-2 text-neutral-400">
                 <Calendar className="h-4 w-4" />
                 <span className="text-base">Started coding in 2022</span>
               </div>
             </div>
 
             {/* Social Links */}
-            <div className="flex justify-center lg:justify-start gap-3 ">
+            <div className="flex justify-center gap-3">
               <Button
                 variant="outline"
                 size="sm"
@@ -121,7 +122,7 @@ export function AboutLayout() {
             </div>
 
             {/* CTA Button */}
-            <div className="flex justify-center lg:justify-start">
+            <div className="flex justify-center">
               <Button
                 className="text-base bg-white text-black hover:bg-neutral-200 transition-all duration-200 rounded-full"
                 asChild
@@ -134,15 +135,21 @@ export function AboutLayout() {
               </Button>
             </div>
           </div>
-          {/* Right Column - All Content */}
-          <div className="lg:col-span-8 space-y-0">
-            <AboutJourney />
-            <AboutSkills />
-            <AboutExperience />
-            <AboutValues />
+
+          {/* Right Column - Content*/}
+          <div className="lg:col-span-8 w-full">
+            <div className="w-full space-y-0">
+              <AboutJourney />
+              <AboutSkills />
+              <AboutExperience />
+              {/*   <AboutValues /> */}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Table of Contents - Fixed position */}
+      <TableOfContents />
     </section>
   )
 }
