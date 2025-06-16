@@ -10,9 +10,10 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Upload, X, Loader2 } from "lucide-react"
-import type { Project, CreateProjectData, Technology, TechnologyData } from "@/types/project"
+import type { Project, CreateProjectData, Technology, TechnologyData, ContentBlock } from "@/types/project"
 import { createProject, updateProject, uploadProjectImage } from "@/lib/projects"
 import { AVAILABLE_TECHNOLOGIES } from "@/lib/technologies"
+import { BlockEditor } from "./block-editor"
 
 interface ProjectFormProps {
   project?: Project
@@ -47,6 +48,7 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
   const [imagePreview, setImagePreview] = useState<string | null>(project?.image_url || null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [content, setContent] = useState<ContentBlock[]>(project?.content || [])
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -114,6 +116,7 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
 
       const projectData: CreateProjectData = {
         ...formData,
+        content,
         image_url: imageUrl,
         technologies: technologiesData,
       }
@@ -251,6 +254,14 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
               className="bg-neutral-800/50 border-neutral-600 text-white"
               rows={4}
             />
+          </div>
+
+          {/* Content Blocks */}
+          <div>
+            <Label className="text-white">Content</Label>
+            <div className="mt-2">
+              <BlockEditor content={content} onChange={setContent} />
+            </div>
           </div>
 
           {/* Technologies */}

@@ -1,117 +1,14 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect, useRef, memo, useCallback } from "react"
-import { ArrowRight, ExternalLink } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import { useState, useEffect, useRef, useCallback } from "react"
+import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { getFeaturedProjects } from "@/lib/projects"
-import { AVAILABLE_TECHNOLOGIES } from "@/lib/technologies"
 import type { Project } from "@/types/project"
 import { cn } from "@/lib/utils"
-import { FaGithub } from "react-icons/fa"
-import Image from "next/image"
 import { Skeleton } from "@/components/ui/skeleton"
-
-const ProjectCard = memo(
-  ({
-    project,
-    renderTechIcon,
-  }: {
-    project: Project
-    renderTechIcon: (iconName: string) => React.ReactNode
-  }) => (
-    <article className="w-full lg:w-80 flex-shrink-0 bg-neutral-900/50 border border-neutral-800 rounded-2xl overflow-hidden group hover:shadow-lg transition-all duration-300 select-none">
-      <div className="h-48 bg-neutral-800 overflow-hidden">
-        {project.image_url ? (
-          <Image
-            src={project.image_url || "/placeholder.svg"}
-            alt={`Screenshot of ${project.title} project`}
-            width={320}
-            height={192}
-            className="w-full h-full object-cover"
-            loading="lazy"
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 320px"
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAAcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-neutral-700 to-neutral-800 flex items-center justify-center">
-            <span className="text-neutral-500 text-sm">No image available</span>
-          </div>
-        )}
-      </div>
-
-      <div className="p-6">
-        <div className="flex items-start justify-between mb-3">
-          <h3 className="text-xl font-bold text-white">{project.title}</h3>
-          <Badge
-            className="bg-white text-black text-xs px-2 py-1 rounded-full flex items-center gap-1"
-            aria-label={`Project status: ${project.status === "completed" ? "Completed" : "In Progress"}`}
-          >
-            <span
-              className={`w-2 h-2 ${project.status === "completed" ? "bg-green-400" : "bg-orange-400"} rounded-full`}
-              aria-hidden="true"
-            />
-            {project.status === "completed" ? "Completed" : "In Progress"}
-          </Badge>
-        </div>
-
-        <p className="text-neutral-300 text-sm mb-4 line-clamp-2">{project.description}</p>
-
-        <div className="flex flex-wrap gap-2 mb-6" role="list" aria-label="Technologies used">
-          {project.technologies?.slice(0, 4).map((tech) => (
-            <Badge
-              key={tech.name}
-              variant="secondary"
-              className="bg-white text-black text-xs px-2 py-1 rounded-full flex items-center gap-1"
-              role="listitem"
-            >
-              {renderTechIcon(tech.iconName)}
-              <span>{tech.name}</span>
-            </Badge>
-          ))}
-        </div>
-
-        <div className="flex items-center justify-between">
-          <button
-            className="group/button flex items-center gap-2 text-white transition-all duration-300 cursor-pointer hover:gap-3"
-            aria-label={`View details for ${project.title} project`}
-          >
-            <span className="text-sm font-medium">View Details</span>
-            <ArrowRight className="h-4 w-4 transition-transform group-hover/button:translate-x-1" aria-hidden="true" />
-          </button>
-          <div className="flex gap-3">
-            {project.repo_url && (
-              <Link
-                href={project.repo_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-white text-black rounded-full hover:bg-neutral-200 transition-colors"
-                aria-label={`View ${project.title} source code on GitHub`}
-              >
-                <FaGithub className="h-4 w-4" aria-hidden="true" />
-              </Link>
-            )}
-            {project.deploy_url && (
-              <Link
-                href={project.deploy_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-white text-black rounded-full hover:bg-neutral-200 transition-colors"
-                aria-label={`View ${project.title} live demo`}
-              >
-                <ExternalLink className="h-4 w-4" aria-hidden="true" />
-              </Link>
-            )}
-          </div>
-        </div>
-      </div>
-    </article>
-  ),
-)
-
-ProjectCard.displayName = "ProjectCard"
+import { ProjectCard } from "@/components/work/project-card"
 
 export function FeaturedProjects() {
   const [projects, setProjects] = useState<Project[]>([])
@@ -174,13 +71,6 @@ export function FeaturedProjects() {
 
   const stopDragging = useCallback(() => {
     setIsDragging(false)
-  }, [])
-
-  const renderTechIcon = useCallback((iconName: string) => {
-    const tech = AVAILABLE_TECHNOLOGIES.find((t) => t.iconName === iconName)
-    if (!tech) return null
-    const Icon = tech.icon
-    return <Icon className="h-4 w-4" aria-hidden="true" />
   }, [])
 
   if (loading) {
@@ -276,7 +166,9 @@ export function FeaturedProjects() {
             >
               <div className={cn("grid grid-cols-1 gap-6 lg:grid-cols-none", "lg:flex lg:flex-row lg:gap-6 lg:w-max")}>
                 {projects.map((project) => (
-                  <ProjectCard key={project.id} project={project} renderTechIcon={renderTechIcon} />
+                  <div key={project.id} className="w-full lg:w-80 flex-shrink-0">
+                    <ProjectCard project={project} viewMode="grid" />
+                  </div>
                 ))}
 
                 {projects.length < 3 &&
@@ -295,7 +187,7 @@ export function FeaturedProjects() {
                           New exciting project in development. Stay tuned for updates!
                         </p>
                         <div className="flex gap-2 mb-6">
-                          <Badge className="bg-neutral-700 text-white text-xs px-2 py-1 rounded-full">TBD</Badge>
+                          <span className="bg-neutral-700 text-white text-xs px-2 py-1 rounded-full">TBD</span>
                         </div>
                       </div>
                     </div>
