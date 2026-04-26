@@ -26,7 +26,7 @@ const ParagraphRenderer = memo(({ content }: { content: string }) => (
   <p className="text-base md:text-lg text-neutral-300 leading-relaxed mb-6">{content}</p>
 ))
 
-const HeadingRenderer = memo(({ content, level, id }: { content: string; level: number; id: string }) => {
+const HeadingRenderer = memo(({ content, level }: { content: string; level: number }) => {
   const Tag = `h${level}` as keyof JSX.IntrinsicElements
   const headingId = `heading-${generateSlug(content)}`
   const sizeClasses = {
@@ -109,7 +109,7 @@ const QuoteRenderer = memo(({ content, author }: { content: string; author?: str
     <div className="flex items-start gap-3">
       <Quote className="h-6 w-6 text-white flex-shrink-0 mt-1" />
       <div>
-        <p className="text-lg text-white italic leading-relaxed mb-2">"{content}"</p>
+        <p className="text-lg text-white italic leading-relaxed mb-2">{content}</p>
         {author && <cite className="text-sm text-neutral-400 not-italic">— {author}</cite>}
       </div>
     </div>
@@ -155,7 +155,7 @@ const BlockRenderer = memo(({ block }: { block: ContentBlock }) => {
     case "paragraph":
       return <ParagraphRenderer content={block.content} />
     case "heading":
-      return <HeadingRenderer content={block.content} level={block.level} id={block.id} />
+      return <HeadingRenderer content={block.content} level={block.level} />
     case "image":
       return <ImageRenderer content={block.content} />
     case "code":

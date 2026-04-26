@@ -7,11 +7,11 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, ExternalLink, Clock, CheckCircle } from "lucide-react"
 import { FaGithub } from "react-icons/fa"
-import type { Project } from "@/types/project"
+import type { ProjectSummary } from "@/lib/projects"
 import { AVAILABLE_TECHNOLOGIES } from "@/lib/technologies"
 
 interface ProjectCardProps {
-  project: Project
+  project: ProjectSummary
   viewMode?: "grid" | "list"
 }
 

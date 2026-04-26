@@ -6,13 +6,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, Grid, List } from "lucide-react"
 import { ProjectCard } from "./project-card"
-import { getProjects } from "@/lib/projects"
-import type { Project } from "@/types/project"
+import { getProjectSummaries, type ProjectSummary } from "@/lib/projects"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export function WorkLayout() {
-  const [projects, setProjects] = useState<Project[]>([])
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>([])
+  const [projects, setProjects] = useState<ProjectSummary[]>([])
+  const [filteredProjects, setFilteredProjects] = useState<ProjectSummary[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedStatus, setSelectedStatus] = useState<"all" | "completed" | "in_progress">("all")
@@ -21,7 +20,7 @@ export function WorkLayout() {
   useEffect(() => {
     const loadProjects = async () => {
       try {
-        const data = await getProjects()
+        const data = await getProjectSummaries()
         setProjects(data)
         setFilteredProjects(data)
       } catch (error) {
@@ -114,7 +113,7 @@ export function WorkLayout() {
             My Work & Projects
           </h1>
           <p className="text-base md:text-lg text-neutral-300 max-w-3xl mx-auto">
-            A collection of projects I've built — from concept to deployment. Each project represents a unique challenge
+            A collection of projects I&apos;ve built — from concept to deployment. Each project represents a unique challenge
             and learning experience.
           </p>
         </div>

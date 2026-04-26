@@ -29,13 +29,15 @@ export function TableOfContents({ content, className }: TableOfContentsProps) {
 
   // Extract headings from content
   useEffect(() => {
-    const headings = content
-      .filter((block) => block.type === "heading")
-      .map((block) => ({
+    const headings = content.flatMap((block) =>
+      block.type === "heading"
+        ? [{
         id: `heading-${generateSlug(block.content)}`,
         title: block.content,
-        level: (block as any).level || 2,
-      }))
+            level: block.level,
+          }]
+        : [],
+    )
 
     setTocItems(headings)
   }, [content])

@@ -74,7 +74,7 @@ AlbumCard.displayName = "AlbumCard"
 
 export function MusicSection() {
   // Add scroll reveal hooks
-  const { ref: sectionRef, isVisible: sectionVisible } = useScrollReveal<HTMLElement>()
+  const { ref: sectionRef } = useScrollReveal<HTMLElement>()
   const { ref: badgeRef, isVisible: badgeVisible } = useScrollReveal<HTMLSpanElement>({ delay: 100 })
   const { ref: titleRef, isVisible: titleVisible } = useScrollReveal<HTMLHeadingElement>({ delay: 200 })
   const { ref: descRef, isVisible: descVisible } = useScrollReveal<HTMLParagraphElement>({ delay: 300 })
@@ -86,7 +86,7 @@ export function MusicSection() {
       id: "1",
       artist: "Slowdive",
       name: "Slowdive",
-      image: "https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//slowdive-album.jpg",
+      image: "/music/slowdive-album.jpg",
       trackCount: 10,
       spotifyUrl: "https://open.spotify.com/album/1qDA0jVhj4ZTjGHmpbmmwa?si=R2iTyP9oTUWlgZwklhoDOQ",
       year: "1993",
@@ -95,7 +95,7 @@ export function MusicSection() {
       id: "2",
       artist: "Beach House",
       name: "Devotion",
-      image: "https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//devotion-album.jpg",
+      image: "/music/devotion-album.jpg",
       trackCount: 11,
       spotifyUrl: "https://open.spotify.com/album/6Unw8A3kdy8ZPj6MmlbA7E",
       year: "2008",
@@ -104,7 +104,7 @@ export function MusicSection() {
       id: "3",
       artist: "Soda Stereo",
       name: "Dynamo",
-      image: "https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//dynamo-album.jpg",
+      image: "/music/dynamo-album.jpg",
       trackCount: 12,
       spotifyUrl: "https://open.spotify.com/album/4bfwXuecOmNVlPM5RStAiQ?si=z3alEjV6QWy1tWX7kI4G8Q",
       year: "1992",

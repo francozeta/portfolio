@@ -4,14 +4,13 @@ import type React from "react"
 import { useState, useEffect, useRef, useCallback } from "react"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
-import { getFeaturedProjects } from "@/lib/projects"
-import type { Project } from "@/types/project"
+import { getFeaturedProjects, type ProjectSummary } from "@/lib/projects"
 import { cn } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 import { ProjectCard } from "@/components/work/project-card"
 
 export function FeaturedProjects() {
-  const [projects, setProjects] = useState<Project[]>([])
+  const [projects, setProjects] = useState<ProjectSummary[]>([])
   const [loading, setLoading] = useState(true)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
@@ -129,7 +128,7 @@ export function FeaturedProjects() {
               My Featured Projects
             </h2>
             <p className="text-base md:text-lg text-neutral-300 mb-8 max-w-md">
-              A curated selection of projects I've built — blending design, functionality, and real-world use cases.
+              A curated selection of projects I&apos;ve built — blending design, functionality, and real-world use cases.
             </p>
             <div className="flex flex-wrap items-center gap-4 mb-6">
               <Link

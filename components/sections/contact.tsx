@@ -22,7 +22,7 @@ export function ContactSection() {
   }>({})
 
   // Add scroll reveal hooks
-  const { ref: sectionRef, isVisible: sectionVisible } = useScrollReveal<HTMLElement>()
+  const { ref: sectionRef } = useScrollReveal<HTMLElement>()
   const { ref: badgeRef, isVisible: badgeVisible } = useScrollReveal<HTMLSpanElement>({ delay: 100 })
   const { ref: titleRef, isVisible: titleVisible } = useScrollReveal<HTMLHeadingElement>({ delay: 200 })
   const { ref: descRef, isVisible: descVisible } = useScrollReveal<HTMLParagraphElement>({ delay: 300 })
@@ -55,7 +55,7 @@ export function ContactSection() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!validateForm()) {
@@ -65,28 +65,13 @@ export function ContactSection() {
     setStatus("loading")
 
     try {
-      const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
-        setStatus("success")
-        setFormData({ name: "", email: "", message: "" })
-        setTimeout(() => setStatus("idle"), 5000)
-      } else {
-        const data = await response.json()
-        setStatus("error")
-        setErrors({
-          ...errors,
-          message: data.error || "Something went wrong. Please try again.",
-        })
-        setTimeout(() => setStatus("idle"), 5000)
-      }
-    } catch (error) {
+      const subject = encodeURIComponent(`Portfolio contact from ${formData.name}`)
+      const body = encodeURIComponent(`${formData.message}\n\nFrom: ${formData.name} <${formData.email}>`)
+      window.location.href = `mailto:francozeta2011@gmail.com?subject=${subject}&body=${body}`
+      setStatus("success")
+      setFormData({ name: "", email: "", message: "" })
+      setTimeout(() => setStatus("idle"), 5000)
+    } catch {
       setStatus("error")
       setTimeout(() => setStatus("idle"), 5000)
     }
@@ -121,7 +106,7 @@ export function ContactSection() {
                   titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
               >
-                Let's work together
+                Let&apos;s work together
               </h2>
               <p
                 ref={descRef}
@@ -129,7 +114,7 @@ export function ContactSection() {
                   descVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
               >
-                Have a project in mind? I'd love to hear about it. Send me a message and let's create something amazing
+                Have a project in mind? I&apos;d love to hear about it. Send me a message and let&apos;s create something amazing
                 together.
               </p>
             </div>
@@ -225,7 +210,7 @@ export function ContactSection() {
                 {status === "success" && (
                   <div className="flex items-center gap-2 text-green-400 bg-green-400/10 border border-green-400/20 rounded-lg p-3">
                     <CheckCircle className="w-5 h-5" />
-                    <span className="text-sm">Message sent successfully! I'll get back to you soon.</span>
+                    <span className="text-sm">Opening your email app. I&apos;ll get back to you soon.</span>
                   </div>
                 )}
 

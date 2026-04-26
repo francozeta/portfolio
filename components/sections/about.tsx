@@ -27,7 +27,7 @@ export function AboutSection() {
           >
             <div className="relative w-full h-full rounded-2xl overflow-hidden">
               <Image
-                src="https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//fz-logo.svg"
+                src="/images/fz-logo.svg"
                 alt="Franco Zeta - Software Developer"
                 fill
                 className="object-contain"
@@ -57,7 +57,7 @@ export function AboutSection() {
             >
               <div className="relative w-full h-full rounded-2xl overflow-hidden">
                 <Image
-                  src="https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//fz-logo.svg"
+                  src="/images/fz-logo.svg"
                   alt="Franco Zeta - Software Developer"
                   fill
                   className="object-contain"
@@ -84,7 +84,7 @@ export function AboutSection() {
                 textVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
-              I'm a passionate software developer and design enthusiast from Peru. My journey began in 2022 with a
+              I&apos;m a passionate software developer and design enthusiast from Peru. My journey began in 2022 with a
               simple HTML course — and quickly turned into a deep love for building things with code.
             </p>
 

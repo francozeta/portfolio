@@ -105,7 +105,7 @@ BrickLayout.displayName = "BrickLayout"
 
 export function TechnologiesSection() {
   // Add scroll reveal hooks
-  const { ref: sectionRef, isVisible: sectionVisible } = useScrollReveal<HTMLElement>()
+  const { ref: sectionRef } = useScrollReveal<HTMLElement>()
   const { ref: badgeRef, isVisible: badgeVisible } = useScrollReveal<HTMLSpanElement>({ delay: 100 })
   const { ref: titleRef, isVisible: titleVisible } = useScrollReveal<HTMLHeadingElement>({ delay: 200 })
   const { ref: descRef, isVisible: descVisible } = useScrollReveal<HTMLParagraphElement>({ delay: 300 })
@@ -183,7 +183,7 @@ export function TechnologiesSection() {
               descVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            Throughout my journey as a web developer, I've worked with{" "}
+            Throughout my journey as a web developer, I&apos;ve worked with{" "}
             <span className="text-white font-medium">these tools and technologies</span>
           </p>
         </div>

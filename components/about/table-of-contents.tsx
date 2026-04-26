@@ -13,20 +13,15 @@ interface TableOfContentsProps {
   className?: string
 }
 
+const sections = [
+  { id: "journey", title: "My Journey" },
+  { id: "skills", title: "Skills & Expertise" },
+  { id: "experience", title: "Experience" },
+]
+
 export function TableOfContents({ className }: TableOfContentsProps) {
   const [activeSection, setActiveSection] = useState<string>("")
-  const [tocItems, setTocItems] = useState<TocItem[]>([])
-
-  // Define the sections we want to track
-  const sections = [
-    { id: "journey", title: "My Journey" },
-    { id: "skills", title: "Skills & Expertise" },
-    { id: "experience", title: "Experience" },
-  ]
-
-  useEffect(() => {
-    setTocItems(sections.map((section) => ({ ...section, level: 1 })))
-  }, [])
+  const tocItems: TocItem[] = sections.map((section) => ({ ...section, level: 1 }))
 
   // Smooth scroll to section without changing URL
   const scrollToSection = useCallback((sectionId: string) => {
@@ -73,8 +68,6 @@ export function TableOfContents({ className }: TableOfContentsProps) {
       observer.disconnect()
     }
   }, [])
-
-  if (tocItems.length === 0) return null
 
   return (
     <div className={cn("hidden xl:block", className)}>

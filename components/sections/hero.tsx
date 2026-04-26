@@ -62,7 +62,7 @@ export function HeroSection() {
             >
               <Link href="/about" aria-label="Learn more about Franco Zeta">
                 <Image
-                  src="https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//profile-photo.jpg"
+                  src="/images/profile-photo.jpg"
                   alt="Franco Zeta profile photo"
                   width={24}
                   height={24}

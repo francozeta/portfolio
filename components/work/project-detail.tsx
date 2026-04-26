@@ -175,7 +175,7 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
           <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-8 text-center">
             <h3 className="text-xl md:text-2xl font-bold text-white mb-4">Interested in working together?</h3>
             <p className="text-neutral-300 text-sm md:text-base mb-6">
-              I'm always open to discussing new opportunities and interesting projects.
+              I&apos;m always open to discussing new opportunities and interesting projects.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button className="bg-white text-black hover:bg-neutral-200" asChild>

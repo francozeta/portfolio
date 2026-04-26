@@ -23,7 +23,7 @@ export function AboutLayout() {
             <div className="relative w-45 h-45 mx-auto">
               <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 rounded-full blur-xl" />
               <Image
-                src="https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//profile-photo.jpg"
+                src="/images/profile-photo.jpg"
                 alt="Franco Zeta - Software Developer"
                 width={192}
                 height={192}

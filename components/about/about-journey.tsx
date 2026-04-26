@@ -1,13 +1,4 @@
-"use client"
-
-import { useScrollReveal } from "@/hooks/use-scroll-reveal"
-
 export function AboutJourney() {
-  const { ref: sectionRef, isVisible: sectionVisible } = useScrollReveal<HTMLElement>()
-  const { ref: badgeRef, isVisible: badgeVisible } = useScrollReveal<HTMLSpanElement>({ delay: 100 })
-  const { ref: titleRef, isVisible: titleVisible } = useScrollReveal<HTMLHeadingElement>({ delay: 200 })
-  const { ref: contentRef, isVisible: contentVisible } = useScrollReveal<HTMLDivElement>({ delay: 400 })
-
   return (
     <section id="journey" className="mb-16">
       <header className="mb-8">
@@ -36,7 +27,7 @@ export function AboutJourney() {
           </p>
 
           <p>
-            I've worked with HTML, CSS, React, Next.js, and Supabase — building smooth interfaces and scalable backends with care and intention.
+            I&apos;ve worked with HTML, CSS, React, Next.js, and Supabase — building smooth interfaces and scalable backends with care and intention.
           </p>
 
           <p>
