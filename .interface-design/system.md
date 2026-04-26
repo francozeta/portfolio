@@ -50,4 +50,5 @@ Dark editorial portfolio inspired by `jakub.kr`, adapted for Franco Zeta and Koc
 - Skills rows: compact two-column rows with `11rem` title column and muted descriptive text.
 - Experience rows: bordered top/bottom list with linked rows for projects and plain rows for education.
 - Other/contact: small link cards for Kocteau, LinkedIn, GitHub, and email.
+- About detail page: no portrait/photo; use an editorial intro followed by Kocteau, Capabilities, Timeline, Principles, and Currently sections.
 - Future sections should continue the same `max-w-2xl` centered rhythm before introducing wider layouts.

@@ -1,146 +1,203 @@
-"use client"
-
-import Image from "next/image"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { MapPin, Calendar, MessageCircle } from "lucide-react"
-import { FaThreads } from "react-icons/fa6"
-import { AboutJourney } from "./about-journey"
-import { AboutSkills } from "./about-skills"
-import { AboutExperience } from "./about-experience"
-import { TableOfContents } from "./table-of-contents"
-import { FaGithub, FaLinkedin } from "react-icons/fa"
-import { MdEmail } from "react-icons/md"
+
+const linkClass =
+  "font-medium text-neutral-50 underline decoration-neutral-500/70 underline-offset-4 transition-colors duration-150 hover:text-white hover:decoration-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+
+const productNotes = [
+  {
+    title: "Music as the domain",
+    description:
+      "Kocteau is built around tracks, reviews, public profiles, follows, bookmarks, comments, notifications, and a personalized feed.",
+  },
+  {
+    title: "A real app shape",
+    description:
+      "The product includes auth, onboarding, external music search, storage, relational data, server routes, RPCs, and deployment on Vercel.",
+  },
+  {
+    title: "Interface as product",
+    description:
+      "I care about the small decisions: empty states, profile states, review flows, spacing, hierarchy, and whether the interface feels worth using.",
+  },
+]
+
+const capabilityGroups = [
+  {
+    title: "Frontend",
+    items: "Next.js App Router, React, TypeScript, Tailwind CSS, shadcn/ui, responsive interfaces.",
+  },
+  {
+    title: "Backend / data",
+    items: "Supabase Auth, Postgres, Storage, relational modeling, server routes, RPCs.",
+  },
+  {
+    title: "Product flows",
+    items: "Onboarding, review publishing, feeds, public profiles, likes, bookmarks, follows, notifications.",
+  },
+  {
+    title: "Workflow",
+    items: "Vercel, Turborepo, pnpm workspaces, GitHub, ESLint, iterative product delivery.",
+  },
+]
+
+const timelineItems = [
+  {
+    year: "2022",
+    title: "Started with the web",
+    description:
+      "I began with HTML and CSS, then moved into JavaScript, React, databases, and the discipline of finishing small projects.",
+  },
+  {
+    year: "2023 - 2026",
+    title: "Software Design & Development",
+    description:
+      "Last-cycle student at CERTUS, focused on web applications, programming logic, databases, responsive UI, and project delivery.",
+  },
+  {
+    year: "Now",
+    title: "Building Kocteau",
+    description:
+      "A production music review platform where I am practicing product thinking, database architecture, UI craft, and full-stack execution.",
+  },
+]
+
+const principles = [
+  "Make the interface explain itself.",
+  "Prefer clear flows over clever decoration.",
+  "Treat small details as part of the product.",
+  "Ship, learn, and keep the system understandable.",
+]
 
 export function AboutLayout() {
   return (
-    <section className="bg-neutral-950 pt-24 pb-16 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-24 px-6 sm:px-12 lg:px-24 xl:px-56 relative">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column - Sticky Profile */}
-          <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
-            {/* Profile Image */}
-            <div className="relative w-45 h-45 mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 rounded-full blur-xl" />
-              <Image
-                src="/images/profile-photo.jpg"
-                alt="Franco Zeta - Software Developer"
-                width={192}
-                height={192}
-                className="relative w-full h-full object-cover rounded-full border-2 border-white/10"
-                priority
-                sizes="192px"
-              />
-            </div>
-
-            {/* Location and Status */}
-            <div className="space-y-3 text-center">
-              <div className="flex items-center justify-center gap-2 text-neutral-400">
-                <MapPin className="h-4 w-4" />
-                <span className="text-base">Peru, South America</span>
-              </div>
-
-              <div className="flex items-center justify-center gap-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-base text-neutral-300">Available for work</span>
-              </div>
-
-              <div className="flex items-center justify-center gap-2 text-neutral-400">
-                <Calendar className="h-4 w-4" />
-                <span className="text-base">Started coding in 2022</span>
-              </div>
-            </div>
-
-            {/* Social Links */}
-            <div className="flex justify-center gap-3">
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-neutral-900/50 border-neutral-700 hover:bg-neutral-800/70 hover:border-neutral-600 hover:text-white"
-                asChild
-              >
-                <Link
-                  href="https://github.com/francozeta"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub Profile"
-                >
-                  <FaGithub className="h-4 w-4" />
-                </Link>
-              </Button>
-
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-neutral-900/50 border-neutral-700 hover:bg-neutral-800/70 hover:border-neutral-600 hover:text-white"
-                asChild
-              >
-                <Link
-                  href="https://www.linkedin.com/in/franco-zeta-496330267"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn Profile"
-                >
-                  <FaLinkedin className="h-4 w-4" />
-                </Link>
-              </Button>
-
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-neutral-900/50 border-neutral-700 hover:bg-neutral-800/70 hover:border-neutral-600 hover:text-white"
-                asChild
-              >
-                <Link
-                  href="https://www.threads.net/@frxnco.zeta"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Threads Profile"
-                >
-                  <FaThreads className="h-4 w-4" />
-                </Link>
-              </Button>
-
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-neutral-900/50 border-neutral-700 hover:bg-neutral-800/70 hover:border-neutral-600 hover:text-white"
-                asChild
-              >
-                <Link href="mailto:francozeta2011@gmail.com" aria-label="Send Email">
-                  <MdEmail className="h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-
-            {/* CTA Button */}
-            <div className="flex justify-center">
-              <Button
-                className="text-base bg-white text-black hover:bg-neutral-200 transition-all duration-200 rounded-full"
-                asChild
-              >
-                <Link href="https://cal.com/francozeta" aria-label="Schedule a call" target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="h-4 w-4 mr-1" />
-                  Schedule a call
-                </Link>
-              </Button>
-            </div>
+    <section className="bg-neutral-950 px-6 pb-24 pt-28 text-neutral-200 sm:px-12 sm:pb-28 sm:pt-32 lg:px-24 xl:px-56">
+      <div className="mx-auto max-w-2xl">
+        <header className="space-y-7">
+          <div>
+            <p className="text-sm leading-6 text-neutral-500">About</p>
+            <h1 className="mt-2 text-3xl font-semibold leading-tight text-white text-balance sm:text-4xl">
+              I build product-shaped web interfaces with a taste for systems, music, and quiet details.
+            </h1>
           </div>
 
-          {/* Right Column - Content*/}
-          <div className="lg:col-span-8 w-full">
-            <div className="w-full space-y-0">
-              <AboutJourney />
-              <AboutSkills />
-              <AboutExperience />
-              {/*   <AboutValues /> */}
-            </div>
+          <div className="space-y-5 text-[15px] leading-7 text-neutral-300 sm:text-base sm:leading-8">
+            <p className="text-pretty">
+              I&apos;m Franco Zeta, a junior web developer from Peru and a last-cycle Software Design & Development
+              student. I&apos;m currently building{" "}
+              <Link href="https://kocteau.com" target="_blank" rel="noopener noreferrer" className={linkClass}>
+                Kocteau
+              </Link>
+              , a music review platform in production built with Next.js, TypeScript, Supabase, Tailwind CSS, and the
+              Deezer Search API.
+            </p>
+
+            <p className="text-pretty">
+              I like projects where the technical structure and the visual decisions have to work together. Auth,
+              onboarding, database modeling, public profiles, and feeds matter to me as much as spacing, copy, and how a
+              button feels when someone is unsure what to do next.
+            </p>
           </div>
-        </div>
+        </header>
+
+        <section className="mt-16" aria-labelledby="about-kocteau-heading">
+          <div className="mb-5 flex items-end justify-between gap-4">
+            <h2 id="about-kocteau-heading" className="text-base font-medium text-white text-balance">
+              Kocteau
+            </h2>
+
+            <Link
+              href="https://github.com/francozeta/kocteau"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium text-neutral-400 transition-colors duration-150 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+            >
+              Repository
+            </Link>
+          </div>
+
+          <div className="grid gap-3">
+            {productNotes.map((note) => (
+              <article key={note.title} className="rounded-2xl border border-white/[0.08] bg-neutral-950 px-4 py-3">
+                <h3 className="text-sm font-medium text-white text-balance">{note.title}</h3>
+                <p className="mt-1 text-sm leading-6 text-neutral-400 text-pretty">{note.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-16" aria-labelledby="about-capabilities-heading">
+          <h2 id="about-capabilities-heading" className="mb-5 text-base font-medium text-white text-balance">
+            Capabilities
+          </h2>
+
+          <div className="space-y-3">
+            {capabilityGroups.map((group) => (
+              <article
+                key={group.title}
+                className="grid gap-1 rounded-2xl border border-white/[0.08] bg-neutral-950 px-4 py-3 sm:grid-cols-[11rem_1fr] sm:gap-6"
+              >
+                <h3 className="text-sm font-medium text-white text-balance">{group.title}</h3>
+                <p className="text-sm leading-6 text-neutral-400 text-pretty">{group.items}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-16" aria-labelledby="about-timeline-heading">
+          <h2 id="about-timeline-heading" className="mb-5 text-base font-medium text-white text-balance">
+            Timeline
+          </h2>
+
+          <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
+            {timelineItems.map((item) => (
+              <article key={`${item.year}-${item.title}`} className="grid gap-1 py-4 sm:grid-cols-[7rem_1fr] sm:gap-6">
+                <p className="text-sm text-neutral-500">{item.year}</p>
+                <div>
+                  <h3 className="text-sm font-medium text-white text-balance">{item.title}</h3>
+                  <p className="mt-1 text-sm leading-6 text-neutral-400 text-pretty">{item.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-16" aria-labelledby="about-principles-heading">
+          <h2 id="about-principles-heading" className="mb-5 text-base font-medium text-white text-balance">
+            Principles
+          </h2>
+
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {principles.map((principle) => (
+              <li key={principle} className="rounded-2xl border border-white/[0.08] bg-neutral-950 px-4 py-3 text-sm leading-6 text-neutral-300 text-pretty">
+                {principle}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="mt-16 border-t border-white/[0.08] pt-6" aria-labelledby="about-contact-heading">
+          <h2 id="about-contact-heading" className="text-base font-medium text-white text-balance">
+            Currently
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-neutral-400 text-pretty">
+            I&apos;m open to junior web developer roles, pre-professional internships, and product collaborations where
+            the interface deserves care. Reach me on{" "}
+            <Link
+              href="https://www.linkedin.com/in/franco-zeta-496330267"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={linkClass}
+            >
+              LinkedIn
+            </Link>{" "}
+            or via{" "}
+            <Link href="mailto:francozeta2011@gmail.com" className={linkClass}>
+              email
+            </Link>
+            .
+          </p>
+        </section>
       </div>
-
-      {/* Table of Contents - Fixed position */}
-      <TableOfContents />
     </section>
   )
 }

@@ -4,11 +4,11 @@ import { AboutLayout } from "@/components/about/about-layout"
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn more about Franco Zeta - Software Developer, Systems Engineer & Designer from Peru. Discover my journey, skills, and passion for creating innovative web applications.",
+    "Learn more about Franco Zeta, a junior web developer from Peru building Kocteau, a music review platform with Next.js, TypeScript, Supabase, and Tailwind CSS.",
   openGraph: {
-    title: "About Franco Zeta - Software Developer & Designer",
+    title: "About Franco Zeta - Web Developer building Kocteau",
     description:
-      "Learn more about Franco Zeta - Software Developer, Systems Engineer & Designer from Peru. Discover my journey, skills, and passion for creating innovative web applications.",
+      "Junior web developer from Peru building product-shaped web interfaces, full-stack flows, and Kocteau, a music review platform in production.",
   },
 }
 
