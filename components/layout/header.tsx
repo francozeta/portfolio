@@ -18,7 +18,7 @@ export function Header() {
   return (
     <header className="fixed sm:top-0 bottom-0 sm:bottom-auto left-0 right-0 z-50 flex justify-center p-4 sm:p-4">
       <nav
-        className="flex items-center rounded-full bg-neutral-950/60 border border-neutral-700/50 gap-1 p-1.5 sm:p-1 backdrop-blur-md shadow-2xl"
+        className="flex items-center rounded-full bg-neutral-950/60 border border-neutral-700/50 gap-1 p-1.5 sm:p-1 backdrop-blur-md"
         role="navigation"
         aria-label="Main navigation"
       >

@@ -1,93 +1,96 @@
-"use client"
-
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Download, ArrowRight } from "lucide-react"
 import Image from "next/image"
-import { GridBackground } from "@/components/ui/grid-background"
-import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import Link from "next/link"
+import { FaGithub, FaLinkedin } from "react-icons/fa"
+import { MdEmail } from "react-icons/md"
+
+const linkClass =
+  "font-medium text-neutral-50 underline decoration-neutral-500/70 underline-offset-4 transition-colors duration-150 hover:text-white hover:decoration-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
 
 export function HeroSection() {
-  // Add scroll reveal hooks
-  const { ref: introRef, isVisible: introVisible } = useScrollReveal<HTMLDivElement>({ delay: 100 })
-  const { ref: titleRef, isVisible: titleVisible } = useScrollReveal<HTMLHeadingElement>({ delay: 300 })
-  const { ref: subtitleRef, isVisible: subtitleVisible } = useScrollReveal<HTMLParagraphElement>({ delay: 500 })
-  const { ref: buttonsRef, isVisible: buttonsVisible } = useScrollReveal<HTMLDivElement>({ delay: 700 })
-
   return (
-    <GridBackground className="min-h-screen">
-      <section className="relative min-h-screen flex items-center justify-center py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56">
-        <div className="max-w-7xl mx-auto text-center space-y-6 sm:space-y-8">
-          {/* Main text */}
-          <div className="space-y-3 sm:space-y-4">
-            <p
-              ref={introRef}
-              className={`text-base text-neutral-400 font-light tracking-wide transition-all duration-700 ${
-                introVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              }`}
-            >
-              Hello, I am
-            </p>
+    <section className="bg-neutral-950 px-6 pb-16 pt-28 text-neutral-200 sm:px-12 sm:pb-20 sm:pt-32 lg:px-24 lg:pb-24 xl:px-56">
+      <div className="mx-auto max-w-2xl">
+        <div className="flex items-center gap-3">
+          <Image
+            src="/images/profile-photo.jpg"
+            alt="Franco Zeta"
+            width={48}
+            height={48}
+            className="size-12 rounded-full border border-white/10 object-cover"
+            priority
+            sizes="48px"
+          />
 
-            <h1
-              ref={titleRef}
-              className={`text-4xl sm:text-6xl lg:text-7xl font-bold text-neutral-100 tracking-tight transition-all duration-700 ${
-                titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              }`}
-            >
-              Franco Zeta
-            </h1>
-
-            <p
-              ref={subtitleRef}
-              className={`text-base sm:text-lg lg:text-xl text-neutral-300 font-light max-w-2xl mx-auto leading-relaxed transition-all duration-700 ${
-                subtitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              }`}
-            >
-              Software Developer & Systems Engineer & Designer
-            </p>
-          </div>
-
-          {/* Action buttons with better accessibility */}
-          <div
-            ref={buttonsRef}
-            className={`flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-4 sm:pt-6 transition-all duration-700 ${
-              buttonsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
-            <Button
-              variant="outline"
-              className="group bg-neutral-900/50 border-neutral-700 hover:bg-neutral-800/70 hover:border-neutral-600 hover:text-neutral-100 transition-all duration-200 backdrop-blur-sm w-full sm:w-auto rounded-full h-auto mb-1 sm:mb-0"
-              asChild
-            >
-              <Link href="/about" aria-label="Learn more about Franco Zeta">
+          <div>
+            <h1 className="text-base font-semibold leading-5 text-white text-balance">Franco Zeta</h1>
+            <p className="flex flex-wrap items-center gap-x-1.5 text-sm leading-5 text-neutral-400 text-pretty">
+              <span>Design Engineer at</span>
+              <Link
+                href="https://kocteau.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 font-medium text-neutral-100 transition-colors duration-150 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                aria-label="Visit Kocteau"
+              >
                 <Image
-                  src="/images/profile-photo.jpg"
-                  alt="Franco Zeta profile photo"
-                  width={24}
-                  height={24}
-                  className="w-6 h-6 rounded-full mr-2 flex-shrink-0 object-cover"
-                  priority
-                  sizes="24px"
-                />
-                About me
-                <ArrowRight
-                  className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-neutral-100"
+                  src="/kocteau-logo.svg"
+                  alt=""
+                  width={14}
+                  height={14}
+                  className="size-3.5"
                   aria-hidden="true"
                 />
+                Kocteau
               </Link>
-            </Button>
-
-            <Button
-              className="bg-white text-black hover:bg-neutral-200 transition-all duration-200 w-full sm:w-auto rounded-full h-auto mb-1 sm:mb-0"
-              aria-label="Download Franco Zeta's CV"
-            >
-              <Download className="mr-2 h-4 w-4" aria-hidden="true" />
-              Download CV
-            </Button>
+            </p>
           </div>
         </div>
-      </section>
-    </GridBackground>
+
+        <div className="mt-8 space-y-5 text-[15px] leading-7 text-neutral-300 sm:text-base sm:leading-8">
+          <p className="max-w-2xl text-pretty">
+            I&apos;m building{" "}
+            <Link href="https://kocteau.com" target="_blank" rel="noopener noreferrer" className={linkClass}>
+              Kocteau
+            </Link>
+            , my personal project: a music review platform for discovering tracks, publishing opinions, and building a
+            more social way to listen. I <span className="font-serif italic text-neutral-100">care deeply</span> about
+            craft and quality, and I like to make people feel something through my work.
+          </p>
+
+          <p className="max-w-2xl text-pretty">
+            Previously, I built{" "}
+            <Link href="/work/mubi-clone" className={linkClass}>
+              MUBI Clone
+            </Link>{" "}
+            and a few other experiments. You can reach me on{" "}
+            <Link
+              href="https://www.linkedin.com/in/franco-zeta-496330267"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={linkClass}
+            >
+              <FaLinkedin className="mr-1 inline size-3.5 align-[-0.125em]" aria-hidden="true" />
+              LinkedIn
+            </Link>
+            , via{" "}
+            <Link href="mailto:francozeta2011@gmail.com" className={linkClass}>
+              <MdEmail className="mr-1 inline size-4 align-[-0.175em]" aria-hidden="true" />
+              email
+            </Link>
+            , or see my code on{" "}
+            <Link
+              href="https://github.com/francozeta"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={linkClass}
+            >
+              <FaGithub className="mr-1 inline size-3.5 align-[-0.125em]" aria-hidden="true" />
+              GitHub
+            </Link>
+            .
+          </p>
+        </div>
+      </div>
+    </section>
   )
 }
