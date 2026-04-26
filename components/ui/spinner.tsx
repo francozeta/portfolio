@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
+import { Slot } from "radix-ui"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
@@ -27,7 +27,7 @@ export interface SpinnerProps extends React.HTMLAttributes<HTMLSpanElement>, Var
 
 const Spinner = React.forwardRef<HTMLSpanElement, SpinnerProps>(
   ({ className, size, loading = true, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "span"
+    const Comp = asChild ? Slot.Root : "span"
 
     const [bgColorClass, filteredClassName] = React.useMemo(() => {
       const bgClass = className?.match(/(?:dark:bg-|bg-)[a-zA-Z0-9-]+/g) || []

@@ -4,7 +4,7 @@ import type React from "react"
 import { memo } from "react"
 import {
   SiHtml5,
-  SiCss3,
+  SiCss,
   SiJavascript,
   SiTypescript,
   SiReact,
@@ -16,8 +16,6 @@ import {
   SiFramer,
   SiPython,
   SiGit,
-  SiAdobeillustrator,
-  SiAdobephotoshop,
   SiSupabase,
   SiVercel,
   SiFirebase,
@@ -33,6 +31,7 @@ import {
 } from "react-icons/si"
 import { FaJava } from "react-icons/fa"
 import { VscVscode } from "react-icons/vsc"
+import { ImageIcon, Palette } from "lucide-react"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 
 interface Technology {
@@ -118,7 +117,7 @@ export function TechnologiesSection() {
     { name: "Tailwind CSS", icon: SiTailwindcss, category: "frontend", priority: "high" },
 
     { name: "HTML5", icon: SiHtml5, category: "frontend", priority: "medium" },
-    { name: "CSS3", icon: SiCss3, category: "frontend", priority: "medium" },
+    { name: "CSS3", icon: SiCss, category: "frontend", priority: "medium" },
     { name: "JavaScript", icon: SiJavascript, category: "frontend", priority: "medium" },
     { name: "Framer Motion", icon: SiFramer, category: "frontend", priority: "low" },
 
@@ -144,8 +143,8 @@ export function TechnologiesSection() {
 
     { name: "VS Code", icon: VscVscode, category: "tools", priority: "medium" },
     { name: "Docker", icon: SiDocker, category: "tools", priority: "medium" },
-    { name: "Illustrator", icon: SiAdobeillustrator, category: "tools", priority: "low" },
-    { name: "Photoshop", icon: SiAdobephotoshop, category: "tools", priority: "low" },
+    { name: "Illustrator", icon: Palette, category: "tools", priority: "low" },
+    { name: "Photoshop", icon: ImageIcon, category: "tools", priority: "low" },
     { name: "Webpack", icon: SiWebpack, category: "tools", priority: "low" },
     { name: "Vite", icon: SiVite, category: "tools", priority: "low" },
   ]

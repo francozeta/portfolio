@@ -51,17 +51,12 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
-  try {
-    const { slug } = await params
-    const project = await getProjectBySlug(slug)
+  const { slug } = await params
+  const project = await getProjectBySlug(slug)
 
-    if (!project) {
-      notFound()
-    }
-
-    return <ProjectDetail project={project} />
-  } catch (error) {
-    console.error("Error loading project:", error)
+  if (!project) {
     notFound()
   }
+
+  return <ProjectDetail project={project} />
 }

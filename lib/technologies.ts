@@ -3,7 +3,7 @@ import {
   SiVuedotjs,
   SiAngular,
   SiSvelte,
-  SiNuxtdotjs,
+  SiNuxt,
   SiTypescript,
   SiJavascript,
   SiPython,
@@ -60,7 +60,7 @@ export const AVAILABLE_TECHNOLOGIES: Technology[] = [
   { name: "Vue.js", icon: SiVuedotjs, iconName: "SiVuedotjs", color: "bg-transparent text-white" },
   { name: "Angular", icon: SiAngular, iconName: "SiAngular", color: "bg-transparent text-white" },
   { name: "Svelte", icon: SiSvelte, iconName: "SiSvelte", color: "bg-transparent text-white" },
-  { name: "Nuxt.js", icon: SiNuxtdotjs, iconName: "SiNuxtdotjs", color: "bg-transparent text-white" },
+  { name: "Nuxt.js", icon: SiNuxt, iconName: "SiNuxt", color: "bg-transparent text-white" },
 
   { name: "TypeScript", icon: SiTypescript, iconName: "SiTypescript", color: "bg-transparent text-white" },
   { name: "JavaScript", icon: SiJavascript, iconName: "SiJavascript", color: "bg-transparent text-black" },

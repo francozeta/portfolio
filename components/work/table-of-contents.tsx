@@ -25,22 +25,17 @@ const generateSlug = (text: string): string => {
 
 export function TableOfContents({ content, className }: TableOfContentsProps) {
   const [activeSection, setActiveSection] = useState<string>("")
-  const [tocItems, setTocItems] = useState<TocItem[]>([])
-
-  // Extract headings from content
-  useEffect(() => {
-    const headings = content.flatMap((block) =>
-      block.type === "heading"
-        ? [{
-        id: `heading-${generateSlug(block.content)}`,
-        title: block.content,
+  const tocItems: TocItem[] = content.flatMap((block) =>
+    block.type === "heading"
+      ? [
+          {
+            id: `heading-${generateSlug(block.content)}`,
+            title: block.content,
             level: block.level,
-          }]
-        : [],
-    )
-
-    setTocItems(headings)
-  }, [content])
+          },
+        ]
+      : [],
+  )
 
   // Smooth scroll to section
   const scrollToSection = useCallback((sectionId: string) => {

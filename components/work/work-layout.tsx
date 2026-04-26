@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useDeferredValue, useState, useEffect } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,9 +11,9 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export function WorkLayout() {
   const [projects, setProjects] = useState<ProjectSummary[]>([])
-  const [filteredProjects, setFilteredProjects] = useState<ProjectSummary[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
+  const deferredSearchTerm = useDeferredValue(searchTerm)
   const [selectedStatus, setSelectedStatus] = useState<"all" | "completed" | "in_progress">("all")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
 
@@ -22,7 +22,6 @@ export function WorkLayout() {
       try {
         const data = await getProjectSummaries()
         setProjects(data)
-        setFilteredProjects(data)
       } catch (error) {
         console.error("Error loading projects:", error)
       } finally {
@@ -33,26 +32,17 @@ export function WorkLayout() {
     loadProjects()
   }, [])
 
-  useEffect(() => {
-    let filtered = projects
+  const filteredProjects = projects.filter((project) => {
+    const matchesSearch =
+      !deferredSearchTerm ||
+      project.title.toLowerCase().includes(deferredSearchTerm.toLowerCase()) ||
+      project.description?.toLowerCase().includes(deferredSearchTerm.toLowerCase()) ||
+      project.technologies.some((tech) => tech.name.toLowerCase().includes(deferredSearchTerm.toLowerCase()))
 
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter(
-        (project) =>
-          project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          project.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          project.technologies.some((tech) => tech.name.toLowerCase().includes(searchTerm.toLowerCase())),
-      )
-    }
+    const matchesStatus = selectedStatus === "all" || project.status === selectedStatus
 
-    // Filter by status
-    if (selectedStatus !== "all") {
-      filtered = filtered.filter((project) => project.status === selectedStatus)
-    }
-
-    setFilteredProjects(filtered)
-  }, [projects, searchTerm, selectedStatus])
+    return matchesSearch && matchesStatus
+  })
 
   if (loading) {
     return (
