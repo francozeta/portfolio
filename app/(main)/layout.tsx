@@ -3,7 +3,6 @@ import type { Metadata, Viewport } from "next"
 import { Geist } from "next/font/google"
 import "@/app/globals.css"
 import { Header } from "@/components/layout/header"
-import { AuthProvider } from "@/components/auth/auth-provider"
 import Footer from "@/components/layout/footer"
 
 const geistSans = Geist({
@@ -14,6 +13,7 @@ const geistSans = Geist({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://francozeta.vercel.app"),
   title: {
     template: "%s | Franco Zeta's Portfolio",
     default: "Franco Zeta's Portfolio - Software Developer & Designer",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     siteName: "Franco Zeta's Portfolio",
     images: [
       {
-        url: "https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//Hero.png",
+        url: "/images/hero.png",
         width: 1200,
         height: 630,
         alt: "Franco Zeta's Portfolio",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Franco Zeta's Portfolio - Software Developer & Designer",
     description: "Franco Zeta - Software Developer, Systems Engineer & Designer from Peru.",
-    images: ["https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/portfolio//Hero.png"],
+    images: ["/images/hero.png"],
   },
   robots: {
     index: true,
@@ -87,11 +87,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Preconnect to external domains */}
-        <link rel="preconnect" href="https://ahmytayvpbqnwimemzqh.supabase.co" />
-        <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="https://open.spotify.com" />
         <link rel="dns-prefetch" href="https://github.com" />
@@ -101,11 +96,9 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
       <body className={`${geistSans.className} antialiased text-neutral-200 bg-neutral-950`}>
-        <AuthProvider>
-          <Header />
-          <main role="main">{children}</main>
-          <Footer />
-        </AuthProvider>
+        <Header />
+        <main role="main">{children}</main>
+        <Footer />
       </body>
     </html>
   )
