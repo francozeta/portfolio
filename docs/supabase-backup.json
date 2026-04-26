@@ -1,0 +1,97 @@
+{
+  "exportedAt": "2026-04-26T18:42:46.594Z",
+  "source": "ahmytayvpbqnwimemzqh.supabase.co",
+  "projects": [
+    {
+      "id": "fbc93f07-8d0b-4149-922e-a72ad1cdbf44",
+      "slug": "mubi-clone",
+      "title": "MUBI Clone",
+      "description": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..",
+      "image_url": "https://ahmytayvpbqnwimemzqh.supabase.co/storage/v1/object/public/project-images/mubi-clone-1749483125410.png",
+      "status": "completed",
+      "technologies": [
+        {
+          "name": "Next.js",
+          "color": "bg-transparent text-white",
+          "iconName": "RiNextjsFill"
+        },
+        {
+          "name": "TypeScript",
+          "color": "bg-transparent text-white",
+          "iconName": "SiTypescript"
+        },
+        {
+          "name": "Shadcn/ui",
+          "color": "bg-transparent text-white",
+          "iconName": "SiShadcnui"
+        }
+      ],
+      "repo_url": "https://github.com/francozeta/mubi-clone-nextjs",
+      "deploy_url": "https://mubi-clone.vercel.app",
+      "created_at": "2025-06-09T15:32:08.570348+00:00",
+      "updated_at": "2025-06-16T15:27:22.597782+00:00",
+      "featured": true,
+      "content": [
+        {
+          "id": "block-1750087562850-j9h09wkt3",
+          "type": "heading",
+          "level": 2,
+          "content": "MUBI Clone – Proyecto Web"
+        },
+        {
+          "id": "block-1750087573895-khbiz2y78",
+          "type": "paragraph",
+          "content": "Este proyecto es un clon funcional de la plataforma MUBI, desarrollado como ejercicio de aprendizaje práctico con enfoque en un MVP real. Su objetivo es ofrecer una experiencia similar a MUBI: una plataforma de cine curado, con fichas de películas, reseñas y perfiles de usuarios cinéfilos.\n\n"
+        },
+        {
+          "id": "block-1750087585880-ggk9r2qim",
+          "type": "paragraph",
+          "content": "Tecnologías utilizadas:"
+        },
+        {
+          "id": "block-1750087590990-g1fwzbqwo",
+          "type": "list",
+          "content": [
+            "Next.js 15 (App Router)",
+            "Supabase (como base de datos y backend)",
+            "Tailwind CSS y shadcn/ui (para estilos e interfaz)"
+          ],
+          "listType": "bullet"
+        }
+      ],
+      "excerpt": null,
+      "reading_time": 1
+    }
+  ],
+  "tables": {
+    "projects": {
+      "rowCount": 1,
+      "status": "readable with anon key"
+    },
+    "project_media": {
+      "rowCount": 0,
+      "status": "readable with anon key, RLS warning in Supabase dashboard"
+    }
+  },
+  "storage": {
+    "project-images": [
+      ".emptyFolderPlaceholder",
+      "mubi-clone-1749475607648.png",
+      "mubi-clone-1749483125410.png"
+    ],
+    "portfolio": [
+      "aphex-playlist.webp",
+      "devotion-album.jpg",
+      "dynamo-album.jpg",
+      "fz-logo.svg",
+      "Hero.png",
+      "IMG_20240703_180901_332.webp",
+      "panchiko-album.jpg",
+      "profile-photo.jpg",
+      "projects/",
+      "Selected_Ambient_Works_85-92.png",
+      "slowdive-album.jpg",
+      "zushi-album.jpg"
+    ]
+  }
+}
