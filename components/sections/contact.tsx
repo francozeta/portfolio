@@ -1,246 +1,70 @@
-"use client"
+import Link from "next/link"
+import { FaGithub, FaLinkedin } from "react-icons/fa"
+import { MdEmail } from "react-icons/md"
 
-import type React from "react"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Send, CheckCircle, AlertCircle } from "lucide-react"
-import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+const links = [
+  {
+    label: "Kocteau",
+    description: "Music review platform and main product.",
+    href: "https://kocteau.com",
+  },
+  {
+    label: "LinkedIn",
+    description: "Professional updates and contact.",
+    href: "https://www.linkedin.com/in/franco-zeta-496330267",
+    icon: FaLinkedin,
+  },
+  {
+    label: "GitHub",
+    description: "Code, experiments, and project work.",
+    href: "https://github.com/francozeta",
+    icon: FaGithub,
+  },
+  {
+    label: "Email",
+    description: "For roles, projects, or a calm hello.",
+    href: "mailto:francozeta2011@gmail.com",
+    icon: MdEmail,
+  },
+]
 
 export function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  })
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
-  const [errors, setErrors] = useState<{
-    name?: string
-    email?: string
-    message?: string
-  }>({})
-
-  // Add scroll reveal hooks
-  const { ref: sectionRef } = useScrollReveal<HTMLElement>()
-  const { ref: badgeRef, isVisible: badgeVisible } = useScrollReveal<HTMLSpanElement>({ delay: 100 })
-  const { ref: titleRef, isVisible: titleVisible } = useScrollReveal<HTMLHeadingElement>({ delay: 200 })
-  const { ref: descRef, isVisible: descVisible } = useScrollReveal<HTMLParagraphElement>({ delay: 300 })
-  const { ref: formRef, isVisible: formVisible } = useScrollReveal<HTMLDivElement>({ delay: 400 })
-
-  const validateForm = (): boolean => {
-    const newErrors: {
-      name?: string
-      email?: string
-      message?: string
-    } = {}
-
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required"
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required"
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address"
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = "Message is required"
-    } else if (formData.message.length < 10) {
-      newErrors.message = "Message must be at least 10 characters"
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!validateForm()) {
-      return
-    }
-
-    setStatus("loading")
-
-    try {
-      const subject = encodeURIComponent(`Portfolio contact from ${formData.name}`)
-      const body = encodeURIComponent(`${formData.message}\n\nFrom: ${formData.name} <${formData.email}>`)
-      window.location.href = `mailto:francozeta2011@gmail.com?subject=${subject}&body=${body}`
-      setStatus("success")
-      setFormData({ name: "", email: "", message: "" })
-      setTimeout(() => setStatus("idle"), 5000)
-    } catch {
-      setStatus("error")
-      setTimeout(() => setStatus("idle"), 5000)
-    }
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
-
   return (
-    <section ref={sectionRef} className="bg-neutral-950 py-20 sm:py-24 lg:py-32 px-6 sm:px-12 lg:px-24 xl:px-56">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-          <div className="space-y-8">
-            <div>
-              <span
-                ref={badgeRef}
-                className={`inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4 transition-all duration-700 ${
-                  badgeVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                }`}
-              >
-                <span className="mr-1">✦</span>
-                Get In Touch
-              </span>
+    <section
+      className="bg-neutral-950 px-6 py-16 text-neutral-200 sm:px-12 sm:py-20 lg:px-24 xl:px-56"
+      aria-labelledby="other-heading"
+    >
+      <div className="mx-auto max-w-2xl">
+        <div className="mb-5">
+          <h2 id="other-heading" className="text-base font-medium text-white text-balance">
+            Other
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-neutral-400 text-pretty">
+            I&apos;m open to junior web developer roles, pre-professional internships, and carefully scoped product
+            collaborations.
+          </p>
+        </div>
 
-              <h2
-                ref={titleRef}
-                className={`text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight transition-all duration-700 ${
-                  titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                }`}
-              >
-                Let&apos;s work together
-              </h2>
-              <p
-                ref={descRef}
-                className={`text-base md:text-lg text-neutral-300 leading-relaxed max-w-md transition-all duration-700 ${
-                  descVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                }`}
-              >
-                Have a project in mind? I&apos;d love to hear about it. Send me a message and let&apos;s create something amazing
-                together.
-              </p>
-            </div>
-          </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {links.map((item) => {
+            const Icon = item.icon
 
-          <div className="lg:sticky lg:top-20">
-            <div
-              ref={formRef}
-              className={`bg-neutral-900/50 border border-neutral-800 rounded-2xl p-8 transition-all duration-1000 ${
-                formVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-            >
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
-                      Name
-                    </label>
-                    <Input
-                      id="name"
-                      name="name"
-                      type="text"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      disabled={status === "loading"}
-                      className={`bg-neutral-800/50 border-neutral-700 text-white placeholder:text-neutral-400 focus:border-white focus:ring-white/20 ${
-                        errors.name ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : ""
-                      }`}
-                      placeholder="Your name"
-                      aria-invalid={errors.name ? "true" : "false"}
-                      aria-describedby={errors.name ? "name-error" : undefined}
-                    />
-                    {errors.name && (
-                      <p id="name-error" className="mt-1 text-xs text-red-400">
-                        {errors.name}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
-                      Email
-                    </label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      disabled={status === "loading"}
-                      className={`bg-neutral-800/50 border-neutral-700 text-white placeholder:text-neutral-400 focus:border-white focus:ring-white/20 ${
-                        errors.email ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : ""
-                      }`}
-                      placeholder="your@email.com"
-                      aria-invalid={errors.email ? "true" : "false"}
-                      aria-describedby={errors.email ? "email-error" : undefined}
-                    />
-                    {errors.email && (
-                      <p id="email-error" className="mt-1 text-xs text-red-400">
-                        {errors.email}
-                      </p>
-                    )}
-                  </div>
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="group rounded-2xl border border-white/[0.08] bg-neutral-950 px-4 py-3 transition-colors duration-150 hover:border-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+              >
+                <div className="flex items-center gap-2">
+                  {Icon && <Icon className="size-3.5 text-neutral-500 transition-colors duration-150 group-hover:text-white" aria-hidden="true" />}
+                  <h3 className="text-sm font-medium text-white text-balance">{item.label}</h3>
                 </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-white mb-2">
-                    Message
-                  </label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    disabled={status === "loading"}
-                    rows={5}
-                    className={`bg-neutral-800/50 border-neutral-700 text-white placeholder:text-neutral-400 focus:border-white focus:ring-white/20 resize-none ${
-                      errors.message ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : ""
-                    }`}
-                    placeholder="Tell me about your project..."
-                    aria-invalid={errors.message ? "true" : "false"}
-                    aria-describedby={errors.message ? "message-error" : undefined}
-                  />
-                  {errors.message && (
-                    <p id="message-error" className="mt-1 text-xs text-red-400">
-                      {errors.message}
-                    </p>
-                  )}
-                </div>
-
-                {status === "success" && (
-                  <div className="flex items-center gap-2 text-green-400 bg-green-400/10 border border-green-400/20 rounded-lg p-3">
-                    <CheckCircle className="w-5 h-5" />
-                    <span className="text-sm">Opening your email app. I&apos;ll get back to you soon.</span>
-                  </div>
-                )}
-
-                {status === "error" && (
-                  <div className="flex items-center gap-2 text-red-400 bg-red-400/10 border border-red-400/20 rounded-lg p-3">
-                    <AlertCircle className="w-5 h-5" />
-                    <span className="text-sm">Something went wrong. Please try again.</span>
-                  </div>
-                )}
-
-                <Button
-                  type="submit"
-                  disabled={status === "loading" || !formData.name || !formData.email || !formData.message}
-                  className="w-full bg-white text-black hover:bg-neutral-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {status === "loading" ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin mr-2" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4 mr-2" />
-                      Send Message
-                    </>
-                  )}
-                </Button>
-              </form>
-            </div>
-          </div>
+                <p className="mt-1 text-sm leading-6 text-neutral-400 text-pretty">{item.description}</p>
+              </Link>
+            )
+          })}
         </div>
       </div>
     </section>

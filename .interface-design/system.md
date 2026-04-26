@@ -47,4 +47,7 @@ Dark editorial portfolio inspired by `jakub.kr`, adapted for Franco Zeta and Koc
 - Hero profile row: small circular photo, name, role, Kocteau logo link.
 - Hero prose: two compact paragraphs, inline links, one italic emotional phrase.
 - Project cards: quiet bordered cards, image/logo top, title and short description below.
+- Skills rows: compact two-column rows with `11rem` title column and muted descriptive text.
+- Experience rows: bordered top/bottom list with linked rows for projects and plain rows for education.
+- Other/contact: small link cards for Kocteau, LinkedIn, GitHub, and email.
 - Future sections should continue the same `max-w-2xl` centered rhythm before introducing wider layouts.
