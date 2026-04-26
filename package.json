@@ -16,9 +16,15 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.513.0",
+<<<<<<< HEAD
     "next": "15.5.15",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
+=======
+    "next": "15.3.8",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+>>>>>>> 8c41a6907967cfd00b153e3cfba6e1a1a11d220f
     "react-icons": "^5.5.0",
     "react-syntax-highlighter": "^16.1.1",
     "tailwind-merge": "^3.3.0"
