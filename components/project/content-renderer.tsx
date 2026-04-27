@@ -1,10 +1,5 @@
-"use client"
-
-import { memo } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 import { ArrowUpRight, Quote } from "lucide-react"
 import type { ContentBlock } from "@/types/project"
 import type { JSX } from "react"
@@ -21,11 +16,11 @@ const generateSlug = (text: string): string => {
     .replace(/(^-|-$)/g, "")
 }
 
-const ParagraphRenderer = memo(({ content }: { content: string }) => (
-  <p className="mb-5 text-sm leading-7 text-neutral-400 text-pretty sm:text-[15px]">{content}</p>
-))
+function ParagraphRenderer({ content }: { content: string }) {
+  return <p className="mb-5 text-sm leading-7 text-neutral-400 text-pretty sm:text-[15px]">{content}</p>
+}
 
-const HeadingRenderer = memo(({ content, level }: { content: string; level: number }) => {
+function HeadingRenderer({ content, level }: { content: string; level: number }) {
   const Tag = `h${level}` as keyof JSX.IntrinsicElements
   const headingId = `heading-${generateSlug(content)}`
   const className =
@@ -38,10 +33,14 @@ const HeadingRenderer = memo(({ content, level }: { content: string; level: numb
       {content}
     </Tag>
   )
-})
+}
 
-const ImageRenderer = memo(
-  ({ content }: { content: { url: string; alt: string; caption?: string; width?: number; height?: number } }) => (
+function ImageRenderer({
+  content,
+}: {
+  content: { url: string; alt: string; caption?: string; width?: number; height?: number }
+}) {
+  return (
     <figure className="my-8">
       <div className="rounded-[22px] bg-neutral-950 p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
         <div className="relative overflow-hidden rounded-[18px] bg-neutral-900/45 outline outline-1 -outline-offset-1 outline-white/10">
@@ -59,33 +58,25 @@ const ImageRenderer = memo(
         <figcaption className="mt-3 text-sm leading-6 text-neutral-500 text-pretty">{content.caption}</figcaption>
       )}
     </figure>
-  ),
-)
+  )
+}
 
-const CodeRenderer = memo(
-  ({ content, language, filename }: { content: string; language?: string; filename?: string }) => (
+function CodeRenderer({ content, language, filename }: { content: string; language?: string; filename?: string }) {
+  return (
     <div className="my-8 overflow-hidden rounded-[18px] shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
       {filename && (
         <div className="border-b border-white/[0.08] bg-neutral-900/70 px-4 py-2">
           <span className="font-mono text-sm text-neutral-500">{filename}</span>
         </div>
       )}
-      <SyntaxHighlighter
-        language={language || "text"}
-        style={oneDark}
-        customStyle={{
-          margin: 0,
-          background: "#0f0f0f",
-          fontSize: "13px",
-        }}
-      >
-        {content}
-      </SyntaxHighlighter>
+      <pre className="overflow-x-auto bg-neutral-950 px-4 py-4 text-sm leading-6 text-neutral-300">
+        <code className={language ? `language-${language}` : undefined}>{content}</code>
+      </pre>
     </div>
-  ),
-)
+  )
+}
 
-const ListRenderer = memo(({ content, listType }: { content: string[]; listType: "bullet" | "numbered" }) => {
+function ListRenderer({ content, listType }: { content: string[]; listType: "bullet" | "numbered" }) {
   const Tag = listType === "numbered" ? "ol" : "ul"
 
   return (
@@ -100,20 +91,26 @@ const ListRenderer = memo(({ content, listType }: { content: string[]; listType:
       ))}
     </Tag>
   )
-})
+}
 
-const QuoteRenderer = memo(({ content, author }: { content: string; author?: string }) => (
-  <blockquote className="my-8 rounded-[22px] bg-neutral-950 p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
-    <div className="rounded-[18px] bg-neutral-900/35 px-4 py-4">
-      <Quote className="mb-4 size-4 text-neutral-500" aria-hidden="true" />
-      <p className="text-sm leading-7 text-neutral-300 text-pretty sm:text-[15px]">{content}</p>
-      {author && <cite className="mt-3 block text-sm text-neutral-500 not-italic">{author}</cite>}
-    </div>
-  </blockquote>
-))
+function QuoteRenderer({ content, author }: { content: string; author?: string }) {
+  return (
+    <blockquote className="my-8 rounded-[22px] bg-neutral-950 p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
+      <div className="rounded-[18px] bg-neutral-900/35 px-4 py-4">
+        <Quote className="mb-4 size-4 text-neutral-500" aria-hidden="true" />
+        <p className="text-sm leading-7 text-neutral-300 text-pretty sm:text-[15px]">{content}</p>
+        {author && <cite className="mt-3 block text-sm text-neutral-500 not-italic">{author}</cite>}
+      </div>
+    </blockquote>
+  )
+}
 
-const LinkRenderer = memo(
-  ({ content }: { content: { url: string; title: string; description?: string; image?: string } }) => (
+function LinkRenderer({
+  content,
+}: {
+  content: { url: string; title: string; description?: string; image?: string }
+}) {
+  return (
     <Link
       href={content.url}
       target="_blank"
@@ -146,12 +143,14 @@ const LinkRenderer = memo(
         </div>
       </div>
     </Link>
-  ),
-)
+  )
+}
 
-const DividerRenderer = memo(() => <hr className="my-10 border-white/[0.08]" />)
+function DividerRenderer() {
+  return <hr className="my-10 border-white/[0.08]" />
+}
 
-const BlockRenderer = memo(({ block }: { block: ContentBlock }) => {
+function BlockRenderer({ block }: { block: ContentBlock }) {
   switch (block.type) {
     case "paragraph":
       return <ParagraphRenderer content={block.content} />
@@ -172,17 +171,7 @@ const BlockRenderer = memo(({ block }: { block: ContentBlock }) => {
     default:
       return null
   }
-})
-
-ParagraphRenderer.displayName = "ParagraphRenderer"
-HeadingRenderer.displayName = "HeadingRenderer"
-ImageRenderer.displayName = "ImageRenderer"
-CodeRenderer.displayName = "CodeRenderer"
-ListRenderer.displayName = "ListRenderer"
-QuoteRenderer.displayName = "QuoteRenderer"
-LinkRenderer.displayName = "LinkRenderer"
-DividerRenderer.displayName = "DividerRenderer"
-BlockRenderer.displayName = "BlockRenderer"
+}
 
 export function ContentRenderer({ content, className = "" }: ContentRendererProps) {
   if (!content || content.length === 0) {

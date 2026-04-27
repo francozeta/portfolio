@@ -34,11 +34,19 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     return {
       title: `${project.title}`,
       description: project.excerpt || project.description || `Learn about ${project.title}, a project by Franco Zeta.`,
+      alternates: {
+        canonical: `/work/${project.slug}`,
+      },
       openGraph: {
         title: `${project.title} - Franco Zeta's Portfolio`,
         description:
           project.excerpt || project.description || `Learn about ${project.title}, a project by Franco Zeta.`,
-        images: project.image_url ? [project.image_url] : [],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${project.title} - Franco Zeta`,
+        description:
+          project.excerpt || project.description || `Learn about ${project.title}, a project by Franco Zeta.`,
       },
     }
   } catch (error) {

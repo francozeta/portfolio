@@ -1,8 +1,5 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
-import { motion, useReducedMotion } from "motion/react"
 import { ArrowLeft, ArrowUpRight, ExternalLink } from "lucide-react"
 import { FaGithub } from "react-icons/fa"
 import type { Project } from "@/types/project"
@@ -35,26 +32,7 @@ function getTechLine(project: Project) {
 }
 
 export function ProjectDetail({ project }: ProjectDetailProps) {
-  const shouldReduceMotion = useReducedMotion()
   const logo = project.logo_url || project.image_url
-
-  const itemVariants = {
-    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.18, ease: "easeOut" as const },
-    },
-  }
-
-  const containerVariants = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: shouldReduceMotion ? 0 : 0.06,
-      },
-    },
-  }
 
   const metaItems = [
     {
@@ -77,20 +55,13 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
 
   return (
     <article className="bg-neutral-950 px-6 pb-24 pt-28 text-neutral-200 sm:px-12 sm:pb-28 sm:pt-32 lg:px-24 xl:px-56">
-      <motion.div
-        className="mx-auto max-w-2xl"
-        variants={containerVariants}
-        initial="hidden"
-        animate="show"
-      >
-        <motion.div variants={itemVariants}>
-          <Link href="/work" className={actionLinkClass}>
-            <ArrowLeft className="size-3.5" aria-hidden="true" />
-            Back to work
-          </Link>
-        </motion.div>
+      <div className="mx-auto max-w-2xl">
+        <Link href="/work" className={actionLinkClass}>
+          <ArrowLeft className="size-3.5" aria-hidden="true" />
+          Back to work
+        </Link>
 
-        <motion.header className="mt-10" variants={itemVariants}>
+        <header className="mt-10">
           <div className="flex items-center gap-3">
             {logo && (
               <div className="relative flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-neutral-900/60 outline outline-1 -outline-offset-1 outline-white/10">
@@ -135,9 +106,9 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
               </Link>
             )}
           </div>
-        </motion.header>
+        </header>
 
-        <motion.section className="mt-12" variants={itemVariants} aria-label="Project metadata">
+        <section className="mt-12" aria-label="Project metadata">
           <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
             {metaItems.map((item) => (
               <article key={item.label} className="grid gap-1 py-4 sm:grid-cols-[7rem_1fr] sm:gap-6">
@@ -146,10 +117,10 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
               </article>
             ))}
           </div>
-        </motion.section>
+        </section>
 
         {project.image_url && (
-          <motion.figure className="mt-14" variants={itemVariants}>
+          <figure className="mt-14">
             <div className={surfaceClass}>
               <div className="relative flex min-h-64 items-center justify-center overflow-hidden rounded-[18px] bg-neutral-900/45 outline outline-1 -outline-offset-1 outline-white/10">
                 <Image
@@ -170,11 +141,11 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
             <figcaption className="mt-3 text-sm leading-6 text-neutral-500 text-pretty">
               A quiet preview surface for the project identity and interface direction.
             </figcaption>
-          </motion.figure>
+          </figure>
         )}
 
         {project.technologies.length > 0 && (
-          <motion.section className="mt-14" variants={itemVariants} aria-labelledby="project-stack-heading">
+          <section className="mt-14" aria-labelledby="project-stack-heading">
             <h2 id="project-stack-heading" className="mb-5 text-base font-medium text-white text-balance">
               Stack
             </h2>
@@ -195,10 +166,10 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
                 )
               })}
             </div>
-          </motion.section>
+          </section>
         )}
 
-        <motion.section className="mt-14" variants={itemVariants} aria-labelledby="project-notes-heading">
+        <section className="mt-14" aria-labelledby="project-notes-heading">
           <h2 id="project-notes-heading" className="mb-5 text-base font-medium text-white text-balance">
             Case notes
           </h2>
@@ -213,13 +184,9 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
               </p>
             </div>
           )}
-        </motion.section>
+        </section>
 
-        <motion.section
-          className="mt-14 border-t border-white/[0.08] pt-6"
-          variants={itemVariants}
-          aria-labelledby="project-next-heading"
-        >
+        <section className="mt-14 border-t border-white/[0.08] pt-6" aria-labelledby="project-next-heading">
           <h2 id="project-next-heading" className="text-base font-medium text-white text-balance">
             Next
           </h2>
@@ -231,8 +198,8 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
             View all work
             <ArrowUpRight className="size-3.5" aria-hidden="true" />
           </Link>
-        </motion.section>
-      </motion.div>
+        </section>
+      </div>
     </article>
   )
 }

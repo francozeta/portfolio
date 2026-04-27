@@ -16,7 +16,7 @@ export function Header() {
   }
 
   return (
-    <header className="fixed sm:top-0 bottom-0 sm:bottom-auto left-0 right-0 z-50 flex justify-center p-4 sm:p-4">
+    <header className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4 sm:bottom-auto sm:top-0 sm:p-4">
       <nav
         className="flex items-center rounded-full bg-neutral-950/60 border border-neutral-700/50 gap-1 p-1.5 sm:p-1 backdrop-blur-md"
         role="navigation"
@@ -25,9 +25,9 @@ export function Header() {
         <Link
           href="/"
           className={cn(
-            "flex items-center justify-center rounded-full px-4 py-3 sm:px-3 sm:py-2 text-neutral-300 transition-all duration-200 border",
+            "flex items-center justify-center rounded-full border px-4 py-3 text-neutral-300 transition-[background-color,border-color,color,transform] duration-150 ease-out sm:px-3 sm:py-2 active:scale-[0.96]",
             isActive("/")
-              ? "bg-neutral-900/70 text-white border-neutral-50/20 shadow-lg"
+              ? "bg-neutral-900/70 text-white border-neutral-50/20"
               : "hover:bg-neutral-800/50 hover:text-white border-transparent hover:border-neutral-50/20",
           )}
           aria-label="Home page"
@@ -42,9 +42,9 @@ export function Header() {
         <Link
           href="/about"
           className={cn(
-            "flex items-center gap-2 sm:gap-1.5 rounded-full px-4 py-3 sm:px-3 sm:py-2 text-neutral-300 transition-all duration-200 border",
+            "flex items-center gap-2 rounded-full border px-4 py-3 text-neutral-300 transition-[background-color,border-color,color,transform] duration-150 ease-out sm:gap-1.5 sm:px-3 sm:py-2 active:scale-[0.96]",
             isActive("/about")
-              ? "bg-neutral-900/70 text-white border-neutral-50/20 shadow-lg"
+              ? "bg-neutral-900/70 text-white border-neutral-50/20"
               : "hover:bg-neutral-800/50 hover:text-white border-transparent hover:border-neutral-50/20",
           )}
           aria-label="About page"
@@ -57,9 +57,9 @@ export function Header() {
         <Link
           href="/work"
           className={cn(
-            "flex items-center gap-2 sm:gap-1.5 rounded-full px-4 py-3 sm:px-3 sm:py-2 text-neutral-300 transition-all duration-200 border",
+            "flex items-center gap-2 rounded-full border px-4 py-3 text-neutral-300 transition-[background-color,border-color,color,transform] duration-150 ease-out sm:gap-1.5 sm:px-3 sm:py-2 active:scale-[0.96]",
             isActive("/work")
-              ? "bg-neutral-900/70 text-white border-neutral-50/20 shadow-lg"
+              ? "bg-neutral-900/70 text-white border-neutral-50/20"
               : "hover:bg-neutral-800/50 hover:text-white border-transparent hover:border-neutral-50/20",
           )}
           aria-label="Work and projects page"

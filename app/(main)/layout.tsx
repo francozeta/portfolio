@@ -13,6 +13,7 @@ const geistSans = Geist({
 })
 
 export const metadata: Metadata = {
+  applicationName: "Franco Zeta Portfolio",
   metadataBase: new URL("https://francozeta.vercel.app"),
   title: {
     template: "%s | Franco Zeta's Portfolio",
@@ -34,6 +35,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Franco Zeta" }],
   creator: "Franco Zeta",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -42,20 +46,11 @@ export const metadata: Metadata = {
     description:
       "Franco Zeta - Software Developer, Systems Engineer & Designer from Peru. Passionate about creating innovative web applications.",
     siteName: "Franco Zeta's Portfolio",
-    images: [
-      {
-        url: "/images/hero.png",
-        width: 1200,
-        height: 630,
-        alt: "Franco Zeta's Portfolio",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Franco Zeta's Portfolio - Software Developer & Designer",
     description: "Franco Zeta - Software Developer, Systems Engineer & Designer from Peru.",
-    images: ["/images/hero.png"],
   },
   robots: {
     index: true,
@@ -87,10 +82,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* DNS prefetch for external resources */}
-        <link rel="dns-prefetch" href="https://open.spotify.com" />
-        <link rel="dns-prefetch" href="https://github.com" />
-
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

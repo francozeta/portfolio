@@ -9,6 +9,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://francozeta.vercel.app"),
   title: "Admin Paused | Franco Zeta",
   description: "The Supabase CMS is paused while the portfolio uses local content.",
 };
