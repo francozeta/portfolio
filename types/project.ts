@@ -13,6 +13,7 @@ export type ContentBlock =
   | ProductSurfacesBlock
   | ArchitectureBlock
   | DecisionsBlock
+  | MetricsBlock
   | DividerBlock
 
 export interface BaseBlock {
@@ -113,6 +114,19 @@ export interface DecisionsBlock extends BaseBlock {
     decision: string
     tradeoff: string
   }>
+}
+
+export interface MetricsBlock extends BaseBlock {
+  type: "metrics"
+  content: {
+    title: string
+    description: string
+    items: Array<{
+      label: string
+      value: string
+      description: string
+    }>
+  }
 }
 
 export interface DividerBlock extends BaseBlock {

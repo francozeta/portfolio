@@ -40,16 +40,18 @@ function ImageRenderer({
 }: {
   content: { url: string; alt: string; caption?: string; width?: number; height?: number }
 }) {
+  const isVector = content.url.endsWith(".svg")
+
   return (
     <figure className="my-8">
       <div className="rounded-[22px] bg-neutral-950 p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
-        <div className="relative overflow-hidden rounded-[18px] bg-neutral-900/45 outline outline-1 -outline-offset-1 outline-white/10">
+        <div className="relative overflow-hidden rounded-[18px] bg-neutral-900/45 p-3 outline outline-1 -outline-offset-1 outline-white/10 sm:p-4">
           <Image
             src={content.url || "/placeholder.svg"}
             alt={content.alt}
             width={content.width || 900}
             height={content.height || 520}
-            className="h-auto w-full object-cover"
+            className={isVector ? "h-auto w-full object-contain" : "-m-3 h-auto w-[calc(100%+1.5rem)] object-cover sm:-m-4 sm:w-[calc(100%+2rem)]"}
             sizes="(max-width: 768px) 100vw, 672px"
           />
         </div>
@@ -335,6 +337,39 @@ function DecisionsRenderer({
   )
 }
 
+function MetricsRenderer({
+  content,
+}: {
+  content: {
+    title: string
+    description: string
+    items: Array<{ label: string; value: string; description: string }>
+  }
+}) {
+  return (
+    <section className="my-10 rounded-[22px] bg-neutral-950 p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
+      <div className="rounded-[18px] bg-neutral-900/35 p-4 sm:p-5">
+        <div className="grid gap-2 sm:grid-cols-[8rem_1fr]">
+          <p className="text-sm font-medium text-white text-balance">{content.title}</p>
+          <p className="text-sm leading-6 text-neutral-400 text-pretty">{content.description}</p>
+        </div>
+
+        <div className="mt-5 grid gap-px overflow-hidden rounded-[18px] bg-white/[0.08] sm:grid-cols-2">
+          {content.items.map((item) => (
+            <article key={item.label} className="bg-neutral-950/95 px-4 py-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-neutral-600">{item.label}</p>
+              <p className="mt-3 text-xl font-medium leading-none text-white text-balance sm:text-2xl">
+                {item.value}
+              </p>
+              <p className="mt-3 text-sm leading-6 text-neutral-500 text-pretty">{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function DividerRenderer() {
   return <hr className="my-10 border-white/[0.08]" />
 }
@@ -363,6 +398,8 @@ function BlockRenderer({ block }: { block: ContentBlock }) {
       return <ArchitectureRenderer content={block.content} />
     case "decisions":
       return <DecisionsRenderer content={block.content} />
+    case "metrics":
+      return <MetricsRenderer content={block.content} />
     case "divider":
       return <DividerRenderer />
     default:

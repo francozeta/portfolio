@@ -8,9 +8,9 @@ const projects = [
     slug: "kocteau",
     title: "Kocteau",
     description:
-      "A social music review platform for searching tracks, publishing opinions, and discovering music through people and taste.",
+      "A social music network for reviewing songs, expressing taste, and discovering music through people, tags, and lightweight recommendations.",
     excerpt:
-      "A production music review platform with auth, onboarding, Deezer search, public profiles, track pages, and a relational Supabase backend.",
+      "A Letterboxd-inspired music product with OTP auth, taste onboarding, Deezer search, reviews, public profiles, track pages, and a Supabase/Postgres backend.",
     content: [
       {
         id: "kocteau-problem-heading",
@@ -22,19 +22,19 @@ const projects = [
         id: "kocteau-problem-intro",
         type: "paragraph",
         content:
-          "Music discovery is personal, but most music products optimize playback, charts, or cataloging. I wanted Kocteau to explore a smaller and more human question: what would a social review layer for individual tracks feel like?",
+          "Music discovery is personal, but most music products optimize playback, cataloging, or passive recommendation. Kocteau explores a more social question: what would a Letterboxd-like layer for songs feel like if reviews, taste, and discovery lived in the same product?",
       },
       {
         id: "kocteau-problem-quote",
         type: "quote",
         content:
-          "Music has playlists, scrobbles, and catalog pages. Kocteau is my attempt at giving opinions, taste, and discovery a clearer place to meet.",
+          "Kocteau is built around a simple belief: music taste becomes more meaningful when people can explain it, not only stream it.",
       },
       {
         id: "kocteau-problem-context",
         type: "paragraph",
         content:
-          "Spotify personalizes quietly, Last.fm captures listening history, Rate Your Music goes deep on cataloging, and conversations usually disappear into Discord, Twitter, or group chats. Kocteau turns that scattered behavior into a product loop.",
+          "Playlists show what people collect, scrobbles show what people played, and algorithms suggest what might come next. But the human layer often disappears into group chats, social posts, or notes that are hard to revisit. Kocteau turns that behavior into a product loop.",
       },
       {
         id: "kocteau-solution-divider",
@@ -50,33 +50,49 @@ const projects = [
         id: "kocteau-solution-intro",
         type: "paragraph",
         content:
-          "The product loop is intentionally simple: search for a track, rate it, publish a short take, and discover music through the people and taste signals around you.",
+          "The core loop combines explicit taste with social activity. A user signs in with email OTP, completes a profile, selects preference tags, reviews songs found through Deezer, and then discovers more music through reviews, follows, and feed signals.",
       },
       {
         id: "kocteau-product-flow",
         type: "process",
         content: [
           {
-            title: "Search",
-            description: "Use Deezer search to find tracks quickly without forcing users to create records manually.",
+            title: "Sign in",
+            description: "A passwordless OTP flow lowers account friction and keeps the first session focused on taste, not credentials.",
           },
           {
-            title: "Review",
-            description: "Write a public opinion with a rating, turning passive listening into something shareable.",
+            title: "Shape taste",
+            description: "Profile setup and preference tags create the first recommendation signals before the user has review history.",
           },
           {
-            title: "Publish",
-            description: "Attach the review to a stable local entity, profile, activity surface, and social graph.",
+            title: "Find a track",
+            description: "Deezer search gives users a fast way to find music while Kocteau decides what needs to become local data.",
           },
           {
-            title: "Discover",
-            description: "Use profiles, follows, track pages, and feed signals to make taste visible beyond one user.",
+            title: "Publish a review",
+            description: "A rating and written take turn listening into a reusable object attached to a profile and a track page.",
           },
           {
-            title: "Refine",
-            description: "Let explicit taste tags and future interactions improve the For You direction over time.",
+            title: "Interact",
+            description: "Likes, bookmarks, comments, and follows make the product social and create richer signals for discovery.",
+          },
+          {
+            title: "Recommend",
+            description: "The feed can blend preference tags, social signals, recency, diversity, and fallback content as usage grows.",
           },
         ],
+      },
+      {
+        id: "kocteau-user-journey-diagram",
+        type: "image",
+        content: {
+          url: "/work/kocteau/user-journey.svg",
+          alt: "Kocteau user journey diagram from email OTP to profile, taste setup, For You feed, and review creation.",
+          caption:
+            "User journey: Kocteau moves from low-friction auth into taste setup, then into discovery and review creation.",
+          width: 1360,
+          height: 240,
+        },
       },
       {
         id: "kocteau-product-surfaces",
@@ -84,43 +100,43 @@ const projects = [
         content: {
           title: "Product surfaces",
           description:
-            "The case study should feel like a product, not a database report. These are the interface moments that carry the Kocteau loop today.",
+            "These are the product moments that make Kocteau more than a database of songs: identity, taste, publishing, and social discovery.",
           items: [
             {
+              label: "Auth",
+              title: "Email OTP sign in",
+              description:
+                "A lightweight account flow powered by Supabase Auth and email delivery, designed to avoid password friction.",
+            },
+            {
+              label: "Taste",
+              title: "Preference onboarding",
+              description:
+                "Explicit tags give the feed a starting point before the user has enough behavior for stronger recommendations.",
+            },
+            {
               label: "Search",
-              title: "Deezer-powered track lookup",
+              title: "Deezer-powered lookup",
               description:
-                "A fast entry point that lets users find music first, then lets Kocteau decide what needs to become local product data.",
+                "Users search real music metadata without manually creating songs, albums, or artists.",
             },
             {
-              label: "Write",
-              title: "Review composer",
+              label: "Review",
+              title: "Rating plus written take",
               description:
-                "A compact publishing moment for rating a track and turning a personal reaction into a public opinion.",
-            },
-            {
-              label: "Track",
-              title: "Shared song pages",
-              description:
-                "Each track becomes a stable page where reviews and ratings can accumulate beyond a single profile.",
-            },
-            {
-              label: "Profile",
-              title: "Taste as identity",
-              description:
-                "Public profiles make listening history, reviews, and future taste signals feel like part of a person.",
+                "The composer turns a quick reaction into content that can live on feeds, profiles, and track pages.",
             },
             {
               label: "Feed",
-              title: "Recent reviews now, richer discovery next",
+              title: "For You direction",
               description:
-                "The current feed proves the social loop while leaving room for a more personalized discovery model.",
+                "The product direction combines human curation with lightweight recommendation signals instead of pure algorithmic opacity.",
             },
             {
-              label: "Auth",
-              title: "OTP and onboarding",
+              label: "Social",
+              title: "Likes, comments, saves, follows",
               description:
-                "Account creation stays lightweight so the first meaningful product moment can be about taste, not passwords.",
+                "Interaction primitives make taste social and give future recommendation logic more useful signals.",
             },
           ],
         },
@@ -135,10 +151,10 @@ const projects = [
         id: "kocteau-role-list",
         type: "list",
         content: [
-          "Product design: shaping the review loop, onboarding, profile states, discovery direction, and public project narrative.",
-          "Frontend engineering: Next.js App Router, React, TypeScript, Tailwind CSS, and shadcn/ui surfaces.",
-          "Backend and data modeling: Supabase Auth, Postgres relationships, Storage, RLS-aware access patterns, and RPCs.",
-          "Integration and deployment: Deezer Search API, Turborepo, pnpm workspaces, Vercel previews, and production release flow.",
+          "Defined the MVP, user journey, review loop, onboarding model, and recommendation direction.",
+          "Built the frontend with Next.js App Router, React, TypeScript, Tailwind CSS, and shadcn/ui.",
+          "Modeled the backend with Supabase Auth, Postgres tables, relational entities, RLS-aware access patterns, and RPCs.",
+          "Integrated Deezer search, email OTP delivery, server-state handling, deployment workflow, and production release concerns.",
         ],
         listType: "bullet",
       },
@@ -156,7 +172,19 @@ const projects = [
         id: "kocteau-architecture-intro",
         type: "paragraph",
         content:
-          "I treated Kocteau as a product system, not just a portfolio project. The architecture separates product surfaces, shared packages, external search, and the database layer so the project can keep evolving.",
+          "I treated Kocteau as a product system, not a static demo. The architecture separates UI, server state, backend data, auth, external music metadata, and deployment so the product can keep evolving after the MVP.",
+      },
+      {
+        id: "kocteau-architecture-diagram",
+        type: "image",
+        content: {
+          url: "/work/kocteau/architecture.svg",
+          alt: "Kocteau architecture diagram showing the Turborepo web app connected to Supabase, Deezer API, and Vercel.",
+          caption:
+            "Architecture diagram: the web app owns the product experience while Supabase, Deezer, and Vercel handle persistence, music metadata, and deployment.",
+          width: 1360,
+          height: 496,
+        },
       },
       {
         id: "kocteau-architecture-map",
@@ -164,31 +192,37 @@ const projects = [
         content: {
           title: "System map",
           description:
-            "A compact monorepo setup around a Next.js web app, a Supabase data layer, Deezer as the external music search source, and Vercel as the production surface.",
+            "A compact product architecture around a Next.js web app, a Supabase data layer, Deezer for music search, email infrastructure for OTP, and Vercel as the production surface.",
           nodes: [
             {
               title: "Next.js web app",
               description:
-                "The main product surface for auth, onboarding, search, review creation, profiles, feed views, and track pages.",
-              items: ["App Router", "Server Actions", "React", "shadcn/ui", "Tailwind"],
+                "The main product surface for auth, onboarding, search, review creation, profiles, feeds, and track pages.",
+              items: ["App Router", "React", "TypeScript", "Tailwind", "shadcn/ui"],
             },
             {
-              title: "Shared workspace",
+              title: "Server state",
               description:
-                "Turborepo and pnpm keep configuration, product primitives, and future packages organized as Kocteau grows.",
-              items: ["Turborepo", "pnpm workspaces", "shared config"],
+                "TanStack Query manages remote data, cache, optimistic interactions, and synchronization for reviews and social actions.",
+              items: ["TanStack Query", "cache", "optimistic UI"],
             },
             {
               title: "Supabase",
               description:
-                "Auth, Postgres, Storage, and RPCs handle identity, relational data, user content, and atomic backend operations.",
-              items: ["Auth OTP", "Postgres", "Storage", "RPCs"],
+                "Auth, Postgres, Row Level Security, Storage, and RPCs handle identity, relational product data, and critical writes.",
+              items: ["Auth OTP", "Postgres", "RLS", "RPCs"],
             },
             {
-              title: "Deezer API",
+              title: "Music metadata",
               description:
-                "Searches tracks and provides music metadata, while Kocteau keeps stable local entities for product data.",
-              items: ["Track search", "metadata", "entity cache"],
+                "Deezer powers track search while Kocteau stores stable local entities so reviews can accumulate around durable records.",
+              items: ["Deezer API", "track search", "entity cache"],
+            },
+            {
+              title: "Email layer",
+              description:
+                "Resend SMTP supports OTP delivery and keeps auth messaging separate from product UI concerns.",
+              items: ["Resend", "SMTP", "React Email"],
             },
             {
               title: "Vercel",
@@ -214,42 +248,107 @@ const projects = [
         type: "decisions",
         content: [
           {
-            title: "Entity caching layer",
-            problem:
-              "Deezer is useful for search, but relying on it as the source of truth would make reviews, feeds, and profile history fragile.",
-            decision:
-              "Cache normalized tracks in Supabase after search or selection, then attach reviews, ratings, user profiles, feed entries, and track pages to stable local records.",
-            tradeoff:
-              "Metadata can become slightly stale, but Kocteau gets durable IDs, faster internal reads, and product data it can actually own.",
-          },
-          {
-            title: "RPCs for critical writes",
-            problem:
-              "Review creation can affect multiple pieces of state: user activity, counters, notifications, and related social surfaces.",
-            decision:
-              "Move multi-step writes into server-side flows and RPCs instead of scattering direct writes across client components.",
-            tradeoff:
-              "There is more backend code to maintain, but the app avoids counter drift and keeps constraints closer to the data.",
-          },
-          {
-            title: "Designing for a multi-signal feed",
-            problem:
-              "New users have very little interaction history, so a pure collaborative recommendation model would start empty.",
-            decision:
-              "Shape the discovery model around taste tags, reviewed tracks, followed users, recency, diversity, and fallback content as the product grows beyond the current recent-reviews feed.",
-            tradeoff:
-              "The feed becomes more opinionated, but the first session feels less blank and gives the product room to learn.",
-          },
-          {
             title: "OTP-first authentication",
             problem:
-              "A personal product should keep account creation lightweight and avoid unnecessary password handling.",
+              "A social product needs low-friction account creation, but handling passwords adds security and UX overhead early in the MVP.",
             decision:
-              "Use email OTP and make onboarding about taste setup rather than credentials.",
+              "Use Supabase Auth with email OTP and pair onboarding with profile and taste setup instead of password creation.",
             tradeoff:
-              "Email delivery, redirect states, and expired-token paths require more careful QA than a basic password form.",
+              "The app avoids password management, but email delivery, expired codes, and redirect states need careful testing.",
+          },
+          {
+            title: "Entity caching layer",
+            problem:
+              "Deezer is useful for search, but relying on an external API as the source of truth would make reviews and track pages fragile.",
+            decision:
+              "Create or reuse local `entities` when users publish reviews, then attach ratings, profile activity, and track pages to those records.",
+            tradeoff:
+              "Metadata can become slightly stale, but Kocteau gets durable IDs, fewer repeated external calls, and data it can query reliably.",
+          },
+          {
+            title: "Postgres and RLS over NoSQL",
+            problem:
+              "The product depends on relationships between users, reviews, entities, likes, comments, bookmarks, follows, and taste tags.",
+            decision:
+              "Use Supabase Postgres with relational modeling and RLS-aware access rules instead of a loose document model.",
+            tradeoff:
+              "The schema requires more upfront thinking, but joins, constraints, and policy-driven access fit the product better.",
+          },
+          {
+            title: "TanStack Query for server state",
+            problem:
+              "Reviews and social interactions change often, and manually coordinating fetches, cache, loading states, and optimistic updates gets messy.",
+            decision:
+              "Use TanStack Query for server-state synchronization, local cache, and interaction feedback.",
+            tradeoff:
+              "It adds dependency and bundle weight, but reduces custom state code and makes interactive surfaces feel faster.",
+          },
+          {
+            title: "Hybrid recommendation direction",
+            problem:
+              "A new user has almost no behavior history, so a pure algorithmic feed starts cold and generic.",
+            decision:
+              "Blend explicit taste tags, reviewed tracks, follows, recent activity, diversity, and fallback content into the discovery model.",
+            tradeoff:
+              "The feed becomes more opinionated, but the first session can feel relevant before the product has enough long-term data.",
+          },
+          {
+            title: "Backend-as-a-service over custom infrastructure",
+            problem:
+              "The MVP needed auth, database, storage, policies, and server writes without spending the project budget on infrastructure.",
+            decision:
+              "Use Supabase and Vercel instead of maintaining a custom Node backend and self-managed database.",
+            tradeoff:
+              "There is some platform coupling, but the product can move faster and keep engineering effort on the user experience.",
           },
         ],
+      },
+      {
+        id: "kocteau-measurement-divider",
+        type: "divider",
+      },
+      {
+        id: "kocteau-measurement-heading",
+        type: "heading",
+        level: 2,
+        content: "Measurement",
+      },
+      {
+        id: "kocteau-measurement-intro",
+        type: "paragraph",
+        content:
+          "The case study should not invent traction. Instead, Kocteau can be evaluated through the signals that matter for this product category: activation, publishing, engagement, recommendation quality, and system health.",
+      },
+      {
+        id: "kocteau-metrics",
+        type: "metrics",
+        content: {
+          title: "Observable signals",
+          description:
+            "The next iteration should turn these product questions into dashboard queries or analytics events.",
+          items: [
+            {
+              label: "Activation",
+              value: "OTP to taste",
+              description: "How many users verify email, finish profile setup, and select preference tags.",
+            },
+            {
+              label: "Creation",
+              value: "First review",
+              description: "How quickly a new user searches a track and publishes their first rating or written take.",
+            },
+            {
+              label: "Engagement",
+              value: "Social actions",
+              description: "Likes, saves, comments, and follows show whether reviews create interaction beyond reading.",
+            },
+            {
+              label: "Discovery",
+              value: "Feed quality",
+              description: "Feed loads, clicks, follows, and review actions can reveal whether recommendations feel useful.",
+            },
+          ],
+        },
       },
       {
         id: "kocteau-result-divider",
@@ -265,7 +364,7 @@ const projects = [
         id: "kocteau-result",
         type: "paragraph",
         content:
-          "Kocteau is live as an in-progress product at kocteau.com. The current result is not just a static demo: it has a real product loop around auth, onboarding, Deezer search, review creation, a recent-reviews feed, public user profiles, and track pages with their reviews.",
+          "Kocteau reached a functional MVP shape: users can authenticate, complete onboarding, search music through Deezer, publish reviews, browse social surfaces, and view public profiles and track pages. The strongest result is not a single feature, but a coherent loop that can now be tested with real behavior.",
       },
       {
         id: "kocteau-learnings-heading",
@@ -277,13 +376,31 @@ const projects = [
         id: "kocteau-learnings",
         type: "list",
         content: [
-          "Decouple from external APIs early. Search providers are great inputs, but product behavior needs stable local data.",
-          "Cold start is not only an algorithm problem. Onboarding, taste tags, editorial defaults, and empty states shape the first impression.",
-          "RPCs are worth the overhead when a write has product consequences beyond a single table row.",
-          "A monorepo adds setup cost, but it keeps a growing product easier to split into web, shared packages, and future mobile work.",
-          "OTP auth looks simple in UI, but redirects, expired links, and email states need serious testing.",
+          "Recommendation quality starts before the algorithm. Onboarding, taste tags, empty states, and social defaults shape the first session.",
+          "External APIs are inputs, not product foundations. Deezer can search music, but Kocteau needs its own stable entities.",
+          "Server state deserves a dedicated model. Reviews, likes, comments, and saves feel better when cache and optimistic states are handled deliberately.",
+          "Relational data fits social products. Reviews, follows, profiles, and entities benefit from constraints and explicit relationships.",
+          "OTP auth looks simple but has hidden edge cases: email delay, spam folders, expired codes, redirects, and incomplete profiles.",
         ],
         listType: "numbered",
+      },
+      {
+        id: "kocteau-next-heading",
+        type: "heading",
+        level: 2,
+        content: "Next steps",
+      },
+      {
+        id: "kocteau-next-list",
+        type: "list",
+        content: [
+          "Add real product screenshots and Excalidraw/SVG diagrams for architecture, user flow, and recommendation logic.",
+          "Instrument activation and engagement metrics before making claims about traction.",
+          "Improve recommendation quality with more nuanced taste signals and feedback loops.",
+          "Expand notifications and retention surfaces once review publishing is validated.",
+          "Add automated tests around auth, review creation, social interactions, and feed behavior.",
+        ],
+        listType: "bullet",
       },
       {
         id: "kocteau-live-link",
@@ -291,7 +408,7 @@ const projects = [
         content: {
           url: "https://kocteau.com",
           title: "Open Kocteau",
-          description: "A live music review product built around tracks, taste, profiles, and social discovery.",
+          description: "A social music review product built around tracks, taste, profiles, and discovery.",
           image: "/kocteau-logo.svg",
         },
       },
@@ -307,6 +424,11 @@ const projects = [
         iconName: "RiNextjsFill",
       },
       {
+        name: "React",
+        color: "bg-transparent text-white",
+        iconName: "FaReact",
+      },
+      {
         name: "TypeScript",
         color: "bg-transparent text-white",
         iconName: "SiTypescript",
@@ -317,9 +439,24 @@ const projects = [
         iconName: "SiSupabase",
       },
       {
+        name: "PostgreSQL",
+        color: "bg-transparent text-white",
+        iconName: "SiPostgresql",
+      },
+      {
         name: "Tailwind CSS",
         color: "bg-transparent text-white",
         iconName: "SiTailwindcss",
+      },
+      {
+        name: "Shadcn/ui",
+        color: "bg-transparent text-white",
+        iconName: "SiShadcnui",
+      },
+      {
+        name: "Vercel",
+        color: "bg-transparent text-white",
+        iconName: "SiVercel",
       },
     ],
     repo_url: "https://github.com/francozeta/kocteau",
