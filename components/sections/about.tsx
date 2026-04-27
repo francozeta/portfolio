@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { ArrowUpRight } from "lucide-react"
 
 const experienceItems = [
   {
@@ -38,21 +39,28 @@ export function AboutSection() {
 
           <Link
             href="/about"
-            className="text-sm font-medium text-neutral-400 transition-colors duration-150 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+            className="inline-flex min-h-10 items-center gap-1 text-sm font-medium text-neutral-400 transition-[color,transform] duration-150 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 active:scale-[0.96]"
           >
             More about me
+            <ArrowUpRight className="size-3.5" aria-hidden="true" />
           </Link>
         </div>
 
         <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
           {experienceItems.map((item) => {
             const content = (
-              <article className="grid gap-1 py-4 sm:grid-cols-[11rem_1fr] sm:gap-6">
+              <article className="grid gap-1 py-4 sm:grid-cols-[11rem_1fr_auto] sm:gap-6">
                 <div>
                   <h3 className="text-sm font-medium text-white text-balance">{item.title}</h3>
                   <p className="mt-1 text-sm text-neutral-500">{item.meta}</p>
                 </div>
                 <p className="text-sm leading-6 text-neutral-400 text-pretty">{item.description}</p>
+                {item.href && (
+                  <ArrowUpRight
+                    className="hidden size-4 text-neutral-500 opacity-0 transition-[color,opacity,transform] duration-150 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100 group-hover:text-white sm:block"
+                    aria-hidden="true"
+                  />
+                )}
               </article>
             )
 
@@ -66,7 +74,7 @@ export function AboutSection() {
                 href={item.href}
                 target={item.href.startsWith("http") ? "_blank" : undefined}
                 rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="block transition-colors duration-150 hover:bg-white/[0.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                className="group block transition-colors duration-150 hover:bg-white/[0.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
               >
                 {content}
               </Link>

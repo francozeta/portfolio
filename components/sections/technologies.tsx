@@ -24,15 +24,20 @@ export function TechnologiesSection() {
       aria-labelledby="skills-heading"
     >
       <div className="mx-auto max-w-2xl">
-        <h2 id="skills-heading" className="mb-5 text-base font-medium text-white text-balance">
-          Skills
-        </h2>
+        <div className="mb-5">
+          <h2 id="skills-heading" className="text-base font-medium text-white text-balance">
+            Skills
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-neutral-400 text-pretty">
+            The stack I reach for when an interface needs to become a real product.
+          </p>
+        </div>
 
-        <div className="space-y-3">
+        <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
           {skillGroups.map((skill) => (
             <article
               key={skill.title}
-              className="grid gap-1 rounded-2xl border border-white/[0.08] bg-neutral-950 px-4 py-3 sm:grid-cols-[11rem_1fr] sm:gap-6"
+              className="grid gap-1 py-4 sm:grid-cols-[11rem_1fr] sm:gap-6"
             >
               <h3 className="text-sm font-medium text-white text-balance">{skill.title}</h3>
               <p className="text-sm leading-6 text-neutral-400 text-pretty">{skill.description}</p>

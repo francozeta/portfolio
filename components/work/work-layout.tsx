@@ -1,194 +1,273 @@
 "use client"
 
-import { useDeferredValue, useState, useEffect } from "react"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Search, Grid, List } from "lucide-react"
-import { ProjectCard } from "./project-card"
-import { getProjectSummaries, type ProjectSummary } from "@/lib/projects"
-import { Skeleton } from "@/components/ui/skeleton"
+import Image from "next/image"
+import Link from "next/link"
+import { motion, useReducedMotion } from "motion/react"
+import { ArrowUpRight, Circle, ExternalLink, Layers2, Route } from "lucide-react"
+import { FaGithub } from "react-icons/fa"
+import type { ProjectSummary } from "@/lib/projects"
 
-export function WorkLayout() {
-  const [projects, setProjects] = useState<ProjectSummary[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState("")
-  const deferredSearchTerm = useDeferredValue(searchTerm)
-  const [selectedStatus, setSelectedStatus] = useState<"all" | "completed" | "in_progress">("all")
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
+interface WorkLayoutProps {
+  projects: ProjectSummary[]
+}
 
-  useEffect(() => {
-    const loadProjects = async () => {
-      try {
-        const data = await getProjectSummaries()
-        setProjects(data)
-      } catch (error) {
-        console.error("Error loading projects:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
+const actionLinkClass =
+  "inline-flex min-h-10 items-center gap-1 text-sm font-medium text-neutral-400 transition-[color,transform] duration-150 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 active:scale-[0.96]"
 
-    loadProjects()
-  }, [])
+const surfaceClass =
+  "rounded-[22px] bg-neutral-950 p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.08)] transition-transform duration-150 ease-out"
 
-  const filteredProjects = projects.filter((project) => {
-    const matchesSearch =
-      !deferredSearchTerm ||
-      project.title.toLowerCase().includes(deferredSearchTerm.toLowerCase()) ||
-      project.description?.toLowerCase().includes(deferredSearchTerm.toLowerCase()) ||
-      project.technologies.some((tech) => tech.name.toLowerCase().includes(deferredSearchTerm.toLowerCase()))
+function getStatusLabel(status: ProjectSummary["status"]) {
+  return status === "completed" ? "Completed" : "In progress"
+}
 
-    const matchesStatus = selectedStatus === "all" || project.status === selectedStatus
+function getYear(date: string) {
+  return new Date(date).getUTCFullYear()
+}
 
-    return matchesSearch && matchesStatus
-  })
+function getTechLine(project: ProjectSummary, limit = 4) {
+  return project.technologies
+    .slice(0, limit)
+    .map((tech) => tech.name)
+    .join(", ")
+}
 
-  if (loading) {
-    return (
-      <section className="bg-neutral-950 pt-24 pb-16 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-24 px-6 sm:px-12 lg:px-24 xl:px-56">
-        <div className="max-w-7xl mx-auto">
-          {/* Header skeleton */}
-          <div className="text-center mb-16">
-            <Skeleton className="h-4 w-32 mx-auto mb-4" />
-            <Skeleton className="h-12 w-80 mx-auto mb-6" />
-            <Skeleton className="h-6 w-96 mx-auto" />
-          </div>
+function isLogoImage(src: string | null) {
+  return Boolean(src?.endsWith(".svg"))
+}
 
-          {/* Filters skeleton */}
-          <div className="mb-12 space-y-4">
-            <div className="flex gap-4">
-              <Skeleton className="h-10 flex-1" />
-              <Skeleton className="h-10 w-10" />
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <Skeleton key={i} className="h-8 w-20 rounded-full" />
-              ))}
-            </div>
-          </div>
+export function WorkLayout({ projects }: WorkLayoutProps) {
+  const shouldReduceMotion = useReducedMotion()
+  const featuredProject = projects[0]
 
-          {/* Projects skeleton */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="space-y-4">
-                <Skeleton className="h-48 w-full rounded-lg" />
-                <Skeleton className="h-6 w-3/4" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-2/3" />
-                <div className="flex gap-2">
-                  {Array.from({ length: 3 }).map((_, j) => (
-                    <Skeleton key={j} className="h-6 w-16 rounded-full" />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    )
+  const hiddenState = shouldReduceMotion
+    ? { opacity: 1, y: 0 }
+    : { opacity: 0, y: 12 }
+
+  const itemVariants = {
+    hidden: hiddenState,
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.18, ease: "easeOut" as const },
+    },
   }
 
+  const containerVariants = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.06,
+      },
+    },
+  }
+
+  const projectFrame = featuredProject
+    ? [
+        {
+          label: "Problem",
+          value: "Turn music discovery into a social product surface with reviews, profiles, and track context.",
+        },
+        {
+          label: "Solution",
+          value: "A Next.js product with auth, publishing flows, relational data, and a calmer review experience.",
+        },
+        {
+          label: "Role",
+          value: "Product design, frontend, data modeling, Supabase integration, and deployment.",
+        },
+        {
+          label: "Stack",
+          value: getTechLine(featuredProject),
+        },
+      ]
+    : []
+
   return (
-    <section className="bg-neutral-950 pt-24 pb-16 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-24 px-6 sm:px-12 lg:px-24 xl:px-56">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <span className="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap border-transparent bg-neutral-800 text-neutral-200 mb-4">
-            <span className="mr-1">✦</span>
-            Portfolio
-          </span>
-
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-            My Work & Projects
+    <section className="bg-neutral-950 px-6 pb-24 pt-28 text-neutral-200 sm:px-12 sm:pb-28 sm:pt-32 lg:px-24 xl:px-56">
+      <motion.div
+        className="mx-auto max-w-2xl"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.header variants={itemVariants}>
+          <p className="text-sm leading-6 text-neutral-500">Work</p>
+          <h1 className="mt-2 text-3xl font-semibold leading-tight text-white text-balance sm:text-4xl">
+            Product work, presented as decisions instead of decoration.
           </h1>
-          <p className="text-base md:text-lg text-neutral-300 max-w-3xl mx-auto">
-            A collection of projects I&apos;ve built — from concept to deployment. Each project represents a unique challenge
-            and learning experience.
+          <p className="mt-6 text-[15px] leading-7 text-neutral-400 text-pretty sm:text-base sm:leading-8">
+            A compact index of projects I&apos;ve built or shaped, focused on real flows, interface polish, and the
+            systems behind the screens.
           </p>
-        </div>
+        </motion.header>
 
-        {/* Filters */}
-        <div className="mb-12 space-y-4">
-          {/* Search and View Toggle */}
-          <div className="flex gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-neutral-400" />
-              <Input
-                placeholder="Search projects..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-neutral-900/50 border-neutral-700 text-white placeholder:text-neutral-400"
-              />
+        {featuredProject && (
+          <motion.article className="mt-14" variants={itemVariants} aria-labelledby="featured-work-heading">
+            <div className="mb-5 flex items-end justify-between gap-4">
+              <h2 id="featured-work-heading" className="text-base font-medium text-white text-balance">
+                Featured
+              </h2>
+              <span className="inline-flex min-h-10 items-center gap-2 text-sm text-neutral-500">
+                <Circle className="size-2 fill-current" aria-hidden="true" />
+                {getStatusLabel(featuredProject.status)}
+              </span>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}
-              className="bg-neutral-900/50 border-neutral-700 text-white hover:bg-neutral-800/70 flex-shrink-0"
-            >
-              {viewMode === "grid" ? <List className="h-4 w-4" /> : <Grid className="h-4 w-4" />}
-            </Button>
-          </div>
 
-          {/* Status Filters */}
-          <div className="flex flex-wrap gap-2">
-            <Badge
-              variant={selectedStatus === "all" ? "default" : "outline"}
-              className={`cursor-pointer transition-colors text-sm ${
-                selectedStatus === "all"
-                  ? "bg-white text-black"
-                  : "bg-transparent text-white border-neutral-600 hover:bg-neutral-800"
-              }`}
-              onClick={() => setSelectedStatus("all")}
-            >
-              All ({projects.length})
-            </Badge>
-            <Badge
-              variant={selectedStatus === "completed" ? "default" : "outline"}
-              className={`cursor-pointer transition-colors text-sm ${
-                selectedStatus === "completed"
-                  ? "bg-white text-black"
-                  : "bg-transparent text-white border-neutral-600 hover:bg-neutral-800"
-              }`}
-              onClick={() => setSelectedStatus("completed")}
-            >
-              Completed ({projects.filter((p) => p.status === "completed").length})
-            </Badge>
-            <Badge
-              variant={selectedStatus === "in_progress" ? "default" : "outline"}
-              className={`cursor-pointer transition-colors text-sm ${
-                selectedStatus === "in_progress"
-                  ? "bg-white text-black"
-                  : "bg-transparent text-white border-neutral-600 hover:bg-neutral-800"
-              }`}
-              onClick={() => setSelectedStatus("in_progress")}
-            >
-              In Progress ({projects.filter((p) => p.status === "in_progress").length})
-            </Badge>
-          </div>
-        </div>
+            <div className={surfaceClass}>
+              <div className="rounded-[18px] bg-neutral-900/45 p-4 sm:p-5">
+                <div className="flex gap-4">
+                  <div className="relative flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-[14px] bg-neutral-950 outline outline-1 -outline-offset-1 outline-white/10 sm:size-20">
+                    {featuredProject.image_url ? (
+                      <Image
+                        src={featuredProject.image_url}
+                        alt=""
+                        fill
+                        className={
+                          isLogoImage(featuredProject.image_url)
+                            ? "object-contain p-4 opacity-85"
+                            : "object-cover opacity-90"
+                        }
+                        sizes="80px"
+                        aria-hidden="true"
+                        priority
+                      />
+                    ) : (
+                      <Layers2 className="size-5 text-neutral-500" aria-hidden="true" />
+                    )}
+                  </div>
 
-        {/* Projects Grid */}
-        <div>
-          {filteredProjects.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-neutral-400 text-lg mb-4">No projects found</p>
-              <p className="text-neutral-500 text-sm">Try adjusting your search or filters</p>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-neutral-500">
+                      <span>{getYear(featuredProject.created_at)}</span>
+                      <span aria-hidden="true">/</span>
+                      <span>Product case study</span>
+                    </div>
+
+                    <h3 className="mt-1 text-xl font-semibold leading-snug text-white text-balance">
+                      {featuredProject.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-neutral-400 text-pretty">
+                      {featuredProject.excerpt || featuredProject.description}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/[0.08] pt-3">
+                  <Link href={`/work/${featuredProject.slug}`} className={actionLinkClass}>
+                    Case study
+                    <ArrowUpRight className="size-3.5" aria-hidden="true" />
+                  </Link>
+                  {featuredProject.deploy_url && (
+                    <Link
+                      href={featuredProject.deploy_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={actionLinkClass}
+                    >
+                      Live
+                      <ExternalLink className="size-3.5" aria-hidden="true" />
+                    </Link>
+                  )}
+                  {featuredProject.repo_url && (
+                    <Link
+                      href={featuredProject.repo_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={actionLinkClass}
+                    >
+                      Source
+                      <FaGithub className="size-3.5" aria-hidden="true" />
+                    </Link>
+                  )}
+                </div>
+              </div>
             </div>
-          ) : (
-            <div
-              className={`grid gap-8 ${
-                viewMode === "grid" ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"
-              }`}
-            >
-              {filteredProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} viewMode={viewMode} />
+          </motion.article>
+        )}
+
+        {projectFrame.length > 0 && (
+          <motion.section className="mt-14" variants={itemVariants} aria-labelledby="project-frame-heading">
+            <h2 id="project-frame-heading" className="mb-5 text-base font-medium text-white text-balance">
+              How I frame it
+            </h2>
+
+            <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
+              {projectFrame.map((item) => (
+                <article key={item.label} className="grid gap-1 py-4 sm:grid-cols-[7rem_1fr] sm:gap-6">
+                  <h3 className="text-sm text-neutral-500">{item.label}</h3>
+                  <p className="text-sm leading-6 text-neutral-300 text-pretty">{item.value}</p>
+                </article>
               ))}
             </div>
-          )}
-        </div>
-      </div>
+          </motion.section>
+        )}
+
+        <motion.section className="mt-14" variants={itemVariants} aria-labelledby="work-index-heading">
+          <h2 id="work-index-heading" className="mb-5 text-base font-medium text-white text-balance">
+            Index
+          </h2>
+
+          <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
+            {projects.map((project, index) => (
+              <Link
+                key={project.id}
+                href={`/work/${project.slug}`}
+                className="group grid min-h-24 gap-4 py-5 transition-colors duration-150 hover:bg-white/[0.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 sm:grid-cols-[3rem_1fr_auto]"
+              >
+                <span className="text-sm text-neutral-600 tabular-nums">{String(index + 1).padStart(2, "0")}</span>
+
+                <span>
+                  <span className="block text-base font-medium text-white text-balance">{project.title}</span>
+                  <span className="mt-1 block max-w-xl text-sm leading-6 text-neutral-400 text-pretty">
+                    {project.excerpt || project.description}
+                  </span>
+                  <span className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm text-neutral-500">
+                    <span>{getStatusLabel(project.status)}</span>
+                    <span aria-hidden="true">/</span>
+                    <span>{getTechLine(project, 3)}</span>
+                  </span>
+                </span>
+
+                <span className="flex items-start justify-end text-neutral-500">
+                  <ArrowUpRight
+                    className="size-4 opacity-0 transition-[color,opacity,transform] duration-150 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100 group-hover:text-white"
+                    aria-hidden="true"
+                  />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section className="mt-14" variants={itemVariants} aria-labelledby="work-lens-heading">
+          <h2 id="work-lens-heading" className="mb-5 text-base font-medium text-white text-balance">
+            Lens
+          </h2>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            <article className={surfaceClass}>
+              <div className="rounded-[18px] bg-neutral-900/35 px-4 py-3">
+                <Layers2 className="mb-5 size-4 text-neutral-500" aria-hidden="true" />
+                <h3 className="text-sm font-medium text-white text-balance">Systems first</h3>
+                <p className="mt-1 text-sm leading-6 text-neutral-400 text-pretty">
+                  I like projects with real states: auth, onboarding, publishing, feeds, and data that stays readable.
+                </p>
+              </div>
+            </article>
+
+            <article className={surfaceClass}>
+              <div className="rounded-[18px] bg-neutral-900/35 px-4 py-3">
+                <Route className="mb-5 size-4 text-neutral-500" aria-hidden="true" />
+                <h3 className="text-sm font-medium text-white text-balance">Case by route</h3>
+                <p className="mt-1 text-sm leading-6 text-neutral-400 text-pretty">
+                  Each project should explain the problem, stack, tradeoffs, outcome, and what I would improve next.
+                </p>
+              </div>
+            </article>
+          </div>
+        </motion.section>
+      </motion.div>
     </section>
   )
 }

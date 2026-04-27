@@ -95,6 +95,7 @@ export interface Project {
   excerpt?: string | null
   content: ContentBlock[]
   image_url: string | null
+  logo_url?: string | null
   status: "in_progress" | "completed"
   featured: boolean
   technologies: TechnologyData[]
@@ -126,6 +127,7 @@ export interface CreateProjectData {
   excerpt?: string
   content?: ContentBlock[]
   image_url?: string | null
+  logo_url?: string | null
   status: "in_progress" | "completed"
   featured?: boolean
   technologies: TechnologyData[]

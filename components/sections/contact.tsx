@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { FaGithub, FaLinkedin } from "react-icons/fa"
 import { MdEmail } from "react-icons/md"
@@ -7,6 +8,7 @@ const links = [
     label: "Kocteau",
     description: "Music review platform and main product.",
     href: "https://kocteau.com",
+    logo: "/kocteau-logo.svg",
   },
   {
     label: "LinkedIn",
@@ -55,13 +57,30 @@ export function ContactSection() {
                 href={item.href}
                 target={item.href.startsWith("http") ? "_blank" : undefined}
                 rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="group rounded-2xl border border-white/[0.08] bg-neutral-950 px-4 py-3 transition-colors duration-150 hover:border-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                className="group rounded-[22px] bg-neutral-950 p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.08)] transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 active:scale-[0.96]"
               >
-                <div className="flex items-center gap-2">
-                  {Icon && <Icon className="size-3.5 text-neutral-500 transition-colors duration-150 group-hover:text-white" aria-hidden="true" />}
-                  <h3 className="text-sm font-medium text-white text-balance">{item.label}</h3>
+                <div className="rounded-[18px] bg-neutral-900/25 px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    {item.logo && (
+                      <Image
+                        src={item.logo}
+                        alt=""
+                        width={16}
+                        height={16}
+                        className="size-3.5 object-contain opacity-55 grayscale transition-opacity duration-150 group-hover:opacity-85"
+                        aria-hidden="true"
+                      />
+                    )}
+                    {Icon && (
+                      <Icon
+                        className="size-3.5 text-neutral-500 transition-colors duration-150 group-hover:text-white"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <h3 className="text-sm font-medium text-white text-balance">{item.label}</h3>
+                  </div>
+                  <p className="mt-1 text-sm leading-6 text-neutral-400 text-pretty">{item.description}</p>
                 </div>
-                <p className="mt-1 text-sm leading-6 text-neutral-400 text-pretty">{item.description}</p>
               </Link>
             )
           })}

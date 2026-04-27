@@ -4,6 +4,81 @@ export type ProjectSummary = Omit<Project, "content" | "media">
 
 const projects = [
   {
+    id: "kocteau",
+    slug: "kocteau",
+    title: "Kocteau",
+    description:
+      "A music review platform for discovering tracks, publishing opinions, and building a social layer around music.",
+    excerpt:
+      "A production music review platform with auth, public profiles, review publishing, personalized feeds, and a relational Supabase backend.",
+    content: [
+      {
+        id: "kocteau-overview",
+        type: "heading",
+        level: 2,
+        content: "Kocteau - Music Review Platform",
+      },
+      {
+        id: "kocteau-intro",
+        type: "paragraph",
+        content:
+          "Kocteau is my personal product in production: a music review platform built around tracks, public profiles, reviews, follows, bookmarks, comments, notifications, and personalized feeds.",
+      },
+      {
+        id: "kocteau-role",
+        type: "paragraph",
+        content:
+          "I designed and built the full product flow, including authentication, onboarding, external track search, review publishing, profile states, data modeling, storage, server routes, RPCs, and deployment.",
+      },
+      {
+        id: "kocteau-stack-intro",
+        type: "paragraph",
+        content: "Core stack:",
+      },
+      {
+        id: "kocteau-stack-list",
+        type: "list",
+        content: [
+          "Next.js App Router, React, TypeScript, Tailwind CSS, and shadcn/ui",
+          "Supabase Auth, Database, Storage, relational modeling, and RPCs",
+          "Deezer Search API, Vercel, Turborepo, pnpm workspaces, and ESLint",
+        ],
+        listType: "bullet",
+      },
+    ],
+    image_url: "/kocteau-logo.svg",
+    logo_url: "/kocteau-logo.svg",
+    status: "in_progress",
+    featured: true,
+    technologies: [
+      {
+        name: "Next.js",
+        color: "bg-transparent text-white",
+        iconName: "RiNextjsFill",
+      },
+      {
+        name: "TypeScript",
+        color: "bg-transparent text-white",
+        iconName: "SiTypescript",
+      },
+      {
+        name: "Supabase",
+        color: "bg-transparent text-white",
+        iconName: "SiSupabase",
+      },
+      {
+        name: "Tailwind CSS",
+        color: "bg-transparent text-white",
+        iconName: "SiTailwindcss",
+      },
+    ],
+    repo_url: "https://github.com/francozeta/kocteau",
+    deploy_url: "https://kocteau.com",
+    reading_time: 2,
+    created_at: "2026-01-01T00:00:00.000000+00:00",
+    updated_at: "2026-04-26T00:00:00.000000+00:00",
+  },
+  {
     id: "mubi-clone",
     slug: "mubi-clone",
     title: "MUBI Clone",
@@ -41,6 +116,7 @@ const projects = [
       },
     ],
     image_url: "/projects/mubi-clone.png",
+    logo_url: "/mubi-logo.svg",
     status: "completed",
     featured: true,
     technologies: [

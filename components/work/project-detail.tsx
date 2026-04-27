@@ -1,197 +1,238 @@
 "use client"
-import Link from "next/link"
+
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, ExternalLink, Calendar, CheckCircle, Clock } from "lucide-react"
+import Link from "next/link"
+import { motion, useReducedMotion } from "motion/react"
+import { ArrowLeft, ArrowUpRight, ExternalLink } from "lucide-react"
 import { FaGithub } from "react-icons/fa"
 import type { Project } from "@/types/project"
 import { AVAILABLE_TECHNOLOGIES } from "@/lib/technologies"
 import { ContentRenderer } from "@/components/project/content-renderer"
-import { useScrollReveal } from "@/hooks/use-scroll-reveal"
-import { TableOfContents } from "./table-of-contents"
 
 interface ProjectDetailProps {
   project: Project
 }
 
-export function ProjectDetail({ project }: ProjectDetailProps) {
-  const { ref: headerRef, isVisible: headerVisible } = useScrollReveal<HTMLDivElement>()
-  const { ref: contentRef, isVisible: contentVisible } = useScrollReveal<HTMLDivElement>({ delay: 200 })
+const actionLinkClass =
+  "inline-flex min-h-10 items-center gap-1 text-sm font-medium text-neutral-400 transition-[color,transform] duration-150 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 active:scale-[0.96]"
 
-  const renderTechIcon = (iconName: string) => {
-    const tech = AVAILABLE_TECHNOLOGIES.find((t) => t.iconName === iconName)
-    if (!tech) return null
-    const Icon = tech.icon
-    return <Icon className="h-4 w-4" />
+const surfaceClass = "rounded-[22px] bg-neutral-950 p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
+
+function getStatusLabel(status: Project["status"]) {
+  return status === "completed" ? "Completed" : "In progress"
+}
+
+function getYear(date: string) {
+  return new Date(date).getUTCFullYear()
+}
+
+function isSvg(src: string | null | undefined) {
+  return Boolean(src?.endsWith(".svg"))
+}
+
+function getTechLine(project: Project) {
+  return project.technologies.map((tech) => tech.name).join(", ")
+}
+
+export function ProjectDetail({ project }: ProjectDetailProps) {
+  const shouldReduceMotion = useReducedMotion()
+  const logo = project.logo_url || project.image_url
+
+  const itemVariants = {
+    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.18, ease: "easeOut" as const },
+    },
   }
 
-  const estimatedReadingTime = project.reading_time || Math.ceil((project.content?.length || 0) * 0.5)
+  const containerVariants = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.06,
+      },
+    },
+  }
 
-  const formattedDate = new Date(project.created_at).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
+  const metaItems = [
+    {
+      label: "Status",
+      value: getStatusLabel(project.status),
+    },
+    {
+      label: "Year",
+      value: String(getYear(project.created_at)),
+    },
+    {
+      label: "Stack",
+      value: getTechLine(project),
+    },
+    {
+      label: "Role",
+      value: project.slug === "kocteau" ? "Product design, frontend, data, deployment" : "Frontend, UI, product MVP",
+    },
+  ]
 
   return (
-    <article className="bg-neutral-950 pt-16 pb-24 sm:pt-20 sm:pb-32 lg:pt-24 lg:pb-40 relative">
-      {/* Header */}
-      <div
-        ref={headerRef}
-        className={`px-6 sm:px-12 lg:px-24 xl:px-56 mb-16 transition-all duration-1000 ${headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+    <article className="bg-neutral-950 px-6 pb-24 pt-28 text-neutral-200 sm:px-12 sm:pb-28 sm:pt-32 lg:px-24 xl:px-56">
+      <motion.div
+        className="mx-auto max-w-2xl"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
       >
-        <div className="max-w-4xl mx-auto">
-          {/* Back button */}
-          <Link
-            href="/work"
-            className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors mb-8 group"
-          >
-            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            <span className="text-sm">Back to projects</span>
+        <motion.div variants={itemVariants}>
+          <Link href="/work" className={actionLinkClass}>
+            <ArrowLeft className="size-3.5" aria-hidden="true" />
+            Back to work
           </Link>
+        </motion.div>
 
-          {/* Project meta */}
-          <div className="flex flex-wrap items-center gap-4 mb-6">
-            <Badge
-              className={`text-sm px-3 py-1 rounded-full flex items-center gap-2 ${project.status === "completed"
-                ? "bg-green-600/20 text-green-400 border-green-600/30"
-                : "bg-orange-600/20 text-orange-400 border-orange-600/30"
-                }`}
-            >
-              {project.status === "completed" ? <CheckCircle className="h-4 w-4" /> : <Calendar className="h-4 w-4" />}
-              {project.status === "completed" ? "Completed" : "In Progress"}
-            </Badge>
-
-            <div className="flex items-center gap-2 text-neutral-400 text-sm">
-              <Calendar className="h-4 w-4" />
-              <span>{formattedDate}</span>
-            </div>
-            {estimatedReadingTime > 0 && (
-              <div className="flex items-center gap-2 text-neutral-400 text-sm">
-                <Clock className="h-4 w-4" />
-                <span>{estimatedReadingTime} min read</span>
+        <motion.header className="mt-10" variants={itemVariants}>
+          <div className="flex items-center gap-3">
+            {logo && (
+              <div className="relative flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-neutral-900/60 outline outline-1 -outline-offset-1 outline-white/10">
+                <Image
+                  src={logo}
+                  alt=""
+                  width={32}
+                  height={32}
+                  className="size-6 object-contain opacity-70 grayscale"
+                  aria-hidden="true"
+                  priority
+                />
               </div>
             )}
+            <div>
+              <p className="text-sm leading-5 text-neutral-500">Case study</p>
+              <p className="text-sm leading-5 text-neutral-400">{getStatusLabel(project.status)}</p>
+            </div>
           </div>
 
-          {/* Title */}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">{project.title}</h1>
+          <h1 className="mt-7 text-3xl font-semibold leading-tight text-white text-balance sm:text-4xl">
+            {project.title}
+          </h1>
 
-          {/* Excerpt */}
           {project.excerpt && (
-            <p className="text-base md:text-lg text-neutral-300 mb-8 leading-relaxed">{project.excerpt}</p>
+            <p className="mt-5 text-[15px] leading-7 text-neutral-400 text-pretty sm:text-base sm:leading-8">
+              {project.excerpt}
+            </p>
           )}
 
-          {/* Technologies */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            {project.technologies?.map((tech) => (
-              <Badge
-                key={tech.name}
-                variant="secondary"
-                className="bg-white/10 text-white text-sm px-3 py-1 rounded-full flex items-center gap-2 border-neutral-100/20"
-              >
-                {renderTechIcon(tech.iconName)}
-                <span>{tech.name}</span>
-              </Badge>
+          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+            {project.deploy_url && (
+              <Link href={project.deploy_url} target="_blank" rel="noopener noreferrer" className={actionLinkClass}>
+                Live
+                <ExternalLink className="size-3.5" aria-hidden="true" />
+              </Link>
+            )}
+            {project.repo_url && (
+              <Link href={project.repo_url} target="_blank" rel="noopener noreferrer" className={actionLinkClass}>
+                Source
+                <FaGithub className="size-3.5" aria-hidden="true" />
+              </Link>
+            )}
+          </div>
+        </motion.header>
+
+        <motion.section className="mt-12" variants={itemVariants} aria-label="Project metadata">
+          <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
+            {metaItems.map((item) => (
+              <article key={item.label} className="grid gap-1 py-4 sm:grid-cols-[7rem_1fr] sm:gap-6">
+                <h2 className="text-sm text-neutral-500">{item.label}</h2>
+                <p className="text-sm leading-6 text-neutral-300 text-pretty">{item.value}</p>
+              </article>
             ))}
           </div>
+        </motion.section>
 
-          {/* Action buttons */}
-          <div className="flex flex-wrap gap-4">
-            {project.deploy_url && (
-              <Button className="bg-white text-black hover:bg-neutral-200 transition-all duration-200" asChild>
-                <Link href={project.deploy_url} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="h-4 w-4 mr-2" />
-                  View Live Demo
-                </Link>
-              </Button>
-            )}
-
-            {project.repo_url && (
-              <Button
-                variant="outline"
-                className="bg-neutral-900/50 border-neutral-700 text-white hover:bg-neutral-800/70 "
-                asChild
-              >
-                <Link href={project.repo_url} target="_blank" rel="noopener noreferrer">
-                  <FaGithub className="h-4 w-4 mr-2" />
-                  View Source Code
-                </Link>
-              </Button>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Hero Image */}
-      {project.image_url && (
-        <div className="px-6 sm:px-12 lg:px-24 xl:px-56 mb-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="relative rounded-2xl overflow-hidden bg-neutral-800">
-              <Image
-                src={project.image_url || "/placeholder.svg"}
-                alt={`${project.title} project screenshot`}
-                width={1200}
-                height={600}
-                className="w-full h-auto object-cover"
-                priority
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-              />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Content */}
-      <div className="px-6 sm:px-12 lg:px-24 xl:px-56">
-        <div className="max-w-4xl mx-auto">
-          <div
-            ref={contentRef}
-            className={`transition-all duration-1000 ${contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-          >
-            {project.content && project.content.length > 0 ? (
-              <ContentRenderer content={project.content} />
-            ) : (
-              <div className="text-center py-16">
-                <p className="text-neutral-400 text-base md:text-lg mb-4">Content coming soon</p>
-                <p className="text-neutral-500 text-sm">
-                  This project is still being documented. Check back later for detailed information.
-                </p>
+        {project.image_url && (
+          <motion.figure className="mt-14" variants={itemVariants}>
+            <div className={surfaceClass}>
+              <div className="relative flex min-h-64 items-center justify-center overflow-hidden rounded-[18px] bg-neutral-900/45 outline outline-1 -outline-offset-1 outline-white/10">
+                <Image
+                  src={project.image_url}
+                  alt={`${project.title} preview`}
+                  width={1200}
+                  height={720}
+                  className={
+                    isSvg(project.image_url)
+                      ? "h-28 w-28 object-contain opacity-65 grayscale"
+                      : "h-auto w-full object-cover opacity-90"
+                  }
+                  sizes="(max-width: 768px) 100vw, 672px"
+                  priority
+                />
               </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Table of Contents - Fixed Position */}
-      {project.content && project.content.length > 0 && <TableOfContents content={project.content} />}
-
-      {/* Footer CTA */}
-      <div className="px-6 sm:px-12 lg:px-24 xl:px-56 mt-16">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-8 text-center">
-            <h3 className="text-xl md:text-2xl font-bold text-white mb-4">Interested in working together?</h3>
-            <p className="text-neutral-300 text-sm md:text-base mb-6">
-              I&apos;m always open to discussing new opportunities and interesting projects.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button className="bg-white text-black hover:bg-neutral-200" asChild>
-                <Link href="mailto:francozeta2011@gmail.com">Get in touch</Link>
-              </Button>
-              <Button
-                variant="outline"
-                className="bg-transparent border-neutral-700 text-white hover:bg-neutral-800/50"
-                asChild
-              >
-                <Link href="/work">View more projects</Link>
-              </Button>
             </div>
-          </div>
-        </div>
-      </div>
+            <figcaption className="mt-3 text-sm leading-6 text-neutral-500 text-pretty">
+              A quiet preview surface for the project identity and interface direction.
+            </figcaption>
+          </motion.figure>
+        )}
+
+        {project.technologies.length > 0 && (
+          <motion.section className="mt-14" variants={itemVariants} aria-labelledby="project-stack-heading">
+            <h2 id="project-stack-heading" className="mb-5 text-base font-medium text-white text-balance">
+              Stack
+            </h2>
+
+            <div className="flex flex-wrap gap-2">
+              {project.technologies.map((tech) => {
+                const item = AVAILABLE_TECHNOLOGIES.find((availableTech) => availableTech.iconName === tech.iconName)
+                const Icon = item?.icon
+
+                return (
+                  <span
+                    key={tech.name}
+                    className="inline-flex min-h-10 items-center gap-2 rounded-full bg-neutral-950 px-3 text-sm text-neutral-300 shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
+                  >
+                    {Icon && <Icon className="size-3.5 text-neutral-500" aria-hidden="true" />}
+                    {tech.name}
+                  </span>
+                )
+              })}
+            </div>
+          </motion.section>
+        )}
+
+        <motion.section className="mt-14" variants={itemVariants} aria-labelledby="project-notes-heading">
+          <h2 id="project-notes-heading" className="mb-5 text-base font-medium text-white text-balance">
+            Case notes
+          </h2>
+
+          {project.content.length > 0 ? (
+            <ContentRenderer content={project.content} />
+          ) : (
+            <div className="border-y border-white/[0.08] py-6">
+              <p className="text-sm leading-6 text-neutral-400 text-pretty">
+                This case study is still being documented. For now, the live project and source links above are the best
+                references.
+              </p>
+            </div>
+          )}
+        </motion.section>
+
+        <motion.section
+          className="mt-14 border-t border-white/[0.08] pt-6"
+          variants={itemVariants}
+          aria-labelledby="project-next-heading"
+        >
+          <h2 id="project-next-heading" className="text-base font-medium text-white text-balance">
+            Next
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-neutral-400 text-pretty">
+            I&apos;m shaping each project into a clearer story: problem, solution, role, stack, technical decisions,
+            result, and what I learned.
+          </p>
+          <Link href="/work" className={actionLinkClass}>
+            View all work
+            <ArrowUpRight className="size-3.5" aria-hidden="true" />
+          </Link>
+        </motion.section>
+      </motion.div>
     </article>
   )
 }

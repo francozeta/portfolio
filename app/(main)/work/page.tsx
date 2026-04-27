@@ -1,21 +1,24 @@
 import type { Metadata } from "next"
 import { WorkLayout } from "@/components/work/work-layout"
+import { getProjectSummaries } from "@/lib/projects"
 
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Explore Franco Zeta's portfolio of web development projects. From e-commerce platforms to analytics dashboards, discover the technologies and solutions behind each project.",
+    "Selected product work by Franco Zeta, including Kocteau, a music review platform, and full-stack web case studies built with Next.js, TypeScript, Supabase, and Tailwind CSS.",
   openGraph: {
-    title: "Work & Projects - Franco Zeta's Portfolio",
+    title: "Selected Work - Franco Zeta",
     description:
-      "Explore Franco Zeta's portfolio of web development projects. From e-commerce platforms to analytics dashboards, discover the technologies and solutions behind each project.",
+      "A curated index of product-shaped web projects by Franco Zeta, focused on interfaces, full-stack flows, and thoughtful systems.",
   },
 }
 
-export default function WorkPage() {
+export default async function WorkPage() {
+  const projects = await getProjectSummaries()
+
   return (
     <main className="relative">
-      <WorkLayout />
+      <WorkLayout projects={projects} />
     </main>
   )
 }
