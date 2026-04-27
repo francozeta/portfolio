@@ -9,6 +9,10 @@ export type ContentBlock =
   | ListBlock
   | QuoteBlock
   | LinkBlock
+  | ProcessBlock
+  | ProductSurfacesBlock
+  | ArchitectureBlock
+  | DecisionsBlock
   | DividerBlock
 
 export interface BaseBlock {
@@ -65,6 +69,50 @@ export interface LinkBlock extends BaseBlock {
     description?: string
     image?: string
   }
+}
+
+export interface ProcessBlock extends BaseBlock {
+  type: "process"
+  content: Array<{
+    title: string
+    description: string
+  }>
+}
+
+export interface ProductSurfacesBlock extends BaseBlock {
+  type: "product-surfaces"
+  content: {
+    title: string
+    description: string
+    items: Array<{
+      label: string
+      title: string
+      description: string
+    }>
+  }
+}
+
+export interface ArchitectureBlock extends BaseBlock {
+  type: "architecture"
+  content: {
+    title: string
+    description?: string
+    nodes: Array<{
+      title: string
+      description: string
+      items: string[]
+    }>
+  }
+}
+
+export interface DecisionsBlock extends BaseBlock {
+  type: "decisions"
+  content: Array<{
+    title: string
+    problem: string
+    decision: string
+    tradeoff: string
+  }>
 }
 
 export interface DividerBlock extends BaseBlock {

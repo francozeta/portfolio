@@ -57,4 +57,7 @@ Dark editorial portfolio inspired by `jakub.kr`, adapted for Franco Zeta and Koc
 - Work detail pages: editorial case-note layout on `max-w-2xl`; compact back link, small circular project logo, title/excerpt, metadata rows, quiet preview surface, stack pills, content as `Case notes`, and no floating table-of-contents.
 - About page: no portrait/photo; use CV-backed facts, Kocteau as the main product story, border-y editorial rows, compact capability/timeline/principle sections, and small 40px action links.
 - Detail polish: prefer static shadow rings over card borders for depth surfaces, use concentric radii (`rounded-[22px] p-1` with `rounded-[18px]` inner surfaces), add pure white/10 image outlines in dark mode, use tabular numbers in indexes/years, and add `active:scale-[0.96]` only to action-like links.
+- Case study content should avoid repeated flat lists. Do not use slash markers for bullets; use quiet hairline markers, tabular numbers, or purpose-built blocks.
+- Case study proof sections can use product-surface blocks: compact dark mock interfaces plus small editorial tiles that demonstrate product moments before full screenshots or Excalidraw diagrams exist.
+- Excalidraw/SVG diagrams are welcome, but they should be embedded inside the same dark editorial surfaces instead of looking like standalone whiteboard exports.
 - Future sections should continue the same `max-w-2xl` centered rhythm before introducing wider layouts.
