@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, User, Layout } from "lucide-react"
+import { BookOpen, Home, Layout, User } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export function Header() {
@@ -67,6 +67,21 @@ export function Header() {
         >
           <Layout size={16} className="sm:size-3.5" aria-hidden="true" />
           <span className="text-sm sm:text-xs font-medium hidden sm:inline">Work</span>
+        </Link>
+
+        <Link
+          href="/writing"
+          className={cn(
+            "flex items-center gap-2 rounded-full border px-4 py-3 text-neutral-300 transition-[background-color,border-color,color,transform] duration-150 ease-out sm:gap-1.5 sm:px-3 sm:py-2 active:scale-[0.96]",
+            isActive("/writing")
+              ? "bg-neutral-900/70 text-white border-neutral-50/20"
+              : "hover:bg-neutral-800/50 hover:text-white border-transparent hover:border-neutral-50/20",
+          )}
+          aria-label="Writing page"
+          aria-current={isActive("/writing") ? "page" : undefined}
+        >
+          <BookOpen size={16} className="sm:size-3.5" aria-hidden="true" />
+          <span className="text-sm sm:text-xs font-medium hidden sm:inline">Writing</span>
         </Link>
       </nav>
     </header>

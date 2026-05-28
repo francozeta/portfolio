@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, ArrowUpRight, ExternalLink } from "lucide-react"
+import { ArrowLeft, ExternalLink } from "lucide-react"
 import { FaGithub } from "react-icons/fa"
 import type { Project } from "@/types/project"
 import { AVAILABLE_TECHNOLOGIES } from "@/lib/technologies"
@@ -13,8 +13,6 @@ interface ProjectDetailProps {
 const actionLinkClass =
   "inline-flex min-h-10 items-center gap-1 text-sm font-medium text-neutral-400 transition-[color,transform] duration-150 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 active:scale-[0.96]"
 
-const surfaceClass = "rounded-[22px] bg-neutral-950 p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
-
 function getStatusLabel(status: Project["status"]) {
   return status === "completed" ? "Completed" : "In progress"
 }
@@ -23,35 +21,13 @@ function getYear(date: string) {
   return new Date(date).getUTCFullYear()
 }
 
-function isSvg(src: string | null | undefined) {
-  return Boolean(src?.endsWith(".svg"))
-}
-
-function getTechLine(project: Project) {
-  return project.technologies.map((tech) => tech.name).join(", ")
+function getRoleLabel(project: Project) {
+  return project.slug === "kocteau" ? "Product design + engineering" : "Frontend + product UI"
 }
 
 export function ProjectDetail({ project }: ProjectDetailProps) {
   const logo = project.logo_url || project.image_url
-
-  const metaItems = [
-    {
-      label: "Status",
-      value: getStatusLabel(project.status),
-    },
-    {
-      label: "Year",
-      value: String(getYear(project.created_at)),
-    },
-    {
-      label: "Stack",
-      value: getTechLine(project),
-    },
-    {
-      label: "Role",
-      value: project.slug === "kocteau" ? "Product design, frontend, data, deployment" : "Frontend, UI, product MVP",
-    },
-  ]
+  const showPreview = Boolean(project.image_url && !project.image_url.endsWith(".svg"))
 
   return (
     <article className="bg-neutral-950 px-6 pb-24 pt-28 text-neutral-200 sm:px-12 sm:pb-28 sm:pt-32 lg:px-24 xl:px-56">
@@ -86,6 +62,10 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
             {project.title}
           </h1>
 
+          <p className="mt-4 text-sm leading-6 text-neutral-500 text-pretty">
+            {getYear(project.created_at)} / {getRoleLabel(project)}
+          </p>
+
           {project.excerpt && (
             <p className="mt-5 text-[15px] leading-7 text-neutral-400 text-pretty sm:text-base sm:leading-8">
               {project.excerpt}
@@ -108,44 +88,8 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
           </div>
         </header>
 
-        <section className="mt-12" aria-label="Project metadata">
-          <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
-            {metaItems.map((item) => (
-              <article key={item.label} className="grid gap-1 py-4 sm:grid-cols-[7rem_1fr] sm:gap-6">
-                <h2 className="text-sm text-neutral-500">{item.label}</h2>
-                <p className="text-sm leading-6 text-neutral-300 text-pretty">{item.value}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {project.image_url && (
-          <figure className="mt-14">
-            <div className={surfaceClass}>
-              <div className="relative flex min-h-64 items-center justify-center overflow-hidden rounded-[18px] bg-neutral-900/45 outline outline-1 -outline-offset-1 outline-white/10">
-                <Image
-                  src={project.image_url}
-                  alt={`${project.title} preview`}
-                  width={1200}
-                  height={720}
-                  className={
-                    isSvg(project.image_url)
-                      ? "h-28 w-28 object-contain opacity-65 grayscale"
-                      : "h-auto w-full object-cover opacity-90"
-                  }
-                  sizes="(max-width: 768px) 100vw, 672px"
-                  priority
-                />
-              </div>
-            </div>
-            <figcaption className="mt-3 text-sm leading-6 text-neutral-500 text-pretty">
-              A quiet preview surface for the project identity and interface direction.
-            </figcaption>
-          </figure>
-        )}
-
         {project.technologies.length > 0 && (
-          <section className="mt-14" aria-labelledby="project-stack-heading">
+          <section className="mt-10" aria-labelledby="project-stack-heading">
             <h2 id="project-stack-heading" className="mb-5 text-base font-medium text-white text-balance">
               Stack
             </h2>
@@ -169,11 +113,25 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
           </section>
         )}
 
-        <section className="mt-14" aria-labelledby="project-notes-heading">
-          <h2 id="project-notes-heading" className="mb-5 text-base font-medium text-white text-balance">
-            Case notes
-          </h2>
+        {showPreview && project.image_url && (
+          <figure className="mt-12">
+            <div className="rounded-[22px] bg-neutral-950 p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
+              <div className="relative flex min-h-64 items-center justify-center overflow-hidden rounded-[18px] bg-neutral-900/45 outline outline-1 -outline-offset-1 outline-white/10">
+                <Image
+                  src={project.image_url}
+                  alt={`${project.title} preview`}
+                  width={1200}
+                  height={720}
+                  className="h-auto w-full object-cover opacity-90"
+                  sizes="(max-width: 768px) 100vw, 672px"
+                  priority
+                />
+              </div>
+            </div>
+          </figure>
+        )}
 
+        <section className="mt-12" aria-label={`${project.title} case study`}>
           {project.content.length > 0 ? (
             <ContentRenderer content={project.content} />
           ) : (
@@ -186,19 +144,12 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
           )}
         </section>
 
-        <section className="mt-14 border-t border-white/[0.08] pt-6" aria-labelledby="project-next-heading">
-          <h2 id="project-next-heading" className="text-base font-medium text-white text-balance">
-            Next
-          </h2>
-          <p className="mt-2 text-sm leading-6 text-neutral-400 text-pretty">
-            I&apos;m shaping each project into a clearer story: problem, solution, role, stack, technical decisions,
-            result, and what I learned.
-          </p>
+        <footer className="mt-16 border-t border-white/[0.08] pt-6">
           <Link href="/work" className={actionLinkClass}>
-            View all work
-            <ArrowUpRight className="size-3.5" aria-hidden="true" />
+            <ArrowLeft className="size-3.5" aria-hidden="true" />
+            All work
           </Link>
-        </section>
+        </footer>
       </div>
     </article>
   )

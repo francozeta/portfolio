@@ -10,20 +10,24 @@ const projectLinkClass =
 const actionLinkClass =
   "inline-flex min-h-10 items-center gap-1 text-sm font-medium text-neutral-400 transition-[color,transform] duration-150 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 active:scale-[0.96]"
 
+const featuredProjectOrder = ["kocteau", "stepper"] as const
+
 function getProjectLogo(project: ProjectSummary) {
   return project.logo_url || project.image_url
 }
 
-function getLogoClass(project: ProjectSummary) {
-  return project.slug === "mubi-clone" ? "size-14" : "size-11"
+function getLogoClass() {
+  return "size-11"
 }
 
 export async function FeaturedProjects() {
   const projects = await getFeaturedProjects()
-  const visibleProjects = projects.slice(0, 2)
+  const visibleProjects = featuredProjectOrder
+    .map((slug) => projects.find((project) => project.slug === slug))
+    .filter((project): project is ProjectSummary => Boolean(project))
 
   return (
-    <section className="bg-neutral-950 px-6 py-16 text-neutral-200 sm:px-12 sm:py-20 lg:px-24 xl:px-56" aria-labelledby="featured-projects-heading">
+    <section className="bg-neutral-950 px-6 pb-16 pt-8 text-neutral-200 sm:px-12 sm:pb-20 sm:pt-10 lg:px-24 xl:px-56" aria-labelledby="featured-projects-heading">
       <div className="mx-auto max-w-2xl">
         <div className="mb-5 flex items-end justify-between gap-4">
           <h2 id="featured-projects-heading" className="text-base font-medium text-white text-balance">
@@ -57,7 +61,7 @@ export async function FeaturedProjects() {
                       alt=""
                       width={64}
                       height={64}
-                      className={`${getLogoClass(project)} object-contain opacity-55 grayscale transition-[opacity,scale] duration-150 ease-out group-hover:scale-105 group-hover:opacity-80`}
+                      className={`${getLogoClass()} object-contain opacity-55 grayscale transition-[opacity,scale] duration-150 ease-out group-hover:scale-105 group-hover:opacity-80`}
                       aria-hidden="true"
                     />
                     ) : (

@@ -1,7 +1,10 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
+import { JsonLd } from "@/components/seo/json-ld"
 import { ProjectDetail } from "@/components/work/project-detail"
 import { getProjectBySlug, getProjects } from "@/lib/projects"
+import { absoluteUrl, siteConfig } from "@/lib/site"
+import { projectJsonLd } from "@/lib/seo"
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>
@@ -37,10 +40,20 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
       alternates: {
         canonical: `/work/${project.slug}`,
       },
+      keywords: [
+        project.title,
+        "Franco Zeta",
+        "case study",
+        "software project",
+        ...project.technologies.map((technology) => technology.name),
+      ],
       openGraph: {
         title: `${project.title} - Franco Zeta's Portfolio`,
         description:
           project.excerpt || project.description || `Learn about ${project.title}, a project by Franco Zeta.`,
+        url: absoluteUrl(`/work/${project.slug}`),
+        type: "article",
+        siteName: siteConfig.title,
       },
       twitter: {
         card: "summary_large_image",
@@ -66,5 +79,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound()
   }
 
-  return <ProjectDetail project={project} />
+  return (
+    <>
+      <JsonLd data={projectJsonLd(project)} />
+      <ProjectDetail project={project} />
+    </>
+  )
 }

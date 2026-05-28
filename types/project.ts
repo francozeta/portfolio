@@ -1,5 +1,7 @@
 import type { IconType } from "react-icons"
 
+export type InlineContent = string | { text: string; href: string }
+
 // Content block types for rich content
 export type ContentBlock =
   | ParagraphBlock
@@ -23,7 +25,7 @@ export interface BaseBlock {
 
 export interface ParagraphBlock extends BaseBlock {
   type: "paragraph"
-  content: string
+  content: string | InlineContent[]
 }
 
 export interface HeadingBlock extends BaseBlock {

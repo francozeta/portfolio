@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { FaGithub } from "react-icons/fa"
-import { FaLinkedin, FaThreads } from "react-icons/fa6"
+import { FaLinkedin, FaXTwitter } from "react-icons/fa6"
 import { MdEmail } from "react-icons/md"
 
 const socialLinks = [
@@ -15,9 +15,9 @@ const socialLinks = [
     icon: FaLinkedin,
   },
   {
-    label: "Threads",
-    href: "https://www.threads.net/@frxnco.zeta",
-    icon: FaThreads,
+    label: "X",
+    href: "https://x.com/frxnco_zeta",
+    icon: FaXTwitter,
   },
   {
     label: "Email",

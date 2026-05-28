@@ -8,7 +8,7 @@ const linkClass =
 
 export function HeroSection() {
   return (
-    <section className="bg-neutral-950 px-6 pb-16 pt-28 text-neutral-200 sm:px-12 sm:pb-20 sm:pt-32 lg:px-24 lg:pb-24 xl:px-56">
+    <section className="bg-neutral-950 px-6 pb-8 pt-28 text-neutral-200 sm:px-12 sm:pb-10 sm:pt-32 lg:px-24 lg:pb-12 xl:px-56">
       <div className="mx-auto max-w-2xl">
         <div className="flex items-center gap-3">
           <Image
@@ -24,7 +24,7 @@ export function HeroSection() {
           <div>
             <h1 className="text-base font-semibold leading-5 text-white text-balance">Franco Zeta</h1>
             <p className="flex flex-wrap items-center gap-x-1.5 text-sm leading-5 text-neutral-400 text-pretty">
-              <span>Design Engineer at</span>
+              <span>Building</span>
               <Link
                 href="https://kocteau.com"
                 target="_blank"
@@ -40,29 +40,29 @@ export function HeroSection() {
                   className="size-3.5"
                   aria-hidden="true"
                 />
-                Kocteau
+                Kocteau,
               </Link>
+              <span>Stepper, and Anomalyer.</span>
             </p>
           </div>
         </div>
 
         <div className="mt-8 space-y-5 text-[15px] leading-7 text-neutral-300 sm:text-base sm:leading-8">
           <p className="max-w-2xl text-pretty">
-            I&apos;m building{" "}
+            I&apos;m a software design student in Lima building product-shaped interfaces with React, Next.js, and a
+            lot of attention to the small states people actually touch. Right now my main surface is{" "}
             <Link href="https://kocteau.com" target="_blank" rel="noopener noreferrer" className={linkClass}>
               Kocteau
-            </Link>
-            , my personal project: a music review platform for discovering tracks, publishing opinions, and building a
-            more social way to listen. I <span className="font-serif italic text-neutral-100">care deeply</span> about
-            craft and quality, and I like to make people feel something through my work.
+            </Link>, a music review product for taste, tracks, and public profiles.
           </p>
 
           <p className="max-w-2xl text-pretty">
-            Previously, I built{" "}
-            <Link href="/work/mubi-clone" className={linkClass}>
-              MUBI Clone
-            </Link>{" "}
-            and a few other experiments. You can reach me on{" "}
+            I&apos;m also shaping{" "}
+            <Link href="/work/stepper" className={linkClass}>
+              Stepper
+            </Link>, a shadcn registry primitive for accessible multi-step flows, and an early project called Anomalyer. This
+            portfolio is becoming a living index of what I&apos;m building, what I&apos;m learning, and what still needs
+            a sharper pass. You can reach me on{" "}
             <Link
               href="https://www.linkedin.com/in/franco-zeta-496330267"
               target="_blank"

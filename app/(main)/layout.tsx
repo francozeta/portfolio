@@ -4,6 +4,9 @@ import { Geist } from "next/font/google"
 import "@/app/globals.css"
 import { Header } from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
+import { JsonLd } from "@/components/seo/json-ld"
+import { personJsonLd, websiteJsonLd } from "@/lib/seo"
+import { siteConfig } from "@/lib/site"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,25 +16,31 @@ const geistSans = Geist({
 })
 
 export const metadata: Metadata = {
-  applicationName: "Franco Zeta Portfolio",
-  metadataBase: new URL("https://francozeta.vercel.app"),
+  applicationName: siteConfig.title,
+  metadataBase: new URL(siteConfig.url),
   title: {
     template: "%s | Franco Zeta's Portfolio",
-    default: "Franco Zeta's Portfolio - Software Developer & Designer",
+    default: siteConfig.title,
   },
-  description:
-    "Franco Zeta - Software Developer, Systems Engineer & Designer from Peru. Passionate about creating innovative web applications with modern technologies like React, Next.js, and TypeScript.",
+  description: siteConfig.description,
   keywords: [
     "Franco Zeta",
     "Software Developer",
+    "Product Designer",
+    "Writing",
+    "Kocteau",
+    "Stepper",
+    "Anomalyer",
     "Web Developer",
     "React",
     "Next.js",
     "TypeScript",
     "Portfolio",
+    "Music software",
+    "Interface design",
     "Peru",
+    "Lima",
     "Frontend",
-    "Backend",
   ],
   authors: [{ name: "Franco Zeta" }],
   creator: "Franco Zeta",
@@ -40,17 +49,17 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: "https://francozeta.vercel.app",
-    title: "Franco Zeta's Portfolio - Software Developer & Designer",
-    description:
-      "Franco Zeta - Software Developer, Systems Engineer & Designer from Peru. Passionate about creating innovative web applications.",
-    siteName: "Franco Zeta's Portfolio",
+    locale: siteConfig.locale,
+    url: siteConfig.url,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    siteName: siteConfig.title,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Franco Zeta's Portfolio - Software Developer & Designer",
-    description: "Franco Zeta - Software Developer, Systems Engineer & Designer from Peru.",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    creator: "@frxnco_zeta",
   },
   robots: {
     index: true,
@@ -87,6 +96,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
       <body className={`${geistSans.className} antialiased text-neutral-200 bg-neutral-950`}>
+        <JsonLd data={[personJsonLd(), websiteJsonLd()]} />
         <Header />
         <main role="main">{children}</main>
         <Footer />

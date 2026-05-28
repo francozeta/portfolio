@@ -1,6 +1,9 @@
 import type { Metadata } from "next"
+import { JsonLd } from "@/components/seo/json-ld"
 import { WorkLayout } from "@/components/work/work-layout"
 import { getProjectSummaries } from "@/lib/projects"
+import { absoluteUrl, siteConfig } from "@/lib/site"
+import { workCollectionJsonLd } from "@/lib/seo"
 
 export const metadata: Metadata = {
   title: "Work",
@@ -13,6 +16,9 @@ export const metadata: Metadata = {
     title: "Selected Work - Franco Zeta",
     description:
       "A curated index of product-shaped web projects by Franco Zeta, focused on interfaces, full-stack flows, and thoughtful systems.",
+    url: absoluteUrl("/work"),
+    type: "website",
+    siteName: siteConfig.title,
   },
 }
 
@@ -21,6 +27,7 @@ export default async function WorkPage() {
 
   return (
     <main className="relative">
+      <JsonLd data={workCollectionJsonLd(projects)} />
       <WorkLayout projects={projects} />
     </main>
   )

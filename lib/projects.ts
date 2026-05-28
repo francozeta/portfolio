@@ -10,7 +10,7 @@ const projects = [
     description:
       "A social music network for reviewing songs, expressing taste, and discovering music through people, tags, and lightweight recommendations.",
     excerpt:
-      "A Letterboxd-inspired music product with OTP auth, taste onboarding, Deezer search, reviews, public profiles, track pages, and a Supabase/Postgres backend.",
+      "A social music case study around reviews, taste onboarding, Deezer-powered search, public profiles, track pages, and a Supabase/Postgres backend.",
     content: [
       {
         id: "kocteau-problem-heading",
@@ -21,8 +21,11 @@ const projects = [
       {
         id: "kocteau-problem-intro",
         type: "paragraph",
-        content:
-          "Music discovery is personal, but most music products optimize playback, cataloging, or passive recommendation. Kocteau explores a more social question: what would a Letterboxd-like layer for songs feel like if reviews, taste, and discovery lived in the same product?",
+        content: [
+          "Music discovery is personal, but most music products optimize playback, cataloging, or passive recommendation. Kocteau explores a more social question: what would a ",
+          { text: "Letterboxd", href: "https://letterboxd.com/about/" },
+          "-like layer for songs feel like if reviews, taste, and discovery lived in the same product?",
+        ],
       },
       {
         id: "kocteau-problem-quote",
@@ -33,8 +36,11 @@ const projects = [
       {
         id: "kocteau-problem-context",
         type: "paragraph",
-        content:
-          "Playlists show what people collect, scrobbles show what people played, and algorithms suggest what might come next. But the human layer often disappears into group chats, social posts, or notes that are hard to revisit. Kocteau turns that behavior into a product loop.",
+        content: [
+          "Playlists show what people collect, ",
+          { text: "scrobbling", href: "https://www.last.fm/about/trackmymusic?setlang=en" },
+          " shows what people played, and algorithms suggest what might come next. But the human layer often disappears into group chats, social posts, or notes that are hard to revisit. Kocteau turns that behavior into a product loop.",
+        ],
       },
       {
         id: "kocteau-solution-divider",
@@ -49,8 +55,11 @@ const projects = [
       {
         id: "kocteau-solution-intro",
         type: "paragraph",
-        content:
-          "The core loop combines explicit taste with social activity. A user signs in with email OTP, completes a profile, selects preference tags, reviews songs found through Deezer, and then discovers more music through reviews, follows, and feed signals.",
+        content: [
+          "The core loop combines explicit taste with social activity. A user signs in with email OTP, completes a profile, selects preference tags, reviews songs found through ",
+          { text: "Deezer", href: "https://developers.deezer.com/api" },
+          ", and then discovers more music through reviews, follows, and feed signals.",
+        ],
       },
       {
         id: "kocteau-product-flow",
@@ -95,70 +104,6 @@ const projects = [
         },
       },
       {
-        id: "kocteau-product-surfaces",
-        type: "product-surfaces",
-        content: {
-          title: "Product surfaces",
-          description:
-            "These are the product moments that make Kocteau more than a database of songs: identity, taste, publishing, and social discovery.",
-          items: [
-            {
-              label: "Auth",
-              title: "Email OTP sign in",
-              description:
-                "A lightweight account flow powered by Supabase Auth and email delivery, designed to avoid password friction.",
-            },
-            {
-              label: "Taste",
-              title: "Preference onboarding",
-              description:
-                "Explicit tags give the feed a starting point before the user has enough behavior for stronger recommendations.",
-            },
-            {
-              label: "Search",
-              title: "Deezer-powered lookup",
-              description:
-                "Users search real music metadata without manually creating songs, albums, or artists.",
-            },
-            {
-              label: "Review",
-              title: "Rating plus written take",
-              description:
-                "The composer turns a quick reaction into content that can live on feeds, profiles, and track pages.",
-            },
-            {
-              label: "Feed",
-              title: "For You direction",
-              description:
-                "The product direction combines human curation with lightweight recommendation signals instead of pure algorithmic opacity.",
-            },
-            {
-              label: "Social",
-              title: "Likes, comments, saves, follows",
-              description:
-                "Interaction primitives make taste social and give future recommendation logic more useful signals.",
-            },
-          ],
-        },
-      },
-      {
-        id: "kocteau-role-heading",
-        type: "heading",
-        level: 2,
-        content: "Role",
-      },
-      {
-        id: "kocteau-role-list",
-        type: "list",
-        content: [
-          "Defined the MVP, user journey, review loop, onboarding model, and recommendation direction.",
-          "Built the frontend with Next.js App Router, React, TypeScript, Tailwind CSS, and shadcn/ui.",
-          "Modeled the backend with Supabase Auth, Postgres tables, relational entities, RLS-aware access patterns, and RPCs.",
-          "Integrated Deezer search, email OTP delivery, server-state handling, deployment workflow, and production release concerns.",
-        ],
-        listType: "bullet",
-      },
-      {
         id: "kocteau-architecture-divider",
         type: "divider",
       },
@@ -171,8 +116,11 @@ const projects = [
       {
         id: "kocteau-architecture-intro",
         type: "paragraph",
-        content:
-          "I treated Kocteau as a product system, not a static demo. The architecture separates UI, server state, backend data, auth, external music metadata, and deployment so the product can keep evolving after the MVP.",
+        content: [
+          "I treated Kocteau as a product system, not a static demo. The architecture separates UI, server state, backend data, auth, external music metadata, and deployment. Access rules lean on ",
+          { text: "Row Level Security", href: "https://supabase.com/docs/guides/database/postgres/row-level-security" },
+          " so public social surfaces and private user actions can share the same relational model.",
+        ],
       },
       {
         id: "kocteau-architecture-diagram",
@@ -184,53 +132,6 @@ const projects = [
             "Architecture diagram: the web app owns the product experience while Supabase, Deezer, and Vercel handle persistence, music metadata, and deployment.",
           width: 1360,
           height: 496,
-        },
-      },
-      {
-        id: "kocteau-architecture-map",
-        type: "architecture",
-        content: {
-          title: "System map",
-          description:
-            "A compact product architecture around a Next.js web app, a Supabase data layer, Deezer for music search, email infrastructure for OTP, and Vercel as the production surface.",
-          nodes: [
-            {
-              title: "Next.js web app",
-              description:
-                "The main product surface for auth, onboarding, search, review creation, profiles, feeds, and track pages.",
-              items: ["App Router", "React", "TypeScript", "Tailwind", "shadcn/ui"],
-            },
-            {
-              title: "Server state",
-              description:
-                "TanStack Query manages remote data, cache, optimistic interactions, and synchronization for reviews and social actions.",
-              items: ["TanStack Query", "cache", "optimistic UI"],
-            },
-            {
-              title: "Supabase",
-              description:
-                "Auth, Postgres, Row Level Security, Storage, and RPCs handle identity, relational product data, and critical writes.",
-              items: ["Auth OTP", "Postgres", "RLS", "RPCs"],
-            },
-            {
-              title: "Music metadata",
-              description:
-                "Deezer powers track search while Kocteau stores stable local entities so reviews can accumulate around durable records.",
-              items: ["Deezer API", "track search", "entity cache"],
-            },
-            {
-              title: "Email layer",
-              description:
-                "Resend SMTP supports OTP delivery and keeps auth messaging separate from product UI concerns.",
-              items: ["Resend", "SMTP", "React Email"],
-            },
-            {
-              title: "Vercel",
-              description:
-                "Hosts the production app, preview builds, and the public release surface at kocteau.com.",
-              items: ["Production", "previews", "CI"],
-            },
-          ],
         },
       },
       {
@@ -282,24 +183,6 @@ const projects = [
               "Use TanStack Query for server-state synchronization, local cache, and interaction feedback.",
             tradeoff:
               "It adds dependency and bundle weight, but reduces custom state code and makes interactive surfaces feel faster.",
-          },
-          {
-            title: "Hybrid recommendation direction",
-            problem:
-              "A new user has almost no behavior history, so a pure algorithmic feed starts cold and generic.",
-            decision:
-              "Blend explicit taste tags, reviewed tracks, follows, recent activity, diversity, and fallback content into the discovery model.",
-            tradeoff:
-              "The feed becomes more opinionated, but the first session can feel relevant before the product has enough long-term data.",
-          },
-          {
-            title: "Backend-as-a-service over custom infrastructure",
-            problem:
-              "The MVP needed auth, database, storage, policies, and server writes without spending the project budget on infrastructure.",
-            decision:
-              "Use Supabase and Vercel instead of maintaining a custom Node backend and self-managed database.",
-            tradeoff:
-              "There is some platform coupling, but the product can move faster and keep engineering effort on the user experience.",
           },
         ],
       },
@@ -383,34 +266,6 @@ const projects = [
           "OTP auth looks simple but has hidden edge cases: email delay, spam folders, expired codes, redirects, and incomplete profiles.",
         ],
         listType: "numbered",
-      },
-      {
-        id: "kocteau-next-heading",
-        type: "heading",
-        level: 2,
-        content: "Next steps",
-      },
-      {
-        id: "kocteau-next-list",
-        type: "list",
-        content: [
-          "Add real product screenshots and Excalidraw/SVG diagrams for architecture, user flow, and recommendation logic.",
-          "Instrument activation and engagement metrics before making claims about traction.",
-          "Improve recommendation quality with more nuanced taste signals and feedback loops.",
-          "Expand notifications and retention surfaces once review publishing is validated.",
-          "Add automated tests around auth, review creation, social interactions, and feed behavior.",
-        ],
-        listType: "bullet",
-      },
-      {
-        id: "kocteau-live-link",
-        type: "link",
-        content: {
-          url: "https://kocteau.com",
-          title: "Open Kocteau",
-          description: "A social music review product built around tracks, taste, profiles, and discovery.",
-          image: "/kocteau-logo.svg",
-        },
       },
     ],
     image_url: "/kocteau-logo.svg",
@@ -505,7 +360,7 @@ const projects = [
     image_url: "/projects/mubi-clone.png",
     logo_url: "/mubi-logo.svg",
     status: "completed",
-    featured: true,
+    featured: false,
     technologies: [
       {
         name: "Next.js",
@@ -529,7 +384,93 @@ const projects = [
     created_at: "2025-06-09T15:32:08.570348+00:00",
     updated_at: "2025-06-16T15:27:22.597782+00:00",
   },
+  {
+    id: "stepper",
+    slug: "stepper",
+    title: "Stepper",
+    description:
+      "A beta shadcn registry primitive for typed, accessible multi-step flows in React, Next.js, and Tailwind CSS projects.",
+    excerpt:
+      "A shadcn-style Stepper primitive with source ownership, ordered steps, keyboard navigation, guards, content panels, docs, tests, and registry output.",
+    content: [
+      {
+        id: "stepper-overview",
+        type: "heading",
+        level: 2,
+        content: "Stepper",
+      },
+      {
+        id: "stepper-intro",
+        type: "paragraph",
+        content:
+          "Stepper is a lightweight primitive for real multi-step product flows. It is distributed through the shadcn registry so teams can copy the component source into their app, own it locally, and adapt the UI without handing workflow state to a black box.",
+      },
+      {
+        id: "stepper-focus",
+        type: "paragraph",
+        content:
+          "The component stays intentionally narrow: it reflects progress and navigation, while the app keeps form state, routing, validation, persistence, and server actions. The docs explain that boundary through installation, API, composition, forms, adapters, and examples.",
+      },
+      {
+        id: "stepper-now",
+        type: "list",
+        content: [
+          "Built a typed Stepper API with controlled and uncontrolled state, horizontal and vertical orientation, disabled and completed states, and navigation helpers.",
+          "Added accessible triggers, content regions, keyboard navigation, duplicate-step warnings, and async navigation guards.",
+          "Published registry files, docs, demo blocks, Vitest coverage, release automation, and a production docs site.",
+        ],
+        listType: "bullet",
+      },
+    ],
+    image_url: "/stepper-logo.svg",
+    logo_url: "/stepper-logo.svg",
+    status: "in_progress",
+    featured: true,
+    technologies: [
+      {
+        name: "Next.js",
+        color: "bg-transparent text-white",
+        iconName: "RiNextjsFill",
+      },
+      {
+        name: "React",
+        color: "bg-transparent text-white",
+        iconName: "FaReact",
+      },
+      {
+        name: "TypeScript",
+        color: "bg-transparent text-white",
+        iconName: "SiTypescript",
+      },
+      {
+        name: "Tailwind CSS",
+        color: "bg-transparent text-white",
+        iconName: "SiTailwindcss",
+      },
+      {
+        name: "Shadcn/ui",
+        color: "bg-transparent text-white",
+        iconName: "SiShadcnui",
+      },
+      {
+        name: "Vercel",
+        color: "bg-transparent text-white",
+        iconName: "SiVercel",
+      },
+    ],
+    repo_url: "https://github.com/francozeta/stepper",
+    deploy_url: "https://francozeta-stepper.vercel.app",
+    reading_time: 3,
+    created_at: "2026-05-08T00:00:00.000000+00:00",
+    updated_at: "2026-05-27T00:00:00.000000+00:00",
+  },
 ] satisfies Project[]
+
+const archivedProjectSlugs = new Set(["mubi-clone"])
+
+function getPublicProjects() {
+  return projects.filter((project) => !archivedProjectSlugs.has(project.slug))
+}
 
 function sortNewestFirst(items: Project[]) {
   return [...items].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
@@ -549,18 +490,22 @@ function throwLocalContentMode(): never {
 }
 
 export async function getProjects(): Promise<Project[]> {
-  return sortNewestFirst(projects)
+  return sortNewestFirst(getPublicProjects())
 }
 
 export async function getProjectSummaries(): Promise<ProjectSummary[]> {
-  return sortNewestFirst(projects).map(toSummary)
+  return sortNewestFirst(getPublicProjects()).map(toSummary)
 }
 
 export async function getFeaturedProjects(): Promise<ProjectSummary[]> {
-  return sortNewestFirst(projects).filter((project) => project.featured).slice(0, 3).map(toSummary)
+  return sortNewestFirst(getPublicProjects()).filter((project) => project.featured).slice(0, 3).map(toSummary)
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
+  if (archivedProjectSlugs.has(slug)) {
+    return null
+  }
+
   return projects.find((project) => project.slug === slug) ?? null
 }
 
