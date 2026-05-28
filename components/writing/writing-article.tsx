@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, Quote } from "lucide-react"
+import { HalftoneImage } from "@/components/writing/halftone-image"
 import type { Writing, WritingBlock, WritingInline } from "@/lib/writings"
 
 interface WritingArticleProps {
@@ -60,16 +61,26 @@ function WritingBlockRenderer({ block }: { block: WritingBlock }) {
 
   return (
     <figure className="my-8">
-      <div className="relative overflow-hidden rounded-[18px] bg-neutral-900/45 shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
-        <Image
+      {block.filter === "halftone-dots" ? (
+        <HalftoneImage
           src={block.src}
           alt={block.alt}
           width={block.width ?? 1200}
           height={block.height ?? 720}
-          className="h-auto w-full object-cover"
-          sizes="(max-width: 768px) 100vw, 672px"
+          variant={block.variant}
         />
-      </div>
+      ) : (
+        <div className="relative overflow-hidden rounded-[18px] bg-neutral-900/45 shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
+          <Image
+            src={block.src}
+            alt={block.alt}
+            width={block.width ?? 1200}
+            height={block.height ?? 720}
+            className="h-auto w-full object-cover"
+            sizes="(max-width: 768px) 100vw, 672px"
+          />
+        </div>
+      )}
       {block.caption && (
         <figcaption className="mt-3 text-sm leading-6 text-neutral-500 text-pretty">{block.caption}</figcaption>
       )}
