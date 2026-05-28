@@ -4,14 +4,14 @@ import { AboutLayout } from "@/components/about/about-layout"
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn more about Franco Zeta, a junior web developer from Peru building Kocteau, a music review platform with Next.js, TypeScript, Supabase, and Tailwind CSS.",
+    "About Franco Zeta, a Lima-based web developer turning product ideas into clear interfaces while building Kocteau, Stepper, and Anomalyer.",
   alternates: {
     canonical: "/about",
   },
   openGraph: {
-    title: "About Franco Zeta - Web Developer building Kocteau",
+    title: "About Franco Zeta",
     description:
-      "Junior web developer from Peru building product-shaped web interfaces, full-stack flows, and Kocteau, a music review platform in production.",
+      "A Lima-based web developer building clear product interfaces through Kocteau, Stepper, and Anomalyer.",
   },
 }
 
