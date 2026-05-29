@@ -7,6 +7,7 @@ import Footer from "@/components/layout/footer"
 import { JsonLd } from "@/components/seo/json-ld"
 import { personJsonLd, websiteJsonLd } from "@/lib/seo"
 import { siteConfig } from "@/lib/site"
+import { Analytics } from "@vercel/analytics/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -100,6 +101,7 @@ export default function RootLayout({
         <Header />
         <main role="main">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   )
