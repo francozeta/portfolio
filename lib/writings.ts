@@ -42,6 +42,143 @@ export interface Writing {
 
 const writings = [
   {
+    slug: "building-is-a-strange-way-to-refuse-reality",
+    title: "Building Is a Strange Way of Refusing to Accept Reality",
+    description:
+      "A personal essay on work, loneliness, imperfect systems, and learning to build without needing the world to prove you are necessary.",
+    date: "2026-08-20",
+    updatedAt: "2026-08-20",
+    displayDate: "August 20, 2026",
+    topic: "Building",
+    readingTime: "7 min read",
+    keywords: [
+      "building software",
+      "software development",
+      "product thinking",
+      "human-centered design",
+      "programming and loneliness",
+      "career in technology",
+      "imperfect systems",
+      "Franco Zeta writing",
+    ],
+    blocks: [
+      {
+        id: "opening",
+        type: "paragraph",
+        content: [
+          "Building is a strange way of refusing to accept reality. It begins with a quiet objection: this could work better; this should not hurt so much; this problem does not have to keep repeating. You look at what already exists and, for a moment, behave as if it is not final.",
+        ],
+      },
+      {
+        id: "acceptance",
+        type: "paragraph",
+        content: [
+          "That refusal can feel childish. Children are not very interested in accepting the world exactly as it was handed to them. They rearrange it, invent rules, and make another thing out of whatever is nearby. Growing older often means being taught to call the existing version realistic. Building lets me resist that lesson, but it has also taught me a more adult form of acceptance: I cannot control whether what I make arrives at the right time, reaches the right person, or becomes important to anyone else.",
+        ],
+      },
+      {
+        id: "for-yourself",
+        type: "quote",
+        content: [
+          "You can build for yourself, and only for yourself. Everything after that belongs partly to luck, timing, context, and other people.",
+        ],
+        author: "Franco Zeta",
+      },
+      {
+        id: "job-search",
+        type: "paragraph",
+        content: [
+          "Looking for work made this difficult to remember. I spent too much time trying to prove that I could be useful in the exact shape a job description requested. Every unanswered application made usefulness feel like a verdict delivered by someone else. Perhaps my first job was not as a developer, but work still taught me to notice friction inside a business: the repeated task, the unclear handoff, the small process everyone tolerates because nobody has stopped to name it.",
+        ],
+      },
+      {
+        id: "role",
+        type: "paragraph",
+        content: [
+          "That changed the role I imagine for myself. I do not only want to inherit a ticket and translate it into code. I want to understand why the problem exists, who keeps paying its cost, and whether a smaller intervention could remove it. Sometimes that intervention is software. Sometimes it is automation, a clearer interface, or a conversation between people who have been solving different halves of the same problem.",
+        ],
+      },
+      {
+        id: "legacy",
+        type: "paragraph",
+        content: [
+          "I do not think legacy work is beneath me, and novelty by itself is not a virtue. I simply know that I feel most alive where something can still be questioned. I want to help build work that is new where newness matters, unique where character matters, and efficient where people are losing time. A simple change can resolve something that looked impossibly complicated from a distance.",
+        ],
+      },
+      {
+        id: "brilliance",
+        type: "paragraph",
+        content: [
+          "You do not need to be a brilliant mind to do useful work. You need enough patience to understand the problem and enough empathy to notice how it feels from the other side. Start with your own pain as a customer, a user, or the person responsible for a project. Then accept that your view is incomplete. You are not every role at once, but you can listen across roles and suggest what they may not yet see together.",
+        ],
+      },
+      {
+        id: "references",
+        type: "paragraph",
+        content: [
+          "This is not a new idea. In ",
+          {
+            text: "How to Get Startup Ideas",
+            href: "https://www.paulgraham.com/startupideas.html",
+          },
+          ", Paul Graham argues that real ideas often begin with problems you have experienced yourself. Don Norman makes the more important correction in ",
+          {
+            text: "People-Centered (Not Tech-Driven) Design",
+            href: "https://jnd.org/people-centered-not-tech-driven-design/",
+          },
+          ": begin with human abilities and needs, then let technology extend them. The point is not to romanticize personal pain. It is to treat lived experience as evidence, then test it against the experience of other people.",
+        ],
+      },
+      {
+        id: "loneliness",
+        type: "paragraph",
+        content: [
+          "Programming has sometimes been a cure for my loneliness. I do not mean that it fixes loneliness, or that every difficult feeling should become a project. I mean that it gives my attention somewhere honest to go. When nobody speaks to me, I can make one thing respond. When my thoughts are noisy, a system asks me to name them more precisely. When I do not understand myself, the way I build can reveal what I care about: clarity, patience, control, beauty, usefulness, or simply the relief of finishing something small.",
+        ],
+      },
+      {
+        id: "permission",
+        type: "paragraph",
+        content: [
+          "There is no shame in using programming as a way to stay with yourself. A refuge becomes dangerous only when you mistake it for the whole world. Code cannot replace friendship, rest, grief, or asking for help. But it can be a room in which you recover enough quiet to return to them.",
+        ],
+      },
+      {
+        id: "imprecision",
+        type: "paragraph",
+        content: [
+          "Life is absurdly imprecise, much like a system. There is no perfect system, only consistency trying to become more precise so the people using it do not have to suffer the same damage every day. We are not superheroes. We do not remove chaos. At our best, we build a more tolerable interface for living with it.",
+        ],
+      },
+      {
+        id: "brooks",
+        type: "paragraph",
+        content: [
+          "Fred Brooks wrote in ",
+          {
+            text: "No Silver Bullet",
+            href: "https://courses.cs.duke.edu/compsci408s/spring13/readings/no_silver_bullet.pdf",
+          },
+          " that software contains an essential complexity that no single technical breakthrough can erase. I find that strangely comforting. The goal is not perfection. The goal is to understand enough of the complexity to stop passing its cost to someone else.",
+        ],
+      },
+      {
+        id: "mastery",
+        type: "paragraph",
+        content: [
+          "A phrase still follows me: apprentice to everything, master of nothing. Maybe it is an accusation. Maybe it is permission. I have not decided. For now, I would rather remain curious enough to cross the boundaries between business, design, code, and the ordinary discomforts that reveal where a system is failing.",
+        ],
+      },
+      {
+        id: "ending",
+        type: "paragraph",
+        content: [
+          "Choose your path, but do not be afraid of the thing that distracts you for a while. Some distractions are rehearsals for the person you are becoming. You do not need the world to confirm that you were necessary before you begin. Improve. Cry. Build. Then let timing decide what happens next.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "the-niche-as-a-new-form-of-streaming",
     title: "The Niche as a New Form of Streaming",
     description:

@@ -14,12 +14,16 @@ export function personJsonLd() {
     "@id": personId,
     name: siteConfig.name,
     url: siteConfig.url,
+    description: siteConfig.description,
+    image: absoluteUrl("/images/profile-photo.jpg"),
+    email: siteConfig.email,
     jobTitle: "Software Developer and Product Designer",
     homeLocation: {
       "@type": "Place",
       name: siteConfig.location,
     },
     sameAs: [siteConfig.social.github, siteConfig.social.linkedin, siteConfig.social.x],
+    knowsLanguage: ["English", "Spanish"],
     knowsAbout: [
       "Product design",
       "Frontend engineering",
@@ -38,7 +42,8 @@ export function websiteJsonLd() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": websiteId,
-    name: siteConfig.title,
+    name: siteConfig.name,
+    alternateName: siteConfig.title,
     url: siteConfig.url,
     description: siteConfig.description,
     inLanguage: siteConfig.language,
@@ -48,13 +53,32 @@ export function websiteJsonLd() {
   }
 }
 
+export function profilePageJsonLd() {
+  const url = absoluteUrl("/about")
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": `${url}#profile-page`,
+    name: "About Franco Zeta",
+    url,
+    inLanguage: siteConfig.language,
+    mainEntity: {
+      "@type": "Person",
+      "@id": personId,
+    },
+  }
+}
+
 export function writingJsonLd(writing: Writing) {
   const url = absoluteUrl(`/writing/${writing.slug}`)
+  const articleBody = writingToPlainText(writing)
 
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "@id": `${url}#article`,
+    url,
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": url,
@@ -65,9 +89,14 @@ export function writingJsonLd(writing: Writing) {
     dateModified: writing.updatedAt || writing.date,
     inLanguage: siteConfig.language,
     articleSection: writing.topic,
-    articleBody: writingToPlainText(writing),
+    articleBody,
+    wordCount: articleBody.trim().split(/\s+/).length,
     keywords: writing.keywords,
+    isAccessibleForFree: true,
     author: {
+      "@id": personId,
+    },
+    publisher: {
       "@id": personId,
     },
     isPartOf: {

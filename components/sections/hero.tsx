@@ -40,29 +40,31 @@ export function HeroSection() {
                   className="size-3.5"
                   aria-hidden="true"
                 />
-                Kocteau,
+                Kocteau
               </Link>
-              <span>Stepper, and Anomalyer.</span>
+              <span>and thoughtful web interfaces.</span>
             </p>
           </div>
         </div>
 
         <div className="mt-8 space-y-5 text-[15px] leading-7 text-neutral-300 sm:text-base sm:leading-8">
           <p className="max-w-2xl text-pretty">
-            I&apos;m a software design student in Lima building product-shaped interfaces with React, Next.js, and a
-            lot of attention to the small states people actually touch. Right now my main surface is{" "}
-            <Link href="https://kocteau.com" target="_blank" rel="noopener noreferrer" className={linkClass}>
-              Kocteau
-            </Link>, a music review product for taste, tracks, and public profiles.
+            I&apos;m a software developer and product designer in Lima. I turn early ideas into clear web interfaces
+            and the systems behind them, from product decisions and interaction states to React, Next.js,
+            TypeScript, and Supabase.
           </p>
 
           <p className="max-w-2xl text-pretty">
-            I&apos;m also shaping{" "}
+            <Link href="https://kocteau.com" target="_blank" rel="noopener noreferrer" className={linkClass}>
+              Kocteau
+            </Link>
+            , a music review product for taste, tracks, and public writing, is the clearest proof of how I work. I
+            also build{" "}
             <Link href="/work/stepper" className={linkClass}>
               Stepper
-            </Link>, a shadcn registry primitive for accessible multi-step flows, and an early project called Anomalyer. This
-            portfolio is becoming a living index of what I&apos;m building, what I&apos;m learning, and what still needs
-            a sharper pass. You can reach me on{" "}
+            </Link>
+            , an accessible primitive for multi-step product flows. I&apos;m available for selected client work and
+            product collaborations. If you&apos;re shaping something new or refining an existing product, reach me on{" "}
             <Link
               href="https://www.linkedin.com/in/franco-zeta-496330267"
               target="_blank"

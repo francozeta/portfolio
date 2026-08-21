@@ -1,24 +1,27 @@
 import type { Metadata } from "next"
+import { JsonLd } from "@/components/seo/json-ld"
 import { AboutLayout } from "@/components/about/about-layout"
+import { profilePageJsonLd } from "@/lib/seo"
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "About Franco Zeta, a Lima-based web developer turning product ideas into clear interfaces while building Kocteau, Stepper, and Anomalyer.",
+    "About Franco Zeta, a Lima-based software developer and product designer building Kocteau and helping teams shape thoughtful web products.",
   alternates: {
     canonical: "/about",
   },
   openGraph: {
     title: "About Franco Zeta",
     description:
-      "A Lima-based web developer building clear product interfaces through Kocteau, Stepper, and Anomalyer.",
+      "A Lima-based software developer and product designer building Kocteau and clear, thoughtful web interfaces.",
   },
 }
 
 export default function AboutPage() {
   return (
-    <main className="relative">
+    <>
+      <JsonLd data={profilePageJsonLd()} />
       <AboutLayout />
-    </main>
+    </>
   )
 }

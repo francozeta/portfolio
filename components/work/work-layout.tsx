@@ -47,14 +47,13 @@ export function WorkLayout({ projects }: WorkLayoutProps) {
     <section className="bg-neutral-950 px-6 pb-24 pt-28 text-neutral-200 sm:px-12 sm:pb-28 sm:pt-32 lg:px-24 xl:px-56">
       <div className="mx-auto max-w-3xl">
         <header className="max-w-2xl">
-          <p className="text-sm leading-6 text-neutral-500">Work</p>
+          <p className="text-sm leading-6 text-neutral-400/80">Work</p>
           <h1 className="mt-2 text-2xl font-semibold leading-tight text-white text-balance sm:text-3xl">
             Selected work.
           </h1>
           <p className="mt-6 text-[15px] leading-7 text-neutral-400 text-pretty sm:text-base sm:leading-8">
-            A small collection of products and case studies where I practice product thinking, frontend, data, and
-            interface detail. Some are finished enough to explain; others are still useful because they show how I am
-            shaping my taste.
+            Products and case studies where I take ideas through product thinking, interface design, frontend, and
+            data. The work shows both what shipped and the decisions that shaped it.
           </p>
         </header>
 
@@ -83,12 +82,12 @@ export function WorkLayout({ projects }: WorkLayoutProps) {
                         priority
                       />
                     ) : (
-                      <span className="text-sm text-neutral-500">No image</span>
+                      <span className="text-sm text-neutral-400/80">No image</span>
                     )}
                   </div>
 
                   <div>
-                    <p className="text-sm leading-6 text-neutral-500">
+                    <p className="text-sm leading-6 text-neutral-400/80">
                       {getStatusLabel(featuredProject.status)} / {getYear(featuredProject.created_at)}
                     </p>
                     <h3 className="mt-1 text-xl font-semibold leading-snug text-white text-balance">
@@ -97,7 +96,7 @@ export function WorkLayout({ projects }: WorkLayoutProps) {
                     <p className="mt-3 text-sm leading-6 text-neutral-400 text-pretty">
                       {featuredProject.excerpt || featuredProject.description}
                     </p>
-                    <p className="mt-4 text-sm leading-6 text-neutral-500 text-pretty">
+                    <p className="mt-4 text-sm leading-6 text-neutral-400/80 text-pretty">
                       {getTechLine(featuredProject)}
                     </p>
                   </div>
@@ -150,7 +149,7 @@ export function WorkLayout({ projects }: WorkLayoutProps) {
                   <Link key={project.id} href={`/work/${project.slug}`} className={projectLinkClass}>
                     <article>
                       <div className="relative flex aspect-[1.22] items-center justify-center overflow-hidden rounded-[18px] bg-neutral-900/45 outline outline-1 -outline-offset-1 outline-white/10">
-                        <span className="absolute left-3 top-3 text-xs text-neutral-600 tabular-nums">
+                        <span className="absolute left-3 top-3 text-xs text-neutral-400/80 tabular-nums">
                           {String(index + 1).padStart(2, "0")}
                         </span>
 
@@ -168,14 +167,14 @@ export function WorkLayout({ projects }: WorkLayoutProps) {
                             aria-hidden="true"
                           />
                         ) : (
-                          <span className="text-sm text-neutral-500">No image</span>
+                          <span className="text-sm text-neutral-400/80">No image</span>
                         )}
                       </div>
 
                       <div className="min-h-44 px-3 pb-4 pt-4">
                         <div className="flex items-start justify-between gap-3">
                           <div>
-                            <p className="text-sm leading-5 text-neutral-500">
+                            <p className="text-sm leading-5 text-neutral-400/80">
                               {getStatusLabel(project.status)} / {getYear(project.created_at)}
                             </p>
                             <h3 className="mt-1 text-sm font-medium text-white text-balance">{project.title}</h3>
@@ -190,7 +189,7 @@ export function WorkLayout({ projects }: WorkLayoutProps) {
                           {project.excerpt || project.description}
                         </p>
 
-                        <p className="mt-4 line-clamp-2 text-sm leading-6 text-neutral-500 text-pretty">
+                        <p className="mt-4 line-clamp-2 text-sm leading-6 text-neutral-400/80 text-pretty">
                           {getTechLine(project, 3)}
                         </p>
                       </div>

@@ -11,7 +11,7 @@ export function WritingIndex({ writings }: WritingIndexProps) {
     <section className="bg-neutral-950 px-6 pb-24 pt-28 text-neutral-200 sm:px-12 sm:pb-28 sm:pt-32 lg:px-24 xl:px-56">
       <div className="mx-auto max-w-2xl">
         <header>
-          <p className="text-sm leading-6 text-neutral-500">Writing</p>
+          <p className="text-sm leading-6 text-neutral-400/80">Writing</p>
           <h1 className="mt-2 text-2xl font-semibold leading-tight text-white text-balance sm:text-3xl">
             Notes on software, taste, and product ideas.
           </h1>
@@ -34,7 +34,7 @@ export function WritingIndex({ writings }: WritingIndexProps) {
 
               <span className="min-w-0">
                 <span className="block text-base font-medium leading-6 text-white text-balance">{writing.title}</span>
-                <span className="mt-1 block text-sm leading-6 text-neutral-500">
+                <span className="mt-1 block text-sm leading-6 text-neutral-400/80">
                   {writing.displayDate} / {writing.topic} / {writing.readingTime}
                 </span>
                 <span className="mt-3 block text-sm leading-6 text-neutral-400 text-pretty">

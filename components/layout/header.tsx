@@ -19,13 +19,12 @@ export function Header() {
     <header className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4 sm:bottom-auto sm:top-0 sm:p-4">
       <nav
         className="flex items-center rounded-full bg-neutral-950/60 border border-neutral-700/50 gap-1 p-1.5 sm:p-1 backdrop-blur-md"
-        role="navigation"
         aria-label="Main navigation"
       >
         <Link
           href="/"
           className={cn(
-            "flex items-center justify-center rounded-full border px-4 py-3 text-neutral-300 transition-[background-color,border-color,color,transform] duration-150 ease-out sm:px-3 sm:py-2 active:scale-[0.96]",
+            "flex min-h-11 min-w-11 items-center justify-center rounded-full border px-4 py-3 text-neutral-300 transition-[background-color,border-color,color,transform] duration-150 ease-out sm:min-h-0 sm:min-w-0 sm:px-3 sm:py-2 active:scale-[0.96]",
             isActive("/")
               ? "bg-neutral-900/70 text-white border-neutral-50/20"
               : "hover:bg-neutral-800/50 hover:text-white border-transparent hover:border-neutral-50/20",
@@ -42,7 +41,7 @@ export function Header() {
         <Link
           href="/about"
           className={cn(
-            "flex items-center gap-2 rounded-full border px-4 py-3 text-neutral-300 transition-[background-color,border-color,color,transform] duration-150 ease-out sm:gap-1.5 sm:px-3 sm:py-2 active:scale-[0.96]",
+            "flex min-h-11 min-w-11 items-center gap-2 rounded-full border px-4 py-3 text-neutral-300 transition-[background-color,border-color,color,transform] duration-150 ease-out sm:min-h-0 sm:min-w-0 sm:gap-1.5 sm:px-3 sm:py-2 active:scale-[0.96]",
             isActive("/about")
               ? "bg-neutral-900/70 text-white border-neutral-50/20"
               : "hover:bg-neutral-800/50 hover:text-white border-transparent hover:border-neutral-50/20",
@@ -57,7 +56,7 @@ export function Header() {
         <Link
           href="/work"
           className={cn(
-            "flex items-center gap-2 rounded-full border px-4 py-3 text-neutral-300 transition-[background-color,border-color,color,transform] duration-150 ease-out sm:gap-1.5 sm:px-3 sm:py-2 active:scale-[0.96]",
+            "flex min-h-11 min-w-11 items-center gap-2 rounded-full border px-4 py-3 text-neutral-300 transition-[background-color,border-color,color,transform] duration-150 ease-out sm:min-h-0 sm:min-w-0 sm:gap-1.5 sm:px-3 sm:py-2 active:scale-[0.96]",
             isActive("/work")
               ? "bg-neutral-900/70 text-white border-neutral-50/20"
               : "hover:bg-neutral-800/50 hover:text-white border-transparent hover:border-neutral-50/20",
@@ -72,7 +71,7 @@ export function Header() {
         <Link
           href="/writing"
           className={cn(
-            "flex items-center gap-2 rounded-full border px-4 py-3 text-neutral-300 transition-[background-color,border-color,color,transform] duration-150 ease-out sm:gap-1.5 sm:px-3 sm:py-2 active:scale-[0.96]",
+            "flex min-h-11 min-w-11 items-center gap-2 rounded-full border px-4 py-3 text-neutral-300 transition-[background-color,border-color,color,transform] duration-150 ease-out sm:min-h-0 sm:min-w-0 sm:gap-1.5 sm:px-3 sm:py-2 active:scale-[0.96]",
             isActive("/writing")
               ? "bg-neutral-900/70 text-white border-neutral-50/20"
               : "hover:bg-neutral-800/50 hover:text-white border-transparent hover:border-neutral-50/20",

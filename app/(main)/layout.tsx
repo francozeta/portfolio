@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   applicationName: siteConfig.title,
   metadataBase: new URL(siteConfig.url),
   title: {
-    template: "%s | Franco Zeta's Portfolio",
+    template: "%s | Franco Zeta",
     default: siteConfig.title,
   },
   description: siteConfig.description,
@@ -48,6 +48,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
   openGraph: {
     type: "website",
     locale: siteConfig.locale,
@@ -81,7 +84,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5, // Allow zooming for accessibility
   userScalable: true, // Enable user scaling
-  themeColor: "#000000",
+  themeColor: "#0a0a0a",
 }
 
 export default function RootLayout({
@@ -91,15 +94,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        {/* Favicon */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-      </head>
       <body className={`${geistSans.className} antialiased text-neutral-200 bg-neutral-950`}>
+        <a
+          href="#main-content"
+          className="sr-only fixed left-4 top-4 z-[100] rounded-md bg-neutral-100 px-4 py-3 text-sm font-medium text-neutral-950 focus:not-sr-only"
+        >
+          Skip to content
+        </a>
         <JsonLd data={[personJsonLd(), websiteJsonLd()]} />
         <Header />
-        <main role="main">{children}</main>
+        <main id="main-content">{children}</main>
         <Footer />
         <Analytics />
       </body>

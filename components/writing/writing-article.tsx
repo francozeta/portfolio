@@ -9,7 +9,7 @@ interface WritingArticleProps {
 }
 
 const actionLinkClass =
-  "inline-flex min-h-10 items-center gap-1 text-sm font-medium text-neutral-500 transition-[color,transform] duration-150 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 active:scale-[0.96]"
+  "inline-flex min-h-10 items-center gap-1 text-sm font-medium text-neutral-400/80 transition-[color,transform] duration-150 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 active:scale-[0.96]"
 
 const inlineLinkClass =
   "font-medium text-neutral-100 underline decoration-neutral-500/70 underline-offset-4 transition-colors duration-150 hover:text-white hover:decoration-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
@@ -54,7 +54,7 @@ function WritingBlockRenderer({ block }: { block: WritingBlock }) {
         <p className="text-[15px] leading-7 text-neutral-300 text-pretty sm:text-base sm:leading-8">
           <InlineContent content={block.content} />
         </p>
-        {block.author && <cite className="mt-3 block text-sm text-neutral-500 not-italic">{block.author}</cite>}
+        {block.author && <cite className="mt-3 block text-sm text-neutral-400/80 not-italic">{block.author}</cite>}
       </blockquote>
     )
   }
@@ -82,7 +82,7 @@ function WritingBlockRenderer({ block }: { block: WritingBlock }) {
         </div>
       )}
       {block.caption && (
-        <figcaption className="mt-3 text-sm leading-6 text-neutral-500 text-pretty">{block.caption}</figcaption>
+        <figcaption className="mt-3 text-sm leading-6 text-neutral-400/80 text-pretty">{block.caption}</figcaption>
       )}
     </figure>
   )
@@ -98,7 +98,7 @@ export function WritingArticle({ writing }: WritingArticleProps) {
         </Link>
 
         <header className="mt-10">
-          <p className="text-sm leading-6 text-neutral-500">
+          <p className="text-sm leading-6 text-neutral-400/80">
             {writing.displayDate} / {writing.topic} / {writing.readingTime}
           </p>
           <h1 className="mt-3 text-3xl font-semibold leading-tight text-white text-balance sm:text-4xl">

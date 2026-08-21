@@ -4,7 +4,7 @@
 
 > A modern, responsive portfolio website showcasing my work as a Software Developer, Systems Engineer & Designer.
 
-**Live Demo:** [francozeta.vercel.app](https://francozeta.vercel.app)
+**Live Site:** [francozeta.com](https://francozeta.com)
 
 ## Features
 
@@ -18,7 +18,7 @@
 
 ### Frontend
 
-- **Next.js 15** - React framework with App Router
+- **Next.js 16** - React framework with App Router
 - **React 19** - UI library
 - **TypeScript** - Static typing
 - **Tailwind CSS 4** - Styling
@@ -73,3 +73,5 @@ Supabase was not deleted or modified. The latest inventory is documented in `doc
 ## Deployment
 
 Deploy on Vercel with the default Next.js settings. The public portfolio does not require Supabase environment variables.
+
+`francozeta.com` is the canonical production domain. The application redirects the Vercel project hostname and `www` to the apex domain. An optional `GOOGLE_SITE_VERIFICATION` environment variable can provide HTML verification for Google Search Console.

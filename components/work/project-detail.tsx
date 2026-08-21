@@ -53,7 +53,7 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
               </div>
             )}
             <div>
-              <p className="text-sm leading-5 text-neutral-500">Case study</p>
+              <p className="text-sm leading-5 text-neutral-400/80">Case study</p>
               <p className="text-sm leading-5 text-neutral-400">{getStatusLabel(project.status)}</p>
             </div>
           </div>
@@ -62,7 +62,7 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
             {project.title}
           </h1>
 
-          <p className="mt-4 text-sm leading-6 text-neutral-500 text-pretty">
+          <p className="mt-4 text-sm leading-6 text-neutral-400/80 text-pretty">
             {getYear(project.created_at)} / {getRoleLabel(project)}
           </p>
 

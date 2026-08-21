@@ -34,11 +34,11 @@ export default function Footer() {
           <div>
             <Link
               href="/"
-              className="inline-flex min-h-10 items-center text-sm font-medium text-white transition-[color,transform] duration-150 ease-out hover:text-neutral-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 active:scale-[0.96]"
+              className="inline-flex min-h-11 items-center text-sm font-medium text-white transition-[color,transform] duration-150 ease-out hover:text-neutral-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 active:scale-[0.96] sm:min-h-10"
             >
               francozeta
             </Link>
-            <p className="text-sm leading-6 text-neutral-500 text-pretty">
+            <p className="text-sm leading-6 text-neutral-400/80 text-pretty">
               © {new Date().getFullYear()} / Built with care in Lima.
             </p>
           </div>
@@ -55,7 +55,7 @@ export default function Footer() {
                   target={isEmail ? undefined : "_blank"}
                   rel={isEmail ? undefined : "noopener noreferrer"}
                   aria-label={item.label}
-                  className="inline-flex size-10 items-center justify-center rounded-full bg-neutral-950 text-neutral-500 shadow-[0_0_0_1px_rgba(255,255,255,0.08)] transition-[color,transform] duration-150 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 active:scale-[0.96]"
+                  className="inline-flex size-11 items-center justify-center rounded-full bg-neutral-950 text-neutral-400/80 shadow-[0_0_0_1px_rgba(255,255,255,0.08)] transition-[color,transform] duration-150 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 active:scale-[0.96] sm:size-10"
                 >
                   <Icon className="size-4" aria-hidden="true" />
                 </Link>

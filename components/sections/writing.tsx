@@ -18,7 +18,7 @@ export function WritingSection() {
           </h2>
           <Link
             href="/writing"
-            className="min-h-10 text-sm leading-10 text-neutral-500 transition-colors duration-150 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+            className="min-h-10 text-sm leading-10 text-neutral-400/80 transition-colors duration-150 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
           >
             All writing
           </Link>
@@ -39,7 +39,7 @@ export function WritingSection() {
                 <span className="block text-base font-medium leading-6 text-white text-balance">
                   {writing.title}
                 </span>
-                <span className="mt-1 block text-sm leading-6 text-neutral-500">{writing.displayDate}</span>
+                <span className="mt-1 block text-sm leading-6 text-neutral-400/80">{writing.displayDate}</span>
               </span>
             </Link>
           ))}

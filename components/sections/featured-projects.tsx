@@ -37,7 +37,6 @@ export async function FeaturedProjects() {
           <Link
             href="/work"
             className={actionLinkClass}
-            aria-label="View all projects"
           >
             All work
             <ArrowRight className="size-3.5" aria-hidden="true" />
@@ -52,7 +51,7 @@ export async function FeaturedProjects() {
               <Link key={project.id} href={`/work/${project.slug}`} className={projectLinkClass}>
                 <article>
                   <div className="relative flex aspect-[1.16] items-center justify-center overflow-hidden rounded-[18px] bg-neutral-900/45 outline outline-1 -outline-offset-1 outline-white/10">
-                    <span className="absolute left-3 top-3 text-xs text-neutral-600 tabular-nums">
+                    <span className="absolute left-3 top-3 text-xs text-neutral-400/80 tabular-nums">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     {logo ? (
@@ -65,7 +64,7 @@ export async function FeaturedProjects() {
                       aria-hidden="true"
                     />
                     ) : (
-                      <span className="text-sm text-neutral-500">No logo</span>
+                      <span className="text-sm text-neutral-400/80">No logo</span>
                     )}
                   </div>
 

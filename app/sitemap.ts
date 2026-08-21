@@ -6,30 +6,25 @@ import { getWritingSummaries } from "@/lib/writings"
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const projects = await getProjectSummaries()
   const writings = getWritingSummaries()
-  const now = new Date()
 
   return [
     {
       url: siteConfig.url,
-      lastModified: now,
       changeFrequency: "monthly",
       priority: 1,
     },
     {
       url: `${siteConfig.url}/about`,
-      lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${siteConfig.url}/work`,
-      lastModified: now,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${siteConfig.url}/writing`,
-      lastModified: now,
       changeFrequency: "monthly",
       priority: 0.85,
     },

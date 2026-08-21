@@ -14,7 +14,7 @@ const projectNotes = [
     title: "Stepper",
     href: "/work/stepper",
     description:
-      "A product identity and interface exploration that has helped me think more carefully about rhythm, visual systems, and how a brand can become a usable product surface.",
+      "An accessible multi-step primitive that explores source ownership, keyboard behavior, guarded navigation, documentation, and registry-ready distribution.",
   },
   {
     title: "Anomalyer",
@@ -29,15 +29,15 @@ export function AboutLayout() {
       <div className="mx-auto max-w-2xl">
         <article>
           <header>
-            <p className="text-sm leading-6 text-neutral-500">About</p>
+            <p className="text-sm leading-6 text-neutral-400/80">About</p>
             <h1 className="mt-2 text-2xl font-semibold leading-tight text-white text-balance sm:text-3xl">
-              I turn product ideas into usable interfaces
+              I turn product ideas into clear, usable interfaces.
             </h1>
 
             <div className="mt-8 space-y-5 text-[15px] leading-7 text-neutral-300 sm:text-base sm:leading-8">
               <p className="text-pretty">
-                I&apos;m Franco Zeta, a web developer from Lima. I&apos;m interested in turning product ideas into
-                interfaces that are clear, careful, and easy to use.
+                I&apos;m Franco Zeta, a software developer and product designer from Lima. I turn early product ideas
+                into interfaces that are clear, careful, and ready for people to use.
               </p>
 
               <p className="text-pretty">
@@ -108,8 +108,8 @@ export function AboutLayout() {
             </h2>
 
             <p className="mt-3 text-sm leading-6 text-neutral-400 text-pretty">
-              I&apos;m open to junior web developer roles, pre-professional internships, and carefully scoped product
-              collaborations where the interface and the product logic both matter. You can reach me on{" "}
+              I&apos;m available for selected freelance product work, design engineering collaborations, and frontend
+              builds where the interface and product logic both matter. You can reach me on{" "}
               <Link
                 href="https://www.linkedin.com/in/franco-zeta-496330267"
                 target="_blank"

@@ -5,13 +5,15 @@ import { absoluteUrl, siteConfig } from "@/lib/site"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Home | Franco Zeta's Portfolio",
+  title: {
+    absolute: siteConfig.title,
+  },
   description:
-    "Portfolio of Franco Zeta, a Lima-based software design student building Kocteau, Stepper, Anomalyer, and product-shaped web interfaces.",
+    "Software developer and product designer in Lima building Kocteau and helping teams turn early product ideas into clear, thoughtful web interfaces.",
   openGraph: {
-    title: "Home | Franco Zeta's Portfolio",
+    title: siteConfig.title,
     description:
-      "Portfolio of Franco Zeta, focused on Kocteau, Stepper, Anomalyer, and product-shaped web interfaces.",
+      "Software developer and product designer building Kocteau and thoughtful web interfaces from Lima, Peru.",
     url: absoluteUrl("/"),
     type: "website",
     siteName: siteConfig.title,
@@ -20,10 +22,10 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="relative">
+    <>
       <HeroSection />
       <FeaturedProjects />
       <WritingSection />
-    </main>
+    </>
   )
 }
