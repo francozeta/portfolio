@@ -2,50 +2,39 @@ import Image from "next/image"
 import Link from "next/link"
 import { FaGithub, FaLinkedin } from "react-icons/fa"
 import { MdEmail } from "react-icons/md"
+import { BondTypeHero } from "@/components/bond-type/bond-type-hero"
 
 const linkClass =
   "font-medium text-neutral-50 underline decoration-neutral-500/70 underline-offset-4 transition-colors duration-150 hover:text-white hover:decoration-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
 
 export function HeroSection() {
   return (
-    <section className="bg-neutral-950 px-6 pb-8 pt-28 text-neutral-200 sm:px-12 sm:pb-10 sm:pt-32 lg:px-24 lg:pb-12 xl:px-56">
-      <div className="mx-auto max-w-2xl">
-        <div className="flex items-center gap-3">
-          <Image
-            src="/images/profile-photo.jpg"
-            alt="Franco Zeta"
-            width={48}
-            height={48}
-            className="size-12 rounded-full border border-white/10 object-cover"
-            priority
-            sizes="48px"
-          />
+    <section className="bg-neutral-950 px-4 pb-8 pt-24 text-neutral-200 sm:px-8 sm:pb-10 sm:pt-28 lg:px-12 lg:pb-12">
+      <div className="mx-auto max-w-6xl">
+        <BondTypeHero />
+      </div>
 
-          <div>
-            <h1 className="text-base font-semibold leading-5 text-white text-balance">Franco Zeta</h1>
-            <p className="flex flex-wrap items-center gap-x-1.5 text-sm leading-5 text-neutral-400 text-pretty">
-              <span>Building</span>
-              <Link
-                href="https://kocteau.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-medium text-neutral-100 transition-colors duration-150 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
-                aria-label="Visit Kocteau"
-              >
-                <Image
-                  src="/kocteau-logo.svg"
-                  alt=""
-                  width={14}
-                  height={14}
-                  className="size-3.5"
-                  aria-hidden="true"
-                />
-                Kocteau
-              </Link>
-              <span>and thoughtful web interfaces.</span>
-            </p>
-          </div>
-        </div>
+      <div className="mx-auto mt-9 max-w-2xl sm:mt-11">
+        <h1 className="text-sm font-normal leading-5 text-neutral-400 text-pretty">
+          Building{" "}
+          <Link
+            href="https://kocteau.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 font-medium text-neutral-100 transition-colors duration-150 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+          >
+            <Image
+              src="/kocteau-logo.svg"
+              alt=""
+              width={14}
+              height={14}
+              className="size-3.5"
+              aria-hidden="true"
+            />
+            Kocteau
+          </Link>{" "}
+          and thoughtful web interfaces.
+        </h1>
 
         <div className="mt-8 space-y-5 text-[15px] leading-7 text-neutral-300 sm:text-base sm:leading-8">
           <p className="max-w-2xl text-pretty">
