@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { Geist } from "next/font/google"
+import { GeistPixelSquare } from "geist/font/pixel"
 import "@/app/globals.css"
 import { Header } from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
@@ -94,7 +95,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.className} antialiased text-neutral-200 bg-neutral-950`}>
+      <body
+        className={`${geistSans.className} ${GeistPixelSquare.variable} antialiased text-neutral-200 bg-neutral-950`}
+      >
         <a
           href="#main-content"
           className="sr-only fixed left-4 top-4 z-[100] rounded-md bg-neutral-100 px-4 py-3 text-sm font-medium text-neutral-950 focus:not-sr-only"
