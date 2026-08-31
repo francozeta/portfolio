@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { FaGithub, FaLinkedin } from "react-icons/fa"
 import { MdEmail } from "react-icons/md"
-import { BondTypeHero } from "@/components/bond-type/bond-type-hero"
+import { SpikeTypeHero } from "@/components/spike-type/spike-type-hero"
 
 const linkClass =
   "font-medium text-neutral-50 underline decoration-neutral-500/70 underline-offset-4 transition-colors duration-150 hover:text-white hover:decoration-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
@@ -11,7 +11,7 @@ export function HeroSection() {
   return (
     <section className="bg-neutral-950 px-4 pb-8 pt-24 text-neutral-200 sm:px-8 sm:pb-10 sm:pt-28 lg:px-12 lg:pb-12">
       <div className="mx-auto max-w-6xl">
-        <BondTypeHero />
+        <SpikeTypeHero />
       </div>
 
       <div className="mx-auto mt-9 max-w-2xl sm:mt-11">
